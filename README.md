@@ -49,6 +49,13 @@ anotaciones no atan la versión mínima.
 python ejecutar_gui.py
 ```
 
+El `.bat` usa `pythonw` para no dejar una consola abierta detrás de la ventana,
+pero `pythonw` tampoco muestra errores: si faltara Python o una dependencia, el
+doble clic no haría absolutamente nada y la persona no sabría por qué. Por eso
+comprueba los requisitos antes de lanzar y, si algo falta, lo explica en
+pantalla y espera a que lo lean. Prefiere el entorno virtual del proyecto si
+existe.
+
 **Terminal**:
 
 ```bash
