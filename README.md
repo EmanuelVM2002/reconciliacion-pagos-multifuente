@@ -21,6 +21,19 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Uso
+
+```bash
+python main.py
+```
+
+Corre la cadena completa —carga, validación, limpieza, reconciliación,
+detección de fraude y exportación— mostrando el avance y un resumen al final.
+El Excel queda en `salida/reporte_reconciliacion.xlsx`.
+
+No hay selectores de archivo por ningún lado: todas las rutas viven en
+`reconciliacion/config/rutas.py`.
+
 ## Estructura
 
 ```
@@ -161,6 +174,27 @@ Dos criterios que tuve que fijar porque el enunciado no los cierra:
 En el patrón sospechoso marco **todas** las transacciones involucradas, no solo
 la segunda de cada par, y en la observación dejo escrito con cuáles cruza.
 
+### El reporte de Excel
+
+Las 29 columnas están declaradas como **datos** (una lista de `ColumnaReporte`
+con su título, cómo obtener el valor y con qué formato mostrarse), no como 29
+bloques de código repetido. El método que escribe la hoja es el mismo sin
+importar cuántas columnas haya, y mover o agregar una es editar una línea.
+
+Los montos y las fechas se escriben como número y como `datetime` reales, con
+formato de Excel aplicado — no como texto —, para que el área contable pueda
+filtrar, sumar y ordenar sin tener que convertir nada.
+
+El color de fila sigue la precedencia pedida: naranja si hay fraude, si no rojo
+para cualquier hallazgo, si no verde. Usé los tonos convencionales de Excel
+para "malo" y "bueno" porque son los que un área contable ya reconoce sin
+necesidad de leyenda.
+
+Un caso que vale la pena mirar en el archivo es **TRX0001**: está
+`RECONCILIADO` (verde por clasificación) pero es `FRAUDE_MONTO`, así que la
+fila sale naranja. Es la precedencia funcionando y la prueba visual de que
+clasificación y fraude son dimensiones distintas.
+
 ## Resultado sobre los datos entregados
 
 | Indicador | Valor |
@@ -196,6 +230,7 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Limpieza y extracción de los campos malformados del CSV
 - [x] Reconciliación y clasificación
 - [x] Detección de fraude
-- [ ] Reporte Excel
+- [x] Script ejecutable de punta a punta (`main.py`)
+- [x] Reporte Excel
 - [ ] Interfaz gráfica
 - [ ] Pruebas unitarias

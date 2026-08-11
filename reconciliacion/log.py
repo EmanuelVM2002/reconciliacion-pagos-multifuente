@@ -47,6 +47,18 @@ def configurar_consola(nivel: int = logging.INFO) -> logging.Logger:
     Returns:
         El logger raiz del paquete, ya configurado.
     """
+    # La consola de Windows suele venir en cp1252 y fallaria al escribir
+    # acentos (por ejemplo el nivel de riesgo "CRITICO" con tilde). Se fuerza
+    # UTF-8 tolerante para que un problema de codificacion nunca tumbe el
+    # proceso.
+    for flujo in (sys.stdout, sys.stderr):
+        reconfigurar = getattr(flujo, "reconfigure", None)
+        if reconfigurar is not None:
+            try:
+                reconfigurar(encoding="utf-8", errors="replace")
+            except (ValueError, OSError):  # pragma: no cover - depende del terminal
+                pass
+
     logger = logging.getLogger(NOMBRE_LOGGER_RAIZ)
     logger.setLevel(nivel)
     logger.propagate = False
