@@ -42,6 +42,12 @@ detección de fraude y exportación— y dejan el Excel en
 No hay selectores de archivo por ningún lado: todas las rutas viven en
 `reconciliacion/config/rutas.py`.
 
+**Pruebas**:
+
+```bash
+python -m pytest
+```
+
 ## Estructura
 
 ```
@@ -278,6 +284,37 @@ lenguaje del usuario y detalle técnico en la bitácora) y error inesperado
 (mensaje genérico, detalle en la bitácora). En los tres la ventana sigue viva y
 el botón vuelve a habilitarse.
 
+### Las pruebas
+
+158 pruebas con pytest, repartidas donde de verdad se puede romper algo:
+
+| Archivo | Qué cubre |
+|---|---|
+| `test_montos.py` | Los tres formatos de monto y la clave `monto` duplicada |
+| `test_marcas.py` | Extracción y la regla del primer token |
+| `test_retenciones.py` | Emparejamiento, entidades repetidas, signos y las tres sumas |
+| `test_reglas.py` | Las reglas de clasificación y las siete combinaciones de presencia |
+| `test_fraude.py` | Los cuatro patrones, los bordes (05:59 sí, 06:00 no; 60 min sí, 61 no) y la prioridad de riesgo |
+| `test_transaccion.py` | Monto y fecha de referencia, diferencias, presencia |
+| `test_loaders.py` | Carga de las tres fuentes y los errores: archivo ausente, JSON inválido, tabla inexistente, ids duplicados |
+| `test_excel.py` | Estructura, formatos y color por precedencia |
+| `test_servicio.py` | La cadena completa sobre los datos reales |
+
+Dos decisiones sobre cómo las escribí:
+
+- **Los casos de los parsers salen del archivo real.** No inventé cadenas
+  malformadas: usé las variantes de corrupción que efectivamente aparecen en
+  `autorizaciones.csv`, incluido el caso concreto de TRX0138.
+- **`test_servicio.py` fija los números.** Corre el proceso completo y afirma
+  505 transacciones, 290 reconciliadas, 149 fraudes y el conteo exacto por
+  etiqueta. Si alguien toca un parser, una regla o el umbral de fraude y los
+  totales se mueven, esa prueba lo dice en el acto. Es la red de seguridad que
+  me permite refactorizar sin miedo.
+
+Para los errores que en producción no se pueden provocar (un archivo que
+desaparece, un JSON roto) escribo archivos temporales en la prueba, en vez de
+tocar los datos reales.
+
 ## Resultado sobre los datos entregados
 
 | Indicador | Valor |
@@ -316,4 +353,4 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Script ejecutable de punta a punta (`main.py`)
 - [x] Reporte Excel
 - [x] Interfaz gráfica (+ `.bat` para abrirla con doble clic)
-- [ ] Pruebas unitarias
+- [x] Pruebas unitarias (158, todas pasando)
