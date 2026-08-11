@@ -1,0 +1,4187 @@
+[
+  {
+    "id": "MOV0001",
+    "monto": 1250000.0,
+    "fecha": "2026-07-26 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0001",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0002",
+    "monto": 188000.0,
+    "fecha": "2026-07-06 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0002",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0003",
+    "monto": 205000.0,
+    "fecha": "2026-07-24 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0003",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0004",
+    "monto": 165000.0,
+    "fecha": "2026-07-11 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0004",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0005",
+    "monto": 225000.0,
+    "fecha": "2026-07-28 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0005",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0006",
+    "monto": 289000.0,
+    "fecha": "2026-07-19 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0006",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0007",
+    "monto": 240000.0,
+    "fecha": "2026-07-14 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0007",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0008",
+    "monto": 95000.0,
+    "fecha": "2026-07-24 20:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0008",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0009",
+    "monto": 95000.0,
+    "fecha": "2026-07-04 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0009",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0010",
+    "monto": 198000.0,
+    "fecha": "2026-07-30 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0010",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0011",
+    "monto": 210000.0,
+    "fecha": "2026-07-04 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0011",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0012",
+    "monto": 240000.0,
+    "fecha": "2026-07-26 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0012",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0013",
+    "monto": 145000.0,
+    "fecha": "2026-07-05 16:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0013",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0014",
+    "monto": 275000.0,
+    "fecha": "2026-07-20 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0014",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0015",
+    "monto": 350000.0,
+    "fecha": "2026-07-12 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0015",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0016",
+    "monto": 150000.0,
+    "fecha": "2026-07-06 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0016",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0017",
+    "monto": 310000.0,
+    "fecha": "2026-07-13 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0017",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0018",
+    "monto": 95000.0,
+    "fecha": "2026-07-14 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0018",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0019",
+    "monto": 350000.0,
+    "fecha": "2026-07-19 14:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0019",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0020",
+    "monto": 155000.0,
+    "fecha": "2026-07-13 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0020",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0021",
+    "monto": 155000.0,
+    "fecha": "2026-07-12 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0021",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0022",
+    "monto": 240000.0,
+    "fecha": "2026-07-08 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0022",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0023",
+    "monto": 95000.0,
+    "fecha": "2026-07-19 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0023",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0024",
+    "monto": 410000.0,
+    "fecha": "2026-07-07 02:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0024",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0025",
+    "monto": 155000.0,
+    "fecha": "2026-07-30 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0025",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0026",
+    "monto": 95000.0,
+    "fecha": "2026-07-12 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0026",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0027",
+    "monto": 260000.0,
+    "fecha": "2026-07-14 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0027",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0028",
+    "monto": 165000.0,
+    "fecha": "2026-07-14 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0028",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0029",
+    "monto": 350000.0,
+    "fecha": "2026-07-23 18:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0029",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0030",
+    "monto": 350000.0,
+    "fecha": "2026-07-28 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0030",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0031",
+    "monto": 350000.0,
+    "fecha": "2026-07-18 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0031",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0032",
+    "monto": 320000.0,
+    "fecha": "2026-07-07 13:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0032",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0033",
+    "monto": 340000.0,
+    "fecha": "2026-07-03 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0033",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0034",
+    "monto": 410000.0,
+    "fecha": "2026-07-12 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0034",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0035",
+    "monto": 250000.0,
+    "fecha": "2026-07-01 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0035",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0036",
+    "monto": 175000.0,
+    "fecha": "2026-07-07 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0036",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0037",
+    "monto": 250000.0,
+    "fecha": "2026-07-11 15:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0037",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0038",
+    "monto": 275000.0,
+    "fecha": "2026-07-09 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0038",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0039",
+    "monto": 180000.0,
+    "fecha": "2026-07-29 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0039",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0040",
+    "monto": 165000.0,
+    "fecha": "2026-07-08 15:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0040",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0041",
+    "monto": 195000.0,
+    "fecha": "2026-07-11 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0041",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0042",
+    "monto": 180000.0,
+    "fecha": "2026-07-11 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0042",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0043",
+    "monto": 1480000.0,
+    "fecha": "2026-07-16 21:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0043",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0044",
+    "monto": 195000.0,
+    "fecha": "2026-07-10 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0044",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0045",
+    "monto": 180000.0,
+    "fecha": "2026-07-19 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0045",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0046",
+    "monto": 188000.0,
+    "fecha": "2026-07-04 22:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0046",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0047",
+    "monto": 260000.0,
+    "fecha": "2026-07-07 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0047",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0048",
+    "monto": 225000.0,
+    "fecha": "2026-07-26 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0048",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0049",
+    "monto": 125000.0,
+    "fecha": "2026-07-01 07:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0049",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0050",
+    "monto": 410000.0,
+    "fecha": "2026-07-24 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0050",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0051",
+    "monto": 240000.0,
+    "fecha": "2026-07-12 02:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0051",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0052",
+    "monto": 240000.0,
+    "fecha": "2026-07-21 18:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0052",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0053",
+    "monto": 180000.0,
+    "fecha": "2026-07-18 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0053",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0054",
+    "monto": 210000.0,
+    "fecha": "2026-07-21 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0054",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0055",
+    "monto": 195000.0,
+    "fecha": "2026-07-24 10:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0055",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0056",
+    "monto": 198000.0,
+    "fecha": "2026-07-06 15:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0056",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0057",
+    "monto": 145000.0,
+    "fecha": "2026-07-10 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0057",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0058",
+    "monto": 95000.0,
+    "fecha": "2026-07-27 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0058",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0059",
+    "monto": 165000.0,
+    "fecha": "2026-07-06 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0059",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0060",
+    "monto": 410000.0,
+    "fecha": "2026-07-13 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0060",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0061",
+    "monto": 180000.0,
+    "fecha": "2026-07-16 06:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0061",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0062",
+    "monto": 150000.0,
+    "fecha": "2026-07-15 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0062",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0063",
+    "monto": 155000.0,
+    "fecha": "2026-07-28 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0063",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0064",
+    "monto": 125000.0,
+    "fecha": "2026-07-11 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0064",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0065",
+    "monto": 155000.0,
+    "fecha": "2026-07-22 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0065",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0066",
+    "monto": 145000.0,
+    "fecha": "2026-07-06 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0066",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0067",
+    "monto": 310000.0,
+    "fecha": "2026-07-22 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0067",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0068",
+    "monto": 175000.0,
+    "fecha": "2026-07-06 07:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0068",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0069",
+    "monto": 155000.0,
+    "fecha": "2026-07-19 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0069",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0070",
+    "monto": 350000.0,
+    "fecha": "2026-07-07 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0070",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0071",
+    "monto": 350000.0,
+    "fecha": "2026-07-08 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0071",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0072",
+    "monto": 350000.0,
+    "fecha": "2026-07-01 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0072",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0073",
+    "monto": 155000.0,
+    "fecha": "2026-07-05 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0073",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0074",
+    "monto": 225000.0,
+    "fecha": "2026-07-04 16:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0074",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0075",
+    "monto": 180000.0,
+    "fecha": "2026-07-12 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0075",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0076",
+    "monto": 145000.0,
+    "fecha": "2026-07-08 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0076",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0077",
+    "monto": 195000.0,
+    "fecha": "2026-07-26 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0077",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0078",
+    "monto": 275000.0,
+    "fecha": "2026-07-11 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0078",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0079",
+    "monto": 125000.0,
+    "fecha": "2026-07-17 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0079",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0080",
+    "monto": 350000.0,
+    "fecha": "2026-07-23 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0080",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0081",
+    "monto": 175000.0,
+    "fecha": "2026-07-21 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0081",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0082",
+    "monto": 95000.0,
+    "fecha": "2026-07-20 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0082",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0083",
+    "monto": 95000.0,
+    "fecha": "2026-07-10 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0083",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0084",
+    "monto": 125000.0,
+    "fecha": "2026-07-20 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0084",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0085",
+    "monto": 410000.0,
+    "fecha": "2026-07-28 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0085",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0086",
+    "monto": 260000.0,
+    "fecha": "2026-07-16 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0086",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0087",
+    "monto": 180000.0,
+    "fecha": "2026-07-21 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0087",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0088",
+    "monto": 150000.0,
+    "fecha": "2026-07-24 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0088",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0089",
+    "monto": 188000.0,
+    "fecha": "2026-07-13 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0089",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0090",
+    "monto": 250000.0,
+    "fecha": "2026-07-04 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0090",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0091",
+    "monto": 950000.0,
+    "fecha": "2026-07-26 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0091",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0092",
+    "monto": 180000.0,
+    "fecha": "2026-07-21 13:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0092",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0093",
+    "monto": 275000.0,
+    "fecha": "2026-07-02 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0093",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0094",
+    "monto": 205000.0,
+    "fecha": "2026-07-31 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0094",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0095",
+    "monto": 205000.0,
+    "fecha": "2026-07-23 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0095",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0096",
+    "monto": 310000.0,
+    "fecha": "2026-07-29 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0096",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0097",
+    "monto": 125000.0,
+    "fecha": "2026-07-14 18:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0097",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0098",
+    "monto": 320000.0,
+    "fecha": "2026-07-15 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0098",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0099",
+    "monto": 175000.0,
+    "fecha": "2026-07-06 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0099",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0100",
+    "monto": 340000.0,
+    "fecha": "2026-07-05 14:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0100",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0101",
+    "monto": 195000.0,
+    "fecha": "2026-07-14 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0101",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0102",
+    "monto": 410000.0,
+    "fecha": "2026-07-19 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0102",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0103",
+    "monto": 95000.0,
+    "fecha": "2026-07-20 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0103",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0104",
+    "monto": 275000.0,
+    "fecha": "2026-07-22 19:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0104",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0105",
+    "monto": 275000.0,
+    "fecha": "2026-07-24 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0105",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0106",
+    "monto": 155000.0,
+    "fecha": "2026-07-28 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0106",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0107",
+    "monto": 195000.0,
+    "fecha": "2026-07-19 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0107",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0108",
+    "monto": 95000.0,
+    "fecha": "2026-07-09 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0108",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0109",
+    "monto": 340000.0,
+    "fecha": "2026-07-25 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0109",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0110",
+    "monto": 195000.0,
+    "fecha": "2026-07-10 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0110",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0111",
+    "monto": 275000.0,
+    "fecha": "2026-07-11 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0111",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0112",
+    "monto": 240000.0,
+    "fecha": "2026-07-13 16:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0112",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0113",
+    "monto": 188000.0,
+    "fecha": "2026-07-15 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0113",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0114",
+    "monto": 198000.0,
+    "fecha": "2026-07-10 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0114",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0115",
+    "monto": 240000.0,
+    "fecha": "2026-07-18 12:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0115",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0116",
+    "monto": 180000.0,
+    "fecha": "2026-07-12 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0116",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0117",
+    "monto": 260000.0,
+    "fecha": "2026-07-23 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0117",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0118",
+    "monto": 125000.0,
+    "fecha": "2026-07-16 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0118",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0119",
+    "monto": 289000.0,
+    "fecha": "2026-07-05 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0119",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0120",
+    "monto": 260000.0,
+    "fecha": "2026-07-06 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0120",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0121",
+    "monto": 350000.0,
+    "fecha": "2026-07-05 15:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0121",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0122",
+    "monto": 240000.0,
+    "fecha": "2026-07-12 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0122",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0123",
+    "monto": 155000.0,
+    "fecha": "2026-07-30 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0123",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0124",
+    "monto": 195000.0,
+    "fecha": "2026-07-27 04:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0124",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0125",
+    "monto": 95000.0,
+    "fecha": "2026-07-03 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0125",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0126",
+    "monto": 340000.0,
+    "fecha": "2026-07-07 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0126",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0127",
+    "monto": 410000.0,
+    "fecha": "2026-07-19 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0127",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0128",
+    "monto": 198000.0,
+    "fecha": "2026-07-20 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0128",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0129",
+    "monto": 289000.0,
+    "fecha": "2026-07-11 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0129",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0130",
+    "monto": 310000.0,
+    "fecha": "2026-07-04 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0130",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0131",
+    "monto": 95000.0,
+    "fecha": "2026-07-21 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0131",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0132",
+    "monto": 250000.0,
+    "fecha": "2026-07-24 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0132",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0133",
+    "monto": 210000.0,
+    "fecha": "2026-07-27 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0133",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0134",
+    "monto": 225000.0,
+    "fecha": "2026-07-16 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0134",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0135",
+    "monto": 240000.0,
+    "fecha": "2026-07-29 22:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0135",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0136",
+    "monto": 198000.0,
+    "fecha": "2026-07-01 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0136",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0137",
+    "monto": 210000.0,
+    "fecha": "2026-07-19 07:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0137",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0138",
+    "monto": 1720000.0,
+    "fecha": "2026-07-23 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0138",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0139",
+    "monto": 310000.0,
+    "fecha": "2026-07-16 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0139",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0140",
+    "monto": 320000.0,
+    "fecha": "2026-07-09 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0140",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0141",
+    "monto": 150000.0,
+    "fecha": "2026-07-23 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0141",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0142",
+    "monto": 250000.0,
+    "fecha": "2026-07-20 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0142",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0143",
+    "monto": 340000.0,
+    "fecha": "2026-07-14 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0143",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0144",
+    "monto": 340000.0,
+    "fecha": "2026-07-21 13:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0144",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0145",
+    "monto": 350000.0,
+    "fecha": "2026-07-12 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0145",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0146",
+    "monto": 205000.0,
+    "fecha": "2026-07-14 08:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0146",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0147",
+    "monto": 175000.0,
+    "fecha": "2026-07-26 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0147",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0148",
+    "monto": 210000.0,
+    "fecha": "2026-07-27 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0148",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0149",
+    "monto": 320000.0,
+    "fecha": "2026-07-02 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0149",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0150",
+    "monto": 205000.0,
+    "fecha": "2026-07-02 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0150",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0151",
+    "monto": 250000.0,
+    "fecha": "2026-07-14 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0151",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0152",
+    "monto": 155000.0,
+    "fecha": "2026-07-01 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0152",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0153",
+    "monto": 165000.0,
+    "fecha": "2026-07-10 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0153",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0154",
+    "monto": 145000.0,
+    "fecha": "2026-07-05 05:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0154",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0155",
+    "monto": 275000.0,
+    "fecha": "2026-07-07 21:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0155",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0156",
+    "monto": 175000.0,
+    "fecha": "2026-07-10 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0156",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0157",
+    "monto": 275000.0,
+    "fecha": "2026-07-12 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0157",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0158",
+    "monto": 225000.0,
+    "fecha": "2026-07-09 13:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0158",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0159",
+    "monto": 145000.0,
+    "fecha": "2026-07-14 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0159",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0160",
+    "monto": 320000.0,
+    "fecha": "2026-07-17 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0160",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0161",
+    "monto": 150000.0,
+    "fecha": "2026-07-18 15:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0161",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0162",
+    "monto": 95000.0,
+    "fecha": "2026-07-29 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0162",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0163",
+    "monto": 95000.0,
+    "fecha": "2026-07-06 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0163",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0164",
+    "monto": 289000.0,
+    "fecha": "2026-07-20 02:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0164",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0165",
+    "monto": 180000.0,
+    "fecha": "2026-07-14 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0165",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0166",
+    "monto": 340000.0,
+    "fecha": "2026-07-01 05:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0166",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0167",
+    "monto": 188000.0,
+    "fecha": "2026-07-04 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0167",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0168",
+    "monto": 250000.0,
+    "fecha": "2026-07-26 08:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0168",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0169",
+    "monto": 210000.0,
+    "fecha": "2026-07-29 15:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0169",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0170",
+    "monto": 155000.0,
+    "fecha": "2026-07-22 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0170",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0171",
+    "monto": 175000.0,
+    "fecha": "2026-07-10 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0171",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0172",
+    "monto": 205000.0,
+    "fecha": "2026-07-15 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0172",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0173",
+    "monto": 165000.0,
+    "fecha": "2026-07-24 13:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0173",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0174",
+    "monto": 340000.0,
+    "fecha": "2026-07-12 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0174",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0175",
+    "monto": 340000.0,
+    "fecha": "2026-07-27 07:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0175",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0176",
+    "monto": 275000.0,
+    "fecha": "2026-07-29 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0176",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0177",
+    "monto": 150000.0,
+    "fecha": "2026-07-27 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0177",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0178",
+    "monto": 310000.0,
+    "fecha": "2026-07-20 18:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0178",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0179",
+    "monto": 195000.0,
+    "fecha": "2026-07-25 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0179",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0180",
+    "monto": 320000.0,
+    "fecha": "2026-07-29 07:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0180",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0181",
+    "monto": 310000.0,
+    "fecha": "2026-07-25 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0181",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0182",
+    "monto": 340000.0,
+    "fecha": "2026-07-12 08:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0182",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0183",
+    "monto": 198000.0,
+    "fecha": "2026-07-08 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0183",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0184",
+    "monto": 310000.0,
+    "fecha": "2026-07-10 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0184",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0185",
+    "monto": 198000.0,
+    "fecha": "2026-07-10 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0185",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0186",
+    "monto": 320000.0,
+    "fecha": "2026-07-15 13:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0186",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0187",
+    "monto": 275000.0,
+    "fecha": "2026-07-20 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0187",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0188",
+    "monto": 310000.0,
+    "fecha": "2026-07-07 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0188",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0189",
+    "monto": 310000.0,
+    "fecha": "2026-07-17 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0189",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0190",
+    "monto": 145000.0,
+    "fecha": "2026-07-29 02:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0190",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0191",
+    "monto": 160000.0,
+    "fecha": "2026-07-08 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0191",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0192",
+    "monto": 193000.0,
+    "fecha": "2026-07-07 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0192",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0193",
+    "monto": 203000.0,
+    "fecha": "2026-07-26 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0193",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0194",
+    "monto": 193000.0,
+    "fecha": "2026-07-21 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0194",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0195",
+    "monto": 210000.0,
+    "fecha": "2026-07-13 13:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0195",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0196",
+    "monto": 100000.0,
+    "fecha": "2026-07-10 14:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0196",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0197",
+    "monto": 160000.0,
+    "fecha": "2026-07-19 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0197",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0198",
+    "monto": 170000.0,
+    "fecha": "2026-07-27 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0198",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0199",
+    "monto": 245000.0,
+    "fecha": "2026-07-25 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0199",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0200",
+    "monto": 255000.0,
+    "fecha": "2026-07-03 15:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0200",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0201",
+    "monto": 130000.0,
+    "fecha": "2026-07-02 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0201",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0202",
+    "monto": 215000.0,
+    "fecha": "2026-07-30 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0202",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0203",
+    "monto": 415000.0,
+    "fecha": "2026-07-02 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0203",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0204",
+    "monto": 200000.0,
+    "fecha": "2026-07-22 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0204",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0205",
+    "monto": 415000.0,
+    "fecha": "2026-07-14 13:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0205",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0206",
+    "monto": 315000.0,
+    "fecha": "2026-07-19 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0206",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0207",
+    "monto": 345000.0,
+    "fecha": "2026-07-09 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0207",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0208",
+    "monto": 215000.0,
+    "fecha": "2026-07-15 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0208",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0209",
+    "monto": 160000.0,
+    "fecha": "2026-07-07 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0209",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0210",
+    "monto": 185000.0,
+    "fecha": "2026-07-29 20:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0210",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0211",
+    "monto": 155000.0,
+    "fecha": "2026-07-21 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0211",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0212",
+    "monto": 193000.0,
+    "fecha": "2026-07-08 15:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0212",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0213",
+    "monto": 245000.0,
+    "fecha": "2026-07-12 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0213",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0214",
+    "monto": 230000.0,
+    "fecha": "2026-07-11 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0214",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0215",
+    "monto": 294000.0,
+    "fecha": "2026-07-12 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0215",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0216",
+    "monto": 210000.0,
+    "fecha": "2026-07-30 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0216",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0217",
+    "monto": 215000.0,
+    "fecha": "2026-07-30 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0217",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0218",
+    "monto": 245000.0,
+    "fecha": "2026-07-03 22:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0218",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0219",
+    "monto": 245000.0,
+    "fecha": "2026-07-28 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0219",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0220",
+    "monto": 345000.0,
+    "fecha": "2026-07-15 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0220",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0221",
+    "monto": 230000.0,
+    "fecha": "2026-07-15 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0221",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0222",
+    "monto": 150000.0,
+    "fecha": "2026-07-13 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0222",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0223",
+    "monto": 193000.0,
+    "fecha": "2026-07-03 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0223",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0224",
+    "monto": 315000.0,
+    "fecha": "2026-07-30 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0224",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0225",
+    "monto": 345000.0,
+    "fecha": "2026-07-29 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0225",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0226",
+    "monto": 355000.0,
+    "fecha": "2026-07-05 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0226",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0227",
+    "monto": 203000.0,
+    "fecha": "2026-07-24 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0227",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0228",
+    "monto": 325000.0,
+    "fecha": "2026-07-30 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0228",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0229",
+    "monto": 294000.0,
+    "fecha": "2026-07-30 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0229",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0230",
+    "monto": 280000.0,
+    "fecha": "2026-07-19 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0230",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0231",
+    "monto": 180000.0,
+    "fecha": "2026-07-16 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0231",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0232",
+    "monto": 193000.0,
+    "fecha": "2026-07-14 16:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0232",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0233",
+    "monto": 203000.0,
+    "fecha": "2026-07-03 03:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0233",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0234",
+    "monto": 215000.0,
+    "fecha": "2026-07-28 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0234",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0235",
+    "monto": 185000.0,
+    "fecha": "2026-07-05 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0235",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0236",
+    "monto": 180000.0,
+    "fecha": "2026-07-24 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0236",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0237",
+    "monto": 255000.0,
+    "fecha": "2026-07-25 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0237",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0238",
+    "monto": 185000.0,
+    "fecha": "2026-07-15 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0238",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0239",
+    "monto": 215000.0,
+    "fecha": "2026-07-09 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0239",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0240",
+    "monto": 415000.0,
+    "fecha": "2026-07-13 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0240",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0241",
+    "monto": 100000.0,
+    "fecha": "2026-07-08 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0241",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0242",
+    "monto": 325000.0,
+    "fecha": "2026-07-26 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0242",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0243",
+    "monto": 265000.0,
+    "fecha": "2026-07-12 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0243",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0244",
+    "monto": 160000.0,
+    "fecha": "2026-07-19 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0244",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0245",
+    "monto": 355000.0,
+    "fecha": "2026-07-14 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0245",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0246",
+    "monto": 215000.0,
+    "fecha": "2026-07-08 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0246",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0247",
+    "monto": 130000.0,
+    "fecha": "2026-07-21 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0247",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0248",
+    "monto": 315000.0,
+    "fecha": "2026-07-21 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0248",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0249",
+    "monto": 203000.0,
+    "fecha": "2026-07-31 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0249",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0250",
+    "monto": 255000.0,
+    "fecha": "2026-07-07 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0250",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0251",
+    "monto": 230000.0,
+    "fecha": "2026-07-25 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0251",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0252",
+    "monto": 100000.0,
+    "fecha": "2026-07-06 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0252",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0253",
+    "monto": 215000.0,
+    "fecha": "2026-07-17 18:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0253",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0254",
+    "monto": 345000.0,
+    "fecha": "2026-07-04 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0254",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0255",
+    "monto": 345000.0,
+    "fecha": "2026-07-20 10:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0255",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0256",
+    "monto": 215000.0,
+    "fecha": "2026-07-30 22:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0256",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0257",
+    "monto": 325000.0,
+    "fecha": "2026-07-07 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0257",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0258",
+    "monto": 255000.0,
+    "fecha": "2026-07-16 22:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0258",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0259",
+    "monto": 203000.0,
+    "fecha": "2026-07-14 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0259",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0260",
+    "monto": 345000.0,
+    "fecha": "2026-07-21 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0260",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0261",
+    "monto": 265000.0,
+    "fecha": "2026-07-20 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0261",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0262",
+    "monto": 215000.0,
+    "fecha": "2026-07-30 21:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0262",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0263",
+    "monto": 325000.0,
+    "fecha": "2026-07-21 12:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0263",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0264",
+    "monto": 294000.0,
+    "fecha": "2026-07-22 05:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0264",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0265",
+    "monto": 265000.0,
+    "fecha": "2026-07-15 18:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0265",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0266",
+    "monto": 150000.0,
+    "fecha": "2026-07-20 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0266",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0267",
+    "monto": 185000.0,
+    "fecha": "2026-07-24 16:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0267",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0268",
+    "monto": 130000.0,
+    "fecha": "2026-07-01 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0268",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0269",
+    "monto": 265000.0,
+    "fecha": "2026-07-15 06:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0269",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0270",
+    "monto": 203000.0,
+    "fecha": "2026-07-14 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0270",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0271",
+    "monto": 255000.0,
+    "fecha": "2026-07-30 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0271",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0272",
+    "monto": 415000.0,
+    "fecha": "2026-07-09 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0272",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0273",
+    "monto": 245000.0,
+    "fecha": "2026-07-18 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0273",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0274",
+    "monto": 100000.0,
+    "fecha": "2026-07-20 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0274",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0275",
+    "monto": 180000.0,
+    "fecha": "2026-07-14 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0275",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0276",
+    "monto": 265000.0,
+    "fecha": "2026-07-25 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0276",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0277",
+    "monto": 280000.0,
+    "fecha": "2026-07-02 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0277",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0278",
+    "monto": 100000.0,
+    "fecha": "2026-07-11 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0278",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0279",
+    "monto": 280000.0,
+    "fecha": "2026-07-22 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0279",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0280",
+    "monto": 150000.0,
+    "fecha": "2026-07-13 15:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0280",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0281",
+    "monto": 100000.0,
+    "fecha": "2026-07-19 13:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0281",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0282",
+    "monto": 203000.0,
+    "fecha": "2026-07-13 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0282",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0283",
+    "monto": 265000.0,
+    "fecha": "2026-07-05 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0283",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0284",
+    "monto": 255000.0,
+    "fecha": "2026-07-18 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0284",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0285",
+    "monto": 294000.0,
+    "fecha": "2026-07-12 12:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0285",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0286",
+    "monto": 320000.0,
+    "fecha": "2026-07-26 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0286",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0287",
+    "monto": 310000.0,
+    "fecha": "2026-07-19 20:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0287",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0288",
+    "monto": 275000.0,
+    "fecha": "2026-07-05 20:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0288",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0289",
+    "monto": 205000.0,
+    "fecha": "2026-07-08 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0289",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0290",
+    "monto": 205000.0,
+    "fecha": "2026-07-16 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0290",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0291",
+    "monto": 195000.0,
+    "fecha": "2026-07-30 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0291",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0292",
+    "monto": 145000.0,
+    "fecha": "2026-07-18 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0292",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0293",
+    "monto": 320000.0,
+    "fecha": "2026-07-10 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0293",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0294",
+    "monto": 310000.0,
+    "fecha": "2026-07-08 03:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0294",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0295",
+    "monto": 310000.0,
+    "fecha": "2026-07-25 14:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0295",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0296",
+    "monto": 250000.0,
+    "fecha": "2026-07-06 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0296",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0297",
+    "monto": 225000.0,
+    "fecha": "2026-07-16 12:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0297",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0298",
+    "monto": 240000.0,
+    "fecha": "2026-07-21 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0298",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0299",
+    "monto": 155000.0,
+    "fecha": "2026-07-10 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0299",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0300",
+    "monto": 188000.0,
+    "fecha": "2026-07-20 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0300",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0301",
+    "monto": 95000.0,
+    "fecha": "2026-07-15 00:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0301",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0302",
+    "monto": 145000.0,
+    "fecha": "2026-07-16 17:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0302",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0303",
+    "monto": 198000.0,
+    "fecha": "2026-07-21 13:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0303",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0304",
+    "monto": 150000.0,
+    "fecha": "2026-07-22 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0304",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0305",
+    "monto": 145000.0,
+    "fecha": "2026-07-21 04:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0305",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0306",
+    "monto": 410000.0,
+    "fecha": "2026-07-08 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0306",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0307",
+    "monto": 250000.0,
+    "fecha": "2026-07-04 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0307",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0308",
+    "monto": 165000.0,
+    "fecha": "2026-07-25 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0308",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0309",
+    "monto": 155000.0,
+    "fecha": "2026-07-19 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0309",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0310",
+    "monto": 225000.0,
+    "fecha": "2026-07-22 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0310",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0311",
+    "monto": 210000.0,
+    "fecha": "2026-07-26 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0311",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0312",
+    "monto": 205000.0,
+    "fecha": "2026-07-06 18:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0312",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0313",
+    "monto": 340000.0,
+    "fecha": "2026-07-03 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0313",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0314",
+    "monto": 198000.0,
+    "fecha": "2026-07-29 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0314",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0315",
+    "monto": 275000.0,
+    "fecha": "2026-07-17 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0315",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0316",
+    "monto": 289000.0,
+    "fecha": "2026-07-04 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0316",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0317",
+    "monto": 195000.0,
+    "fecha": "2026-07-08 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0317",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0318",
+    "monto": 145000.0,
+    "fecha": "2026-07-22 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0318",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0319",
+    "monto": 225000.0,
+    "fecha": "2026-07-26 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0319",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0320",
+    "monto": 340000.0,
+    "fecha": "2026-07-05 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0320",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0321",
+    "monto": 195000.0,
+    "fecha": "2026-07-10 19:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0321",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0322",
+    "monto": 410000.0,
+    "fecha": "2026-07-20 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0322",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0323",
+    "monto": 350000.0,
+    "fecha": "2026-07-18 12:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0323",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0324",
+    "monto": 350000.0,
+    "fecha": "2026-07-15 10:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0324",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0325",
+    "monto": 155000.0,
+    "fecha": "2026-07-16 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0325",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0326",
+    "monto": 289000.0,
+    "fecha": "2026-07-10 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0326",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0327",
+    "monto": 95000.0,
+    "fecha": "2026-07-19 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0327",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0328",
+    "monto": 340000.0,
+    "fecha": "2026-07-08 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0328",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0329",
+    "monto": 225000.0,
+    "fecha": "2026-07-12 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0329",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0330",
+    "monto": 410000.0,
+    "fecha": "2026-07-13 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0330",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0331",
+    "monto": 195000.0,
+    "fecha": "2026-07-10 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0331",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0332",
+    "monto": 260000.0,
+    "fecha": "2026-07-05 17:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0332",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0333",
+    "monto": 195000.0,
+    "fecha": "2026-07-16 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0333",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0334",
+    "monto": 225000.0,
+    "fecha": "2026-07-05 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0334",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0335",
+    "monto": 180000.0,
+    "fecha": "2026-07-24 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0335",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0336",
+    "monto": 310000.0,
+    "fecha": "2026-07-30 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0336",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0337",
+    "monto": 180000.0,
+    "fecha": "2026-07-02 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0337",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0338",
+    "monto": 250000.0,
+    "fecha": "2026-07-23 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0338",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0339",
+    "monto": 180000.0,
+    "fecha": "2026-07-13 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0339",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0340",
+    "monto": 188000.0,
+    "fecha": "2026-07-12 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0340",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0341",
+    "monto": 250000.0,
+    "fecha": "2026-07-01 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0381",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0342",
+    "monto": 260000.0,
+    "fecha": "2026-07-17 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0382",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0343",
+    "monto": 188000.0,
+    "fecha": "2026-07-01 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0383",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0344",
+    "monto": 310000.0,
+    "fecha": "2026-07-17 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0384",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0345",
+    "monto": 165000.0,
+    "fecha": "2026-07-26 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0385",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0346",
+    "monto": 250000.0,
+    "fecha": "2026-07-03 16:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0386",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0347",
+    "monto": 145000.0,
+    "fecha": "2026-07-24 19:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0387",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0348",
+    "monto": 145000.0,
+    "fecha": "2026-07-06 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0388",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0349",
+    "monto": 240000.0,
+    "fecha": "2026-07-09 14:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0389",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0350",
+    "monto": 225000.0,
+    "fecha": "2026-07-07 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0390",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0351",
+    "monto": 95000.0,
+    "fecha": "2026-07-12 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0391",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0352",
+    "monto": 145000.0,
+    "fecha": "2026-07-19 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0392",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0353",
+    "monto": 340000.0,
+    "fecha": "2026-07-20 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0393",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0354",
+    "monto": 310000.0,
+    "fecha": "2026-07-30 00:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0394",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0355",
+    "monto": 125000.0,
+    "fecha": "2026-07-20 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0395",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0356",
+    "monto": 225000.0,
+    "fecha": "2026-07-18 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0396",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0357",
+    "monto": 165000.0,
+    "fecha": "2026-07-15 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0397",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0358",
+    "monto": 95000.0,
+    "fecha": "2026-07-13 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0398",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0359",
+    "monto": 310000.0,
+    "fecha": "2026-07-08 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0399",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0360",
+    "monto": 275000.0,
+    "fecha": "2026-07-01 15:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0400",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0361",
+    "monto": 205000.0,
+    "fecha": "2026-07-02 08:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0401",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0362",
+    "monto": 225000.0,
+    "fecha": "2026-07-11 06:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0402",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0363",
+    "monto": 188000.0,
+    "fecha": "2026-07-05 16:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0403",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0364",
+    "monto": 1100000.0,
+    "fecha": "2026-07-30 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0404",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0365",
+    "monto": 155000.0,
+    "fecha": "2026-07-27 14:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0405",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0366",
+    "monto": 260000.0,
+    "fecha": "2026-07-13 08:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0406",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0367",
+    "monto": 240000.0,
+    "fecha": "2026-07-29 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0407",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0368",
+    "monto": 260000.0,
+    "fecha": "2026-07-08 01:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0408",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0369",
+    "monto": 350000.0,
+    "fecha": "2026-07-23 09:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0409",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0370",
+    "monto": 320000.0,
+    "fecha": "2026-07-03 15:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0410",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0371",
+    "monto": 145000.0,
+    "fecha": "2026-07-08 16:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0411",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0372",
+    "monto": 320000.0,
+    "fecha": "2026-07-05 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0412",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0373",
+    "monto": 250000.0,
+    "fecha": "2026-07-24 20:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0413",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0374",
+    "monto": 175000.0,
+    "fecha": "2026-07-27 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0414",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0375",
+    "monto": 125000.0,
+    "fecha": "2026-07-15 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0415",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0376",
+    "monto": 410000.0,
+    "fecha": "2026-07-28 04:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0416",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0377",
+    "monto": 198000.0,
+    "fecha": "2026-07-23 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0417",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0378",
+    "monto": 95000.0,
+    "fecha": "2026-07-07 22:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0418",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0379",
+    "monto": 145000.0,
+    "fecha": "2026-07-02 02:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0419",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0380",
+    "monto": 165000.0,
+    "fecha": "2026-07-06 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0420",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0381",
+    "monto": 260000.0,
+    "fecha": "2026-07-02 12:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0421",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0382",
+    "monto": 410000.0,
+    "fecha": "2026-07-07 23:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0422",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0383",
+    "monto": 95000.0,
+    "fecha": "2026-07-11 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0423",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0384",
+    "monto": 150000.0,
+    "fecha": "2026-07-11 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0424",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0385",
+    "monto": 198000.0,
+    "fecha": "2026-07-20 13:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0425",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0386",
+    "monto": 165000.0,
+    "fecha": "2026-07-20 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0426",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0387",
+    "monto": 260000.0,
+    "fecha": "2026-07-18 17:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0427",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0388",
+    "monto": 150000.0,
+    "fecha": "2026-07-23 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0428",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0389",
+    "monto": 175000.0,
+    "fecha": "2026-07-24 11:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0429",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0390",
+    "monto": 155000.0,
+    "fecha": "2026-07-16 17:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0430",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0391",
+    "monto": 225000.0,
+    "fecha": "2026-07-15 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0431",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0392",
+    "monto": 165000.0,
+    "fecha": "2026-07-11 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0432",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0393",
+    "monto": 198000.0,
+    "fecha": "2026-07-15 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0433",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0394",
+    "monto": 320000.0,
+    "fecha": "2026-07-30 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0434",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0395",
+    "monto": 195000.0,
+    "fecha": "2026-07-07 22:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0435",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0396",
+    "monto": 225000.0,
+    "fecha": "2026-07-04 14:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0436",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0397",
+    "monto": 155000.0,
+    "fecha": "2026-07-04 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0437",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0398",
+    "monto": 310000.0,
+    "fecha": "2026-07-09 11:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0438",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0399",
+    "monto": 125000.0,
+    "fecha": "2026-07-06 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0439",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0400",
+    "monto": 150000.0,
+    "fecha": "2026-07-14 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0440",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0401",
+    "monto": 195000.0,
+    "fecha": "2026-07-03 21:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0441",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0402",
+    "monto": 225000.0,
+    "fecha": "2026-07-13 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0442",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0403",
+    "monto": 1590000.0,
+    "fecha": "2026-07-11 08:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0443",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0404",
+    "monto": 195000.0,
+    "fecha": "2026-07-10 22:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0444",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0405",
+    "monto": 310000.0,
+    "fecha": "2026-07-13 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0445",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0406",
+    "monto": 155000.0,
+    "fecha": "2026-07-14 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0446",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0407",
+    "monto": 410000.0,
+    "fecha": "2026-07-22 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0447",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0408",
+    "monto": 250000.0,
+    "fecha": "2026-07-05 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0448",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0409",
+    "monto": 180000.0,
+    "fecha": "2026-07-18 23:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0449",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0410",
+    "monto": 198000.0,
+    "fecha": "2026-07-15 20:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0450",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0411",
+    "monto": 210000.0,
+    "fecha": "2026-07-02 18:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0451",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0412",
+    "monto": 155000.0,
+    "fecha": "2026-07-10 12:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0452",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0413",
+    "monto": 155000.0,
+    "fecha": "2026-07-12 11:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0453",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0414",
+    "monto": 125000.0,
+    "fecha": "2026-07-08 02:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0454",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0415",
+    "monto": 410000.0,
+    "fecha": "2026-07-10 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0455",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0416",
+    "monto": 289000.0,
+    "fecha": "2026-07-15 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0456",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0417",
+    "monto": 310000.0,
+    "fecha": "2026-07-20 18:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0457",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0418",
+    "monto": 195000.0,
+    "fecha": "2026-07-19 20:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0458",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0419",
+    "monto": 205000.0,
+    "fecha": "2026-07-10 21:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0459",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0420",
+    "monto": 320000.0,
+    "fecha": "2026-07-18 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0460",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0421",
+    "monto": 150000.0,
+    "fecha": "2026-07-09 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0461",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0422",
+    "monto": 205000.0,
+    "fecha": "2026-07-11 05:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0462",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0423",
+    "monto": 310000.0,
+    "fecha": "2026-07-18 07:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0463",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0424",
+    "monto": 180000.0,
+    "fecha": "2026-07-03 09:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0464",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0425",
+    "monto": 125000.0,
+    "fecha": "2026-07-19 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0465",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0426",
+    "monto": 95000.0,
+    "fecha": "2026-07-04 05:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0466",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0427",
+    "monto": 210000.0,
+    "fecha": "2026-07-05 10:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0467",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0428",
+    "monto": 260000.0,
+    "fecha": "2026-07-16 10:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0468",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0429",
+    "monto": 210000.0,
+    "fecha": "2026-07-10 12:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0469",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0430",
+    "monto": 125000.0,
+    "fecha": "2026-07-01 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0470",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0431",
+    "monto": 155000.0,
+    "fecha": "2026-07-29 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0471",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0432",
+    "monto": 145000.0,
+    "fecha": "2026-07-05 19:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0472",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0433",
+    "monto": 210000.0,
+    "fecha": "2026-07-26 05:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0473",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0434",
+    "monto": 175000.0,
+    "fecha": "2026-07-25 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0474",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0435",
+    "monto": 350000.0,
+    "fecha": "2026-07-02 22:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0475",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0436",
+    "monto": 289000.0,
+    "fecha": "2026-07-08 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0476",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0437",
+    "monto": 95000.0,
+    "fecha": "2026-07-14 21:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0477",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0438",
+    "monto": 145000.0,
+    "fecha": "2026-07-03 04:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0478",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0439",
+    "monto": 150000.0,
+    "fecha": "2026-07-24 18:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0479",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0440",
+    "monto": 125000.0,
+    "fecha": "2026-07-20 10:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0480",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0441",
+    "monto": 410000.0,
+    "fecha": "2026-07-18 04:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0481",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0442",
+    "monto": 125000.0,
+    "fecha": "2026-07-28 01:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0482",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0443",
+    "monto": 275000.0,
+    "fecha": "2026-07-06 06:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0483",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0444",
+    "monto": 340000.0,
+    "fecha": "2026-07-16 01:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0484",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0445",
+    "monto": 350000.0,
+    "fecha": "2026-07-11 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0485",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0446",
+    "monto": 275000.0,
+    "fecha": "2026-07-15 00:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0486",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0447",
+    "monto": 340000.0,
+    "fecha": "2026-07-19 19:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0487",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0448",
+    "monto": 205000.0,
+    "fecha": "2026-07-30 09:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0488",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0449",
+    "monto": 210000.0,
+    "fecha": "2026-07-21 04:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0489",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0450",
+    "monto": 275000.0,
+    "fecha": "2026-07-01 16:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0490",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0451",
+    "monto": 180000.0,
+    "fecha": "2026-07-13 21:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0491",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0452",
+    "monto": 250000.0,
+    "fecha": "2026-07-22 07:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0492",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0453",
+    "monto": 240000.0,
+    "fecha": "2026-07-16 23:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0493",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0454",
+    "monto": 205000.0,
+    "fecha": "2026-07-27 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0494",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0455",
+    "monto": 125000.0,
+    "fecha": "2026-07-07 12:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0495",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0456",
+    "monto": 340000.0,
+    "fecha": "2026-07-12 06:00:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0496",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0457",
+    "monto": 225000.0,
+    "fecha": "2026-07-10 16:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0497",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0458",
+    "monto": 240000.0,
+    "fecha": "2026-07-16 15:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0498",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0459",
+    "monto": 198000.0,
+    "fecha": "2026-07-23 03:00:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0499",
+    "estado": "COMPLETADO",
+    "marca": "NAF"
+  },
+  {
+    "id": "MOV0460",
+    "monto": 155000.0,
+    "fecha": "2026-07-24 04:00:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0500",
+    "estado": "COMPLETADO",
+    "marca": "AMERICAN"
+  },
+  {
+    "id": "MOV0461",
+    "monto": 980000.0,
+    "fecha": "2026-07-18 02:15:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0901",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0462",
+    "monto": 875000.0,
+    "fecha": "2026-07-18 02:47:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0902",
+    "estado": "COMPLETADO",
+    "marca": "RIFLE"
+  },
+  {
+    "id": "MOV0463",
+    "monto": 920000.0,
+    "fecha": "2026-07-22 03:30:00",
+    "banco": "BANCO_B",
+    "transaccion_id": "TRX0903",
+    "estado": "COMPLETADO",
+    "marca": "CHEVIGNON"
+  },
+  {
+    "id": "MOV0464",
+    "monto": 790000.0,
+    "fecha": "2026-07-25 01:05:00",
+    "banco": "BANCO_C",
+    "transaccion_id": "TRX0904",
+    "estado": "COMPLETADO",
+    "marca": "AMERICANINO"
+  },
+  {
+    "id": "MOV0465",
+    "monto": 999000.0,
+    "fecha": "2026-07-28 04:40:00",
+    "banco": "BANCO_A",
+    "transaccion_id": "TRX0905",
+    "estado": "COMPLETADO",
+    "marca": "NAF NAF"
+  }
+]

@@ -1,0 +1,19 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Cache de Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Editores / SO
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# Temporales de Excel
+~$*.xlsx
