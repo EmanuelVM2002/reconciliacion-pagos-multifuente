@@ -135,6 +135,32 @@ etiqueta: el enunciado pide comprobarlo pero no define una etiqueta para él, y
 preferí no inventar vocabulario nuevo. En estos datos ninguna transacción se
 sale de la tolerancia.
 
+### Detección de fraude
+
+El fraude lo traté como una **dimensión aparte** de la clasificación, no como
+una etiqueta más: una transacción puede estar perfectamente reconciliada y aun
+así ser fraude. De hecho pasa en 90 de las 505.
+
+La diferencia técnica con las reglas de clasificación es que aquí el contrato
+recibe **toda la colección** y no una transacción suelta, porque tres de los
+cuatro patrones lo necesitan: el umbral de monto anómalo se calcula sobre la
+distribución completa y el patrón sospechoso compara unas transacciones contra
+otras.
+
+Dos criterios que tuve que fijar porque el enunciado no los cierra:
+
+- **Desviación estándar poblacional, no muestral.** El conjunto analizado no es
+  una muestra de algo mayor: es la población completa de transacciones del
+  periodo. Sobre estos datos ambas dan el mismo resultado (11 transacciones),
+  así que no cambia la salida, pero prefiero que el criterio sea explícito.
+- **Fecha de referencia = la primera disponible en el orden CSV → SQLite →
+  JSON.** La autorización es el momento en que la operación realmente ocurre;
+  la contabilización y el movimiento bancario son ecos posteriores de ese
+  hecho. Es la fecha que uso para la hora inusual y para el patrón.
+
+En el patrón sospechoso marco **todas** las transacciones involucradas, no solo
+la segunda de cada par, y en la observación dejo escrito con cuáles cruza.
+
 ## Resultado sobre los datos entregados
 
 | Indicador | Valor |
@@ -149,13 +175,27 @@ sale de la tolerancia.
 | Monto total | $124.690.000 |
 | Monto en discrepancia | $475.000 |
 
+Fraude (dimensión transversal, umbral de monto anómalo en $733.774):
+
+| Patrón | Transacciones |
+|---|---|
+| Hora inusual (00:00–05:59) | 134 |
+| Patrón sospechoso | 12 |
+| Monto anómalo (> media + 3σ) | 11 |
+| Sin autorización | 5 |
+| **Total con al menos un patrón** | **149** |
+
+Por nivel de riesgo: 5 críticas, 6 altas y 138 medias. Las cinco transacciones
+que el banco reporta sin autorización previa son además de monto anómalo y de
+madrugada, así que las tres señales apuntan al mismo sitio.
+
 ## Estado
 
 - [x] Configuración de rutas centralizada
 - [x] Carga y validación de integridad de las tres fuentes
 - [x] Limpieza y extracción de los campos malformados del CSV
 - [x] Reconciliación y clasificación
-- [ ] Detección de fraude
+- [x] Detección de fraude
 - [ ] Reporte Excel
 - [ ] Interfaz gráfica
 - [ ] Pruebas unitarias
