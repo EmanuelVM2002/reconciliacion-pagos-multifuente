@@ -276,57 +276,77 @@ clasificación y fraude son dimensiones distintas.
 Pensé la ventana para una persona de contabilidad que no programa y que no va a
 abrir una terminal. Necesita responder tres cosas de un vistazo —*¿funcionó?*,
 *¿qué tan sano está el resultado?*, *¿dónde está mi archivo?*— y, mientras
-espera, saber que el proceso sigue vivo.
+espera, saber que el proceso sigue vivo. Todo lo que no ayuda a responder esas
+preguntas lo dejé fuera: sin selectores de archivo, sin tabla de 505 filas y sin
+gráficos. La regla que me impuse fue que cada elemento en pantalla tuviera que
+justificar por qué está ahí.
 
-La organicé en cuatro bloques que siguen ese orden mental:
+Las decisiones, una por una:
 
-1. **Fuentes de datos.** Antes de ejecutar nada ya dice si los tres archivos
-   están donde deben, con un punto verde o rojo. Es el error más probable en la
-   vida real y no tiene sentido descubrirlo a mitad del proceso: si falta algo,
-   el botón queda deshabilitado y el mensaje dice qué falta y dónde debería
-   estar, con el nombre del archivo y no con una ruta técnica.
-2. **Acción y avance.** Un solo botón. La barra va acompañada del paso escrito
-   en palabras ("Escribiendo el reporte... (320/505)"), porque una barra sola no
-   dice si el proceso avanza o si se atascó.
-3. **Cuatro indicadores.** Porcentaje reconciliado, transacciones analizadas,
-   monto en discrepancia y transacciones con fraude. Son cuatro y no veinte: si
-   todo es importante, nada lo es. Van aquí y no en el Excel, como pide el
-   enunciado.
-4. **Detalle del proceso.** La bitácora completa para quien quiera auditar qué
-   se hizo, y los botones para abrir el Excel o su carpeta.
+| Decisión | Qué elegí y por qué |
+|---|---|
+| **Organización** | Cuatro bloques en el orden mental de quien la usa: fuentes → acción y avance → indicadores → detalle |
+| **Indicadores** | Cuatro cifras (ver abajo) |
+| **Progreso** | Barra + el paso escrito en palabras, con conteo (`Escribiendo el reporte... (320/505)`) |
+| **Detalle del proceso** | Todo lo que el proceso registra, abajo y sin robar protagonismo |
+| **Estado de las fuentes** | Un punto verde o rojo por archivo, visible antes de ejecutar |
+| **Estado inicial** | La ventana dice explícitamente que aún no se ha generado nada |
+| **Acceso al Excel** | Dos botones (abrir archivo / abrir carpeta) + la ruta completa en texto |
+| **Hilo ↔ interfaz** | `queue.Queue` que la ventana vacía con `after()` |
 
-**Lo que dejé fuera a propósito:** selectores de archivo (las rutas son
-configuración, no una decisión del usuario), una tabla con las 505
-transacciones (para eso está el Excel, que filtra y ordena mucho mejor) y
-gráficos (decoran, no ayudan a decidir).
+**Por qué esos cuatro indicadores.** Cada uno responde una pregunta distinta y
+ninguno es reemplazable por otro:
 
-**Lo que sí agregué:** tema claro/oscuro, botón para cancelar la ejecución en
-marcha, exportación de la bitácora a un `.txt` y un botón de salir que hace lo
-mismo que cerrar con la X —no quería una forma "buena" y una "mala" de salir—.
+- **% reconciliado** es el titular: la respuesta a *¿qué tan sano está esto?* en
+  un solo número.
+- **Transacciones analizadas** le da escala a ese porcentaje —57 % de 505 no es
+  lo mismo que 57 % de 5— y de paso confirma que se procesó todo.
+- **Monto en discrepancia** traduce el problema a plata, que es el idioma del
+  área contable. Un conteo de errores no dice cuánto hay en juego.
+- **Transacciones con fraude** es la única cifra que obliga a levantar el
+  teléfono hoy.
 
-Todos los colores están declarados como pares *(tema claro, tema oscuro)*. Lo
-aprendí a golpes: con un solo tono, los botones deshabilitados que se leían
-perfecto sobre fondo oscuro quedaban invisibles sobre blanco, y el verde y el
-naranja de los indicadores perdían contraste. El estilo de los botones
-secundarios está en una sola función, así que el color de "deshabilitado" se
-define una vez y no en seis lugares. Cancelar no mata el hilo
-—matarlo dejaría el trabajo a medias— sino que levanta una bandera que el
-propio hilo revisa en su siguiente aviso de avance y se detiene ordenadamente;
-como esos avisos ocurren decenas de veces por ejecución, la respuesta es
-inmediata. Lo interesante es que el dominio no sabe nada de cancelaciones: la
-interrupción nace en la interfaz y viaja como excepción desde el callback de
-progreso.
+Descarté promedios, totales por banco y conteos por etiqueta: son interesantes
+para analizar, no para decidir en treinta segundos. Ese detalle está en el Excel,
+que además filtra y ordena mucho mejor que cualquier tabla que yo dibuje.
 
-Antes de ejecutar nada, la ventana no está vacía ni muestra ceros: muestra el
-estado de las fuentes y dice explícitamente que todavía no se ha generado
-ningún reporte.
+**Cuánto detalle del proceso expongo.** La bitácora muestra *todo* lo que el
+sistema registra —cada discrepancia y cada fraude, como pide el enunciado—
+porque en un proceso contable alguien tiene que poder auditar qué se hizo. Pero
+va abajo y en tipografía monoespaciada: quien solo quiere el resultado mira los
+indicadores y no baja. Es nivel informativo, sin ruido de depuración, y se puede
+exportar a un `.txt` para adjuntarlo a un correo.
 
-**La ventana se adapta al monitor.** Lo descubrí probándola: con un tamaño fijo
-de 760 px de alto, en una pantalla de 1366×768 —la de cualquier equipo de
-oficina— la ventana más su barra de título se salía por abajo y el mensaje que
-dice dónde quedó el reporte terminaba fuera de la pantalla, invisible justo
-para quien más lo necesita. Ahora el tamaño se calcula contra el monitor
-disponible.
+**Cómo se llega al Excel.** Dos botones: uno abre el archivo y otro la carpeta
+—porque a veces se quiere adjuntar, no leer—. La ruta completa además queda
+escrita al pie, por si la quieren copiar. No hay diálogo de "guardar como": la
+ruta es configuración del sistema, no una decisión que deba tomar el usuario
+cada vez.
+
+**Estado de cada fuente, antes de arrancar.** Los tres archivos se verifican al
+abrir la ventana, con un punto verde o rojo. Es el error más probable en la vida
+real y no tiene sentido descubrirlo a mitad del proceso: si falta algo, el botón
+queda deshabilitado y el mensaje dice qué falta, con el nombre del archivo y no
+con una ruta técnica.
+
+**Lo que agregué como valor extra:** tema claro/oscuro, cancelar la ejecución en
+marcha, exportar la bitácora y un botón de salir que hace lo mismo que cerrar con
+la X —no quería una forma "buena" y una "mala" de salir—.
+
+Cancelar no mata el hilo —matarlo dejaría el trabajo a medias— sino que levanta
+una bandera que el propio hilo revisa en su siguiente aviso de avance y se
+detiene ordenadamente; como esos avisos ocurren decenas de veces por ejecución,
+la respuesta es inmediata. Lo interesante es que el dominio no sabe nada de
+cancelaciones: la interrupción nace en la interfaz y viaja como excepción desde
+el callback de progreso.
+
+**Dos cosas que solo aparecieron al probarla.** Los colores están declarados como
+pares *(tema claro, tema oscuro)*: con un solo tono, los botones deshabilitados
+que se leían perfecto sobre fondo oscuro quedaban invisibles sobre blanco. Y la
+ventana se dimensiona contra el monitor: con un alto fijo de 760 px, en una
+pantalla de 1366×768 —la de cualquier equipo de oficina— el mensaje que dice
+dónde quedó el reporte terminaba fuera de la pantalla, invisible justo para quien
+más lo necesita.
 
 ### Que la interfaz no se congele: lo que costó de verdad
 
