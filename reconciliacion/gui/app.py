@@ -29,8 +29,9 @@ import os
 import queue
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import customtkinter as ctk
 
@@ -44,6 +45,14 @@ INTERVALO_SONDEO_MS = 60
 
 #: Cuantos mensajes se atienden como maximo en cada revision. Ver `_procesar_cola`.
 MAXIMO_MENSAJES_POR_CICLO = 250
+
+#: Tamano ideal de la ventana; se recorta si el monitor es mas pequeno.
+ANCHO_PREFERIDO = 1000
+ALTO_PREFERIDO = 760
+
+#: Tamano minimo por debajo del cual la ventana deja de ser usable.
+ANCHO_MINIMO = 880
+ALTO_MINIMO = 600
 
 COLOR_OK = "#2FA572"
 COLOR_ERROR = "#D9534F"
@@ -96,8 +105,7 @@ class AplicacionReconciliacion(ctk.CTk):
         ctk.set_default_color_theme("blue")
 
         self.title("Reconciliacion de Pagos Multi-Fuente")
-        self.geometry("1000x760")
-        self.minsize(880, 680)
+        self._ajustar_al_monitor()
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(4, weight=1)
 
@@ -115,6 +123,24 @@ class AplicacionReconciliacion(ctk.CTk):
         self._revisar_fuentes()
         self._sondeo: Optional[str] = self.after(INTERVALO_SONDEO_MS, self._procesar_cola)
         self.protocol("WM_DELETE_WINDOW", self._al_cerrar)
+
+    def _ajustar_al_monitor(self) -> None:
+        """Dimensiona y centra la ventana segun el monitor disponible.
+
+        No se fija un tamano absoluto: en una pantalla de 1366x768 —muy comun
+        en equipos de oficina— una ventana de 760 px mas la barra de titulo se
+        sale por abajo y el mensaje que dice donde quedo el reporte queda
+        fuera de la pantalla, invisible justo para quien mas lo necesita.
+        """
+        margen_horizontal, margen_vertical = 80, 90
+        ancho = min(ANCHO_PREFERIDO, self.winfo_screenwidth() - margen_horizontal)
+        alto = min(ALTO_PREFERIDO, self.winfo_screenheight() - margen_vertical)
+
+        posicion_x = max(0, (self.winfo_screenwidth() - ancho) // 2)
+        posicion_y = max(0, (self.winfo_screenheight() - alto) // 3)
+
+        self.geometry(f"{ancho}x{alto}+{posicion_x}+{posicion_y}")
+        self.minsize(min(ANCHO_MINIMO, ancho), min(ALTO_MINIMO, alto))
 
     # --- Construccion de la ventana ---------------------------------------
 
@@ -173,7 +199,7 @@ class AplicacionReconciliacion(ctk.CTk):
         """Boton de ejecucion, barra de progreso y paso actual."""
         marco = ctk.CTkFrame(self, corner_radius=8)
         marco.grid(row=2, column=0, sticky="ew", padx=20, pady=8)
-        marco.grid_columnconfigure(1, weight=1)
+        marco.grid_columnconfigure(2, weight=1)
 
         self.boton_ejecutar = ctk.CTkButton(
             marco,
@@ -183,11 +209,24 @@ class AplicacionReconciliacion(ctk.CTk):
             width=210,
             font=ctk.CTkFont(size=13, weight="bold"),
         )
-        self.boton_ejecutar.grid(row=0, column=0, rowspan=2, padx=16, pady=16)
+        self.boton_ejecutar.grid(row=0, column=0, rowspan=2, padx=(16, 8), pady=16)
+
+        self.boton_cancelar = ctk.CTkButton(
+            marco,
+            text="Cancelar",
+            command=self._cancelar,
+            height=42,
+            width=100,
+            state="disabled",
+            fg_color="transparent",
+            border_width=1,
+            text_color=COLOR_NEUTRO,
+        )
+        self.boton_cancelar.grid(row=0, column=1, rowspan=2, padx=(0, 16), pady=16)
 
         self.barra = ctk.CTkProgressBar(marco, height=14)
         self.barra.set(0)
-        self.barra.grid(row=0, column=1, sticky="ew", padx=(0, 16), pady=(20, 4))
+        self.barra.grid(row=0, column=2, sticky="ew", padx=(0, 16), pady=(20, 4))
 
         self.etiqueta_paso = ctk.CTkLabel(
             marco,
@@ -196,7 +235,7 @@ class AplicacionReconciliacion(ctk.CTk):
             text_color=COLOR_NEUTRO,
             anchor="w",
         )
-        self.etiqueta_paso.grid(row=1, column=1, sticky="ew", padx=(0, 16), pady=(0, 16))
+        self.etiqueta_paso.grid(row=1, column=2, sticky="ew", padx=(0, 16), pady=(0, 16))
 
     def _construir_indicadores(self) -> None:
         """Las cuatro cifras que resumen la salud del resultado."""
@@ -252,12 +291,28 @@ class AplicacionReconciliacion(ctk.CTk):
         )
         self.boton_carpeta.grid(row=0, column=2, sticky="e", padx=(8, 0))
 
+        self.boton_bitacora = ctk.CTkButton(
+            cabecera,
+            text="Guardar bitacora",
+            command=self._guardar_bitacora,
+            width=140,
+            fg_color="transparent",
+            border_width=1,
+            state="disabled",
+        )
+        self.boton_bitacora.grid(row=0, column=3, sticky="e", padx=(8, 0))
+
         self.bitacora = ctk.CTkTextbox(marco, font=ctk.CTkFont(family="Consolas", size=11))
         self.bitacora.grid(row=1, column=0, sticky="nsew", padx=16, pady=(0, 12))
         self.bitacora.configure(state="disabled")
 
         self.etiqueta_estado = ctk.CTkLabel(
-            self, text="", font=ctk.CTkFont(size=12), anchor="w", wraplength=940
+            self,
+            text="",
+            font=ctk.CTkFont(size=12),
+            anchor="w",
+            justify="left",
+            wraplength=ANCHO_PREFERIDO - 60,
         )
         self.etiqueta_estado.grid(row=5, column=0, sticky="ew", padx=20, pady=(0, 14))
 
@@ -299,14 +354,23 @@ class AplicacionReconciliacion(ctk.CTk):
             return
 
         self.boton_ejecutar.configure(state="disabled", text="Procesando...")
+        self.boton_cancelar.configure(state="normal")
         self.boton_abrir.configure(state="disabled")
         self.boton_carpeta.configure(state="disabled")
+        self.boton_bitacora.configure(state="disabled")
         self.barra.set(0)
         self._limpiar_bitacora()
         self._mostrar_estado("", COLOR_NEUTRO)
 
         self.trabajador = TrabajadorReconciliacion(self.cola)
         self.trabajador.start()
+
+    def _cancelar(self) -> None:
+        """Pide al hilo de trabajo que se detenga de forma ordenada."""
+        if self.trabajador is not None and self.trabajador.is_alive():
+            self.trabajador.cancelar()
+            self.boton_cancelar.configure(state="disabled", text="Cancelando...")
+            self.etiqueta_paso.configure(text="Cancelando, espera un momento...")
 
     def _procesar_cola(self) -> None:
         """Consume la cola del hilo de trabajo y actualiza la ventana.
@@ -322,7 +386,7 @@ class AplicacionReconciliacion(ctk.CTk):
         sin repintar y se perderia justamente la sensacion de avance. Lo que
         quede espera al siguiente ciclo, que llega en una decima de segundo.
         """
-        lineas: list[str] = []
+        lineas: List[str] = []
         try:
             for _ in range(MAXIMO_MENSAJES_POR_CICLO):
                 mensaje = self.cola.get_nowait()
@@ -375,6 +439,13 @@ class AplicacionReconciliacion(ctk.CTk):
             if mensaje.detalle:
                 self._escribir(f"       {mensaje.detalle}")
 
+        elif mensaje.tipo is TipoMensaje.CANCELADO:
+            self._terminar()
+            self.barra.set(0)
+            self.etiqueta_paso.configure(text="Proceso cancelado.")
+            self._mostrar_estado(mensaje.texto, COLOR_AVISO)
+            self._escribir(mensaje.texto)
+
         elif mensaje.tipo is TipoMensaje.FIN and mensaje.resultado is not None:
             self._terminar()
             self.barra.set(1)
@@ -418,8 +489,38 @@ class AplicacionReconciliacion(ctk.CTk):
         )
 
     def _terminar(self) -> None:
-        """Devuelve el boton principal a su estado normal."""
+        """Devuelve los botones a su estado de reposo.
+
+        Se llama tanto al terminar bien como al fallar o al cancelar: pase lo
+        que pase, la interfaz vuelve a quedar utilizable.
+        """
         self.boton_ejecutar.configure(state="normal", text="Ejecutar reconciliacion")
+        self.boton_cancelar.configure(state="disabled", text="Cancelar")
+        if self.bitacora.get("1.0", "end").strip():
+            self.boton_bitacora.configure(state="normal")
+
+    def _guardar_bitacora(self) -> None:
+        """Guarda el detalle del proceso en un archivo de texto.
+
+        No abre un selector de archivos, por coherencia con el resto de la
+        aplicacion: la bitacora va a la carpeta de salida con la fecha y la
+        hora en el nombre, y se le dice al usuario donde quedo.
+        """
+        contenido = self.bitacora.get("1.0", "end").strip()
+        if not contenido:
+            self._mostrar_estado("No hay nada que guardar todavia.", COLOR_AVISO)
+            return
+
+        destino = rutas.asegurar_directorio_salida() / (
+            f"bitacora_{datetime.now():%Y%m%d_%H%M%S}.txt"
+        )
+        try:
+            destino.write_text(contenido, encoding="utf-8")
+        except OSError as error:
+            self._mostrar_estado(f"No se pudo guardar la bitacora: {error}", COLOR_ERROR)
+            return
+
+        self._mostrar_estado(f"Bitacora guardada en {destino}", COLOR_OK)
 
     def _abrir_reporte(self) -> None:
         """Abre el Excel generado con la aplicacion predeterminada."""

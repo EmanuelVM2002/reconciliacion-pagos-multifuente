@@ -23,7 +23,7 @@ import threading
 import time
 from typing import Optional
 
-from reconciliacion.errores import ErrorReconciliacion
+from reconciliacion.errores import ErrorReconciliacion, ProcesoCancelado
 from reconciliacion.gui.mensajes import Mensaje, TipoMensaje
 from reconciliacion.log import NOMBRE_LOGGER_RAIZ
 from reconciliacion.servicio import ServicioReconciliacion
@@ -82,6 +82,16 @@ class TrabajadorReconciliacion(threading.Thread):
         super().__init__(daemon=True, name="reconciliacion")
         self.cola = cola
         self.servicio = servicio or ServicioReconciliacion()
+        self.cancelacion = threading.Event()
+
+    def cancelar(self) -> None:
+        """Pide detener el proceso.
+
+        No mata el hilo —matar un hilo a la fuerza deja el trabajo a medias y
+        los recursos abiertos—: levanta una bandera que el propio hilo revisa
+        en su siguiente aviso de avance y se detiene solo, de forma ordenada.
+        """
+        self.cancelacion.set()
 
     def run(self) -> None:
         """Corre la reconciliacion y publica avance, errores y resultado.
@@ -115,6 +125,15 @@ class TrabajadorReconciliacion(threading.Thread):
                     resultado=resultado,
                 )
             )
+        except ProcesoCancelado:
+            # Va antes que ErrorReconciliacion a proposito: cancelar no es
+            # fallar y no debe reportarse como un error.
+            self.cola.put(
+                Mensaje(
+                    tipo=TipoMensaje.CANCELADO,
+                    texto="Proceso cancelado por el usuario. No se genero ningun reporte.",
+                )
+            )
         except ErrorReconciliacion as error:
             self.cola.put(
                 Mensaje(tipo=TipoMensaje.ERROR, texto=error.mensaje, detalle=error.detalle)
@@ -145,10 +164,22 @@ class TrabajadorReconciliacion(threading.Thread):
         tiempo. Como los avisos son por lotes, el costo total ronda las
         centesimas de segundo.
 
+        Aprovecha ademas para revisar si el usuario pidio cancelar. Como el
+        aviso de avance ocurre decenas de veces por ejecucion, el proceso se
+        detiene casi de inmediato sin que el codigo de negocio sepa nada de
+        cancelaciones: la interrupcion viaja como excepcion desde este
+        callback.
+
         Args:
             texto: Descripcion del paso actual.
             porcentaje: Avance acumulado, de 0 a 100.
+
+        Raises:
+            ProcesoCancelado: Si se pidio detener el proceso.
         """
+        if self.cancelacion.is_set():
+            raise ProcesoCancelado("El usuario cancelo el proceso.")
+
         self.cola.put(
             Mensaje(tipo=TipoMensaje.PROGRESO, texto=texto, porcentaje=porcentaje)
         )

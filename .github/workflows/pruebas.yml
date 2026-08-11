@@ -1,0 +1,38 @@
+name: Pruebas
+
+# Corre la suite y la verificacion de tipos en cada cambio, para que un fallo
+# se detecte en el repositorio y no en la maquina de quien clone el proyecto.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Ejecutar las pruebas con cobertura
+        # La interfaz no se prueba aqui: el runner no tiene pantalla. El hilo
+        # de trabajo si se prueba, porque solo habla con una cola.
+        run: python -m pytest --cov=reconciliacion --cov-report=term-missing
+
+      - name: Verificar los tipos
+        run: python -m mypy reconciliacion

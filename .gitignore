@@ -17,3 +17,6 @@ desktop.ini
 
 # Temporales de Excel
 ~$*.xlsx
+
+# Bitacoras generadas desde la interfaz
+salida/bitacora_*.txt

@@ -1,5 +1,7 @@
 # Sistema de Reconciliación de Pagos Multi-Fuente
 
+[![Pruebas](https://github.com/EmanuelVM2002/reconciliacion-pagos-multifuente/actions/workflows/pruebas.yml/badge.svg)](https://github.com/EmanuelVM2002/reconciliacion-pagos-multifuente/actions/workflows/pruebas.yml)
+
 Cruce de transacciones de pago entre tres orígenes que describen la misma
 operación desde ángulos distintos, para encontrar dónde dejan de coincidir.
 
@@ -13,6 +15,14 @@ El resultado es un Excel de una sola hoja (`Reconciliacion`) con una fila por
 transacción del universo —la unión de las tres fuentes— con los valores de cada
 origen lado a lado, la clasificación del hallazgo y la marcación de fraude.
 
+## La interfaz
+
+| Antes de ejecutar | Durante el proceso |
+|---|---|
+| ![Estado inicial](capturas/gui_inicial.png) | ![En proceso](capturas/gui_proceso.png) |
+
+![Resultado](capturas/gui_resultado.png)
+
 ## Instalación
 
 ```bash
@@ -20,6 +30,16 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+Para desarrollar (agrega cobertura y verificación de tipos):
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+Desarrollado y probado con Python 3.12. El código usa
+`from __future__ import annotations` en todos los módulos, así que las
+anotaciones no atan la versión mínima.
 
 ## Uso
 
@@ -42,10 +62,12 @@ detección de fraude y exportación— y dejan el Excel en
 No hay selectores de archivo por ningún lado: todas las rutas viven en
 `reconciliacion/config/rutas.py`.
 
-**Pruebas**:
+**Pruebas y calidad**:
 
 ```bash
 python -m pytest
+python -m pytest --cov=reconciliacion --cov-report=term-missing
+python -m mypy reconciliacion
 ```
 
 ## Estructura
@@ -236,12 +258,27 @@ La organicé en cuatro bloques que siguen ese orden mental:
 **Lo que dejé fuera a propósito:** selectores de archivo (las rutas son
 configuración, no una decisión del usuario), una tabla con las 505
 transacciones (para eso está el Excel, que filtra y ordena mucho mejor) y
-gráficos (decoran, no ayudan a decidir). Sí agregué selector de tema claro y
-oscuro, que cuesta tres líneas y se agradece.
+gráficos (decoran, no ayudan a decidir).
+
+**Lo que sí agregué:** tema claro/oscuro, botón para cancelar la ejecución en
+marcha y exportación de la bitácora a un `.txt`. Cancelar no mata el hilo
+—matarlo dejaría el trabajo a medias— sino que levanta una bandera que el
+propio hilo revisa en su siguiente aviso de avance y se detiene ordenadamente;
+como esos avisos ocurren decenas de veces por ejecución, la respuesta es
+inmediata. Lo interesante es que el dominio no sabe nada de cancelaciones: la
+interrupción nace en la interfaz y viaja como excepción desde el callback de
+progreso.
 
 Antes de ejecutar nada, la ventana no está vacía ni muestra ceros: muestra el
 estado de las fuentes y dice explícitamente que todavía no se ha generado
 ningún reporte.
+
+**La ventana se adapta al monitor.** Lo descubrí probándola: con un tamaño fijo
+de 760 px de alto, en una pantalla de 1366×768 —la de cualquier equipo de
+oficina— la ventana más su barra de título se salía por abajo y el mensaje que
+dice dónde quedó el reporte terminaba fuera de la pantalla, invisible justo
+para quien más lo necesita. Ahora el tamaño se calcula contra el monitor
+disponible.
 
 ### Que la interfaz no se congele: lo que costó de verdad
 
@@ -315,6 +352,37 @@ Para los errores que en producción no se pueden provocar (un archivo que
 desaparece, un JSON roto) escribo archivos temporales en la prueba, en vez de
 tocar los datos reales.
 
+El hilo de trabajo también está probado —cancelación, manejo de errores y
+avance— y **sin abrir ninguna ventana**: solo habla con una cola, así que basta
+con leerla. Para que eso fuera posible, el paquete `gui` importa la ventana de
+forma perezosa; si la importara de entrada, arrastraría `tkinter` y las pruebas
+exigirían un entorno gráfico.
+
+### Cobertura y tipos
+
+| Medida | Resultado |
+|---|---|
+| Pruebas | 165, todas pasando |
+| Cobertura total | 77 % |
+| Cobertura sin `gui/app.py` | **95 %** (1.063 de 1.119 sentencias) |
+| `mypy --strict` | sin errores en 32 archivos |
+
+`gui/app.py` queda en 0 % y es una consecuencia buscada: como la ventana se
+importa de forma perezosa, las pruebas ni siquiera la cargan y no necesitan un
+entorno gráfico. Probar píxeles es caro y frágil; lo que sí está probado es todo
+lo que la ventana usa —el hilo, la cola, el servicio, las reglas— y su
+comportamiento lo verifiqué midiendo, no adivinando.
+
+Las únicas excepciones de `mypy` están acotadas a los dos módulos que usan
+librerías de terceros sin anotaciones (`openpyxl` y `customtkinter`), no
+desactivadas globalmente: el resto del código sigue bajo modo estricto.
+
+### Integración continua
+
+Cada push a `main` dispara un flujo de GitHub Actions que instala las
+dependencias, corre las 165 pruebas con cobertura y verifica los tipos. Si algo
+se rompe, se ve en el repositorio y no en la máquina de quien lo clone.
+
 ## Resultado sobre los datos entregados
 
 | Indicador | Valor |
@@ -353,4 +421,6 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Script ejecutable de punta a punta (`main.py`)
 - [x] Reporte Excel
 - [x] Interfaz gráfica (+ `.bat` para abrirla con doble clic)
-- [x] Pruebas unitarias (158, todas pasando)
+- [x] Pruebas unitarias (165, todas pasando)
+- [x] Cancelar la ejecución y exportar la bitácora
+- [x] Cobertura, verificación de tipos e integración continua

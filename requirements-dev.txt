@@ -1,0 +1,6 @@
+# Herramientas de desarrollo. Las de ejecucion estan en requirements.txt.
+-r requirements.txt
+
+pytest-cov==6.0.0
+mypy==1.14.1
+types-openpyxl==3.1.5.20241225

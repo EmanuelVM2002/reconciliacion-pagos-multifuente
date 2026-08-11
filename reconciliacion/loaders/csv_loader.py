@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
-from typing import List
+from typing import List, Sequence
 
 from reconciliacion.config import rutas
 from reconciliacion.dominio.modelos import FilaAutorizacionCruda
@@ -99,11 +99,12 @@ class CargadorAutorizaciones(CargadorFuente[FilaAutorizacionCruda]):
         )
 
     @staticmethod
-    def _verificar_columnas(encabezados: List[str] | None) -> None:
+    def _verificar_columnas(encabezados: Sequence[str] | None) -> None:
         """Valida que el CSV traiga las columnas requeridas.
 
         Args:
-            encabezados: Nombres de columna leidos del archivo.
+            encabezados: Nombres de columna leidos del archivo. `csv.DictReader`
+                los expone como `Sequence`, no como `list`.
 
         Raises:
             FuenteCorruptaError: Si falta alguna columna obligatoria.

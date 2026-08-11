@@ -34,6 +34,9 @@ class TipoMensaje(Enum):
     FIN = auto()
     """Proceso terminado con exito: trae el resultado completo."""
 
+    CANCELADO = auto()
+    """El usuario detuvo el proceso. No es un error y se informa distinto."""
+
 
 @dataclass(frozen=True)
 class Mensaje:

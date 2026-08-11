@@ -34,3 +34,12 @@ class FuenteCorruptaError(ErrorReconciliacion):
 
 class ErrorExportacion(ErrorReconciliacion):
     """No se pudo escribir el reporte de salida."""
+
+
+class ProcesoCancelado(ErrorReconciliacion):
+    """El usuario detuvo el proceso antes de que terminara.
+
+    No es un fallo: hereda de `ErrorReconciliacion` para viajar por el mismo
+    camino de interrupcion, pero quien lo atrape debe tratarlo como una
+    decision del usuario y no como un error que reportar.
+    """
