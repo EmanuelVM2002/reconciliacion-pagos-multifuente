@@ -31,7 +31,7 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple, Union
 
 import customtkinter as ctk
 
@@ -54,24 +54,60 @@ ALTO_PREFERIDO = 760
 ANCHO_MINIMO = 880
 ALTO_MINIMO = 600
 
-COLOR_OK = "#2FA572"
-COLOR_ERROR = "#D9534F"
-COLOR_AVISO = "#E8A33D"
-COLOR_NEUTRO = "gray60"
+# Todos los colores van como pares (tema claro, tema oscuro). Un mismo tono no
+# sirve para los dos fondos: el verde y el naranja que se leen bien sobre
+# negro pierden contraste sobre blanco, asi que la version clara es mas oscura.
+COLOR_OK = ("#1E7A4F", "#2FA572")
+COLOR_ERROR = ("#B02F2A", "#D9534F")
+COLOR_AVISO = ("#A06510", "#E8A33D")
+COLOR_NEUTRO = ("#5C5C5C", "#9A9A9A")
 
 SIN_DATO = "—"
+
+#: Un color de customtkinter: un tono unico o el par (tema claro, tema oscuro).
+Color = Union[str, Tuple[str, str]]
+
+# Los colores se declaran como pares (tema claro, tema oscuro): customtkinter
+# elige el que corresponda. Fijarlos a un solo valor es lo que hace que un
+# boton legible en oscuro desaparezca en claro.
+BORDE_SECUNDARIO = ("#B4B4B4", "#4A4A4A")
+TEXTO_SECUNDARIO = ("#2B2B2B", "#DCE4EE")
+TEXTO_SECUNDARIO_INACTIVO = ("#8E8E8E", "#6E6E6E")
+FONDO_SECUNDARIO_ENCIMA = ("#E6E6E6", "#3A3A3A")
+
+
+def estilo_boton_secundario() -> Dict[str, object]:
+    """Devuelve el estilo comun de los botones que no son la accion principal.
+
+    Existe para no repetir seis argumentos en cada boton y, sobre todo, para
+    que el color deshabilitado quede definido en un solo lugar: con el valor
+    por defecto de customtkinter, un boton inactivo es casi invisible sobre
+    fondo claro.
+
+    Returns:
+        Los argumentos de estilo listos para pasarle a `CTkButton`.
+    """
+    return {
+        "fg_color": "transparent",
+        "border_width": 1,
+        "border_color": BORDE_SECUNDARIO,
+        "text_color": TEXTO_SECUNDARIO,
+        "text_color_disabled": TEXTO_SECUNDARIO_INACTIVO,
+        "hover_color": FONDO_SECUNDARIO_ENCIMA,
+    }
 
 
 class TarjetaIndicador(ctk.CTkFrame):
     """Tarjeta que muestra un indicador agregado con su titulo."""
 
-    def __init__(self, maestro: ctk.CTkBaseClass, titulo: str, color: str) -> None:
+    def __init__(self, maestro: ctk.CTkBaseClass, titulo: str, color: Color) -> None:
         """Crea la tarjeta.
 
         Args:
             maestro: Contenedor padre.
             titulo: Nombre del indicador.
-            color: Color del valor, para distinguir buenas y malas noticias.
+            color: Color del valor —un par (claro, oscuro)— para distinguir
+                buenas y malas noticias.
         """
         super().__init__(maestro, corner_radius=8)
         self.valor = ctk.CTkLabel(
@@ -175,9 +211,7 @@ class AplicacionReconciliacion(ctk.CTk):
             text="Salir",
             command=self._salir,
             width=80,
-            fg_color="transparent",
-            border_width=1,
-            text_color=COLOR_NEUTRO,
+            **estilo_boton_secundario(),
         ).grid(row=0, column=2, rowspan=2, sticky="e", padx=(10, 0))
 
     def _construir_fuentes(self) -> None:
@@ -230,9 +264,7 @@ class AplicacionReconciliacion(ctk.CTk):
             height=42,
             width=100,
             state="disabled",
-            fg_color="transparent",
-            border_width=1,
-            text_color=COLOR_NEUTRO,
+            **estilo_boton_secundario(),
         )
         self.boton_cancelar.grid(row=0, column=1, rowspan=2, padx=(0, 16), pady=16)
 
@@ -297,9 +329,8 @@ class AplicacionReconciliacion(ctk.CTk):
             text="Abrir carpeta",
             command=self._abrir_carpeta,
             width=130,
-            fg_color="transparent",
-            border_width=1,
             state="disabled",
+            **estilo_boton_secundario(),
         )
         self.boton_carpeta.grid(row=0, column=2, sticky="e", padx=(8, 0))
 
@@ -308,9 +339,8 @@ class AplicacionReconciliacion(ctk.CTk):
             text="Guardar bitacora",
             command=self._guardar_bitacora,
             width=140,
-            fg_color="transparent",
-            border_width=1,
             state="disabled",
+            **estilo_boton_secundario(),
         )
         self.boton_bitacora.grid(row=0, column=3, sticky="e", padx=(8, 0))
 
@@ -602,12 +632,12 @@ class AplicacionReconciliacion(ctk.CTk):
         self.bitacora.delete("1.0", "end")
         self.bitacora.configure(state="disabled")
 
-    def _mostrar_estado(self, texto: str, color: str) -> None:
+    def _mostrar_estado(self, texto: str, color: Color) -> None:
         """Muestra el mensaje de estado al pie de la ventana.
 
         Args:
             texto: Mensaje a mostrar.
-            color: Color del texto segun la gravedad.
+            color: Par (claro, oscuro) del texto, segun la gravedad.
         """
         self.etiqueta_estado.configure(text=texto, text_color=color)
 

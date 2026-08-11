@@ -301,7 +301,15 @@ transacciones (para eso está el Excel, que filtra y ordena mucho mejor) y
 gráficos (decoran, no ayudan a decidir).
 
 **Lo que sí agregué:** tema claro/oscuro, botón para cancelar la ejecución en
-marcha y exportación de la bitácora a un `.txt`. Cancelar no mata el hilo
+marcha, exportación de la bitácora a un `.txt` y un botón de salir que hace lo
+mismo que cerrar con la X —no quería una forma "buena" y una "mala" de salir—.
+
+Todos los colores están declarados como pares *(tema claro, tema oscuro)*. Lo
+aprendí a golpes: con un solo tono, los botones deshabilitados que se leían
+perfecto sobre fondo oscuro quedaban invisibles sobre blanco, y el verde y el
+naranja de los indicadores perdían contraste. El estilo de los botones
+secundarios está en una sola función, así que el color de "deshabilitado" se
+define una vez y no en seis lugares. Cancelar no mata el hilo
 —matarlo dejaría el trabajo a medias— sino que levanta una bandera que el
 propio hilo revisa en su siguiente aviso de avance y se detiene ordenadamente;
 como esos avisos ocurren decenas de veces por ejecución, la respuesta es
