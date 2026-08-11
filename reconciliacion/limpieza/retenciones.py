@@ -1,25 +1,18 @@
-"""Extraccion de las retenciones practicadas, desde el campo `Marca` del CSV.
+"""Las retenciones, que estan metidas donde mismo que la marca.
 
-Cada fila trae entre 1 y 4 retenciones, cada una con su entidad
-(`financial_entity`) y su valor (`amount`), dentro de la misma estructura
-malformada de la que sale la marca.
+Reglas del archivo, todas contempladas aqui:
 
-Particularidades del archivo, todas contempladas aqui:
+* entre 1 y 4 por fila, de `iva`, `ica`, `fuente`, `cree` o `aumento`;
+* la que no aparece vale 0;
+* una misma entidad puede repetirse con montos distintos —pasa en 267 de las 500
+  filas—, asi que hay que sumar todas sus ocurrencias. Quien parsee a un
+  diccionario simple pierde valores y ni se entera;
+* vienen en negativo y asi se quedan;
+* `cree` y `aumento` se leen para no confundirlas con las demas, pero no suman en
+  ninguna de las tres columnas del reporte.
 
-* Las entidades posibles son `iva`, `ica`, `fuente`, `cree` y `aumento`, y no
-  todas aparecen en todas las filas. **Una entidad ausente vale 0.**
-* **Una misma entidad puede repetirse** en la fila con montos distintos; en ese
-  caso se suman todas sus ocurrencias.
-* Los valores vienen **negativos** y se conservan con su signo.
-* `cree` y `aumento` se parsean para no confundirlas con las demas, pero no
-  entran en ninguna de las tres columnas de salida.
-
-Se extrae con una expresion regular que empareja entidad y monto dentro del
-mismo objeto, en vez de parsear el JSON: el campo trae al menos seis variantes
-de corrupcion conviviendo (aperturas ``[{``, ``{{`` o ``({``, cierres
-``}}]""`` o ``})"``, claves con escapes sobrantes como ``"monto\\":`` y claves
-duplicadas y pegadas como ``financial_entityfinancial_entity"``), asi que
-cualquier intento de reparacion generica se rompe con alguna de ellas.
+La expresion regular empareja la entidad con el monto *del mismo objeto*, para no
+cruzar la entidad de una retencion con el monto de la siguiente.
 """
 
 from __future__ import annotations

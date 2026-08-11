@@ -1,15 +1,14 @@
-"""Script ejecutable: corre la reconciliacion completa y genera el Excel.
+"""Correr todo desde la terminal.
 
-Uso:
     python main.py
 
-Ejecuta la cadena entera —carga de las tres fuentes, validacion de integridad,
-limpieza de los campos malformados, reconciliacion, deteccion de fraude y
-exportacion— mostrando el avance por consola y un resumen al final.
+Hace la cadena completa —cargar, validar, limpiar, cruzar, buscar fraude y
+exportar— y deja el Excel en `salida/`. Es el mismo proceso que ejecuta la
+ventana: las dos llaman a `ServicioReconciliacion`, asi que no hay logica
+duplicada ni riesgo de que una quede desactualizada respecto de la otra.
 
-Es la version de terminal del mismo proceso que ejecuta la interfaz grafica:
-ambos llaman a `ServicioReconciliacion`, asi que no hay logica duplicada ni
-riesgo de que uno quede desactualizado respecto al otro.
+Devuelve 0 si todo salio bien y 1 si fallo por algo previsible, que es lo que
+necesita saber cualquier tarea programada que lo llame.
 """
 
 from __future__ import annotations

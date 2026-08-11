@@ -1,26 +1,20 @@
-"""Ventana principal de la aplicacion.
+"""La ventana.
 
-Criterio de diseno
-------------------
-La persona que usa esto trabaja en contabilidad, no abre una terminal y no
-programa. Necesita responder tres preguntas de un vistazo —*funciono?*, *que
-tan sano esta el resultado?*, *donde quedo mi archivo?*— y saber, mientras
-espera, que el proceso sigue vivo.
+Pense esto para alguien de contabilidad que no programa y que no va a abrir una
+terminal. Necesita responder tres cosas de un vistazo —funciono?, que tan sano
+esta el resultado?, donde esta mi archivo?— y, mientras espera, saber que el
+proceso sigue vivo.
 
-La ventana se organiza en cuatro bloques que siguen ese orden mental:
+De ahi salen los cuatro bloques, en el orden en que uno los mira:
 
-1. **Fuentes de datos**: antes de ejecutar nada ya dice si los tres archivos
-   estan donde deben. Es el error mas probable en la vida real y no tiene
-   sentido descubrirlo a mitad del proceso.
-2. **Accion y avance**: un solo boton y una barra con el paso actual escrito.
-3. **Indicadores**: cuatro cifras, no veinte. Estan aqui y no en el Excel,
-   como pide el enunciado.
-4. **Detalle del proceso**: la bitacora completa, para quien quiera auditar
-   que se hizo, y el acceso al archivo generado.
+1. las tres fuentes, con un punto verde o rojo, antes de ejecutar nada;
+2. el boton y la barra, con el paso escrito en palabras;
+3. cuatro indicadores, no veinte;
+4. el detalle del proceso y el acceso al archivo.
 
-Lo que deje fuera a proposito: selectores de archivo (las rutas viven en
-`config/rutas.py`), tablas con las 505 transacciones (para eso esta el Excel,
-que filtra y ordena mucho mejor) y graficos (decoran, no ayudan a decidir).
+Lo que deje fuera a proposito: selectores de archivo, una tabla con las 505
+transacciones (para eso esta el Excel, que filtra mejor que cualquier cosa que yo
+dibuje) y graficos, que decoran pero no ayudan a decidir.
 """
 
 from __future__ import annotations

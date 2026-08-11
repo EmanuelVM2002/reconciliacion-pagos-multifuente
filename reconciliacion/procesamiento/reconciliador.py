@@ -1,10 +1,12 @@
-"""Motor de reconciliacion: cruza las tres fuentes y clasifica el resultado.
+"""El cruce.
 
-El universo a analizar es la **union** de los identificadores de las tres
-fuentes: toda transaccion presente en al menos una fuente aparece en el
-resultado y queda clasificada. El cruce se hace por el identificador
-`TRXxxxx`, que cada fuente nombra distinto (`ID_Transaccion`, `Referencia`,
-`transaccion_id`); esa traduccion ya la resolvieron los loaders.
+Junta las tres fuentes por el identificador `TRXxxxx` —que cada archivo llama
+distinto, pero eso ya lo resolvieron los cargadores— y le pasa las reglas a cada
+transaccion.
+
+El universo es la **union**: si una transaccion aparece aunque sea en una sola
+fuente, sale en el reporte y queda clasificada. Sobre todo esas, que son
+precisamente las sospechosas.
 """
 
 from __future__ import annotations

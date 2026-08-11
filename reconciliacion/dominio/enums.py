@@ -1,8 +1,8 @@
-"""Vocabulario cerrado del resultado de la reconciliacion.
+"""Las palabras exactas que salen en el reporte.
 
-Se usan enumeraciones en vez de cadenas sueltas para que un error de escritura
-falle al importar y no silenciosamente en el Excel, y para que el valor exacto
-que se exporta viva en un solo lugar.
+Uso enumeraciones y no cadenas sueltas porque asi un error de escritura falla al
+importar, y no en silencio dentro del Excel. Ademas el texto exacto que se
+exporta queda en un solo lugar.
 """
 
 from __future__ import annotations

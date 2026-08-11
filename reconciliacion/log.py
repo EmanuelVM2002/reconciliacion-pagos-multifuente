@@ -1,10 +1,9 @@
-"""Configuracion del sistema de logs del proyecto.
+"""Los logs.
 
-Todo el codigo de negocio registra sus hallazgos con `logging` estandar y
-nunca imprime a consola. Eso permite que el mismo codigo sirva sin cambios
-para el script de consola y para la interfaz grafica: la GUI simplemente
-engancha su propio `Handler` al logger raiz del paquete y recibe los mensajes
-mientras el proceso corre.
+Regla que me impuse y que se cumple en todo el proyecto: el codigo de negocio
+nunca imprime, solo registra. Gracias a eso el mismo codigo sirve para la
+terminal y para la ventana —cada una engancha su propio manejador— y no hay ni
+un `print` en el paquete.
 """
 
 from __future__ import annotations

@@ -1,9 +1,12 @@
-"""Excepciones propias del proyecto.
+"""Mis excepciones.
 
-Se declara una jerarquia propia para que la interfaz grafica pueda distinguir
-un problema *previsible* del negocio (falta un archivo, una fuente esta
-corrupta) de un fallo inesperado del programa, y traducir el primero a un
-mensaje en el idioma del usuario final en vez de mostrar un traceback.
+Les di jerarquia propia para poder separar dos cosas que no son iguales: un
+problema previsible del negocio (falta un archivo, la fuente vino corrupta) y un
+fallo de programacion. Los primeros la interfaz los atrapa y los traduce a algo
+que la persona entiende; los segundos salen como lo que son, un bug.
+
+Cada error lleva dos textos: `mensaje`, que es lo que se muestra en pantalla, y
+`detalle`, la parte tecnica que va al log y que solo mira quien lo va a arreglar.
 """
 
 from __future__ import annotations

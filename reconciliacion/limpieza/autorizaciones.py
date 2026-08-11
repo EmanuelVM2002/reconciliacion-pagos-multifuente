@@ -1,14 +1,14 @@
-"""Conversion de las filas crudas del CSV en autorizaciones limpias.
+"""Junta los tres extractores y arma la autorizacion limpia.
 
-Este modulo orquesta a los tres extractores especializados (`montos`,
-`marcas`, `retenciones`) y es el unico punto donde una `FilaAutorizacionCruda`
-se convierte en una `Autorizacion` utilizable por la reconciliacion.
+Aqui es donde una fila cruda del CSV se convierte en algo usable.
 
-Criterio de tolerancia a fallos: una fila que no se pueda parsear del todo
-**no se descarta**. Se conserva con el campo en `None` y se registra una
-incidencia, porque perder filas en silencio es el peor resultado posible en un
-proceso contable: es preferible una transaccion visible e incompleta que una
-transaccion ausente.
+La decision que sostengo: **una fila que no se pueda parsear no se tira**. Se
+queda con el campo vacio y deja una incidencia en el log. En un proceso contable
+prefiero mil veces una transaccion visible e incompleta que una transaccion que
+desaparecio sin que nadie se diera cuenta.
+
+Los contadores del resultado (`sin_monto`, `sin_marca`, ...) existen justo para
+poder demostrar eso cuando termina.
 """
 
 from __future__ import annotations

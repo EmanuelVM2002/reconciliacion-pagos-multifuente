@@ -1,10 +1,9 @@
-"""Punto de entrada de la interfaz grafica.
+"""Abrir la ventana.
 
-Uso:
     python ejecutar_gui.py
 
-En Windows tambien se puede abrir con doble clic sobre `ejecutar_gui.bat`, sin
-pasar por la terminal.
+En Windows tambien sirve el doble clic sobre `ejecutar_gui.bat`, que es lo que
+usa quien no quiere saber nada de terminales.
 """
 
 from __future__ import annotations

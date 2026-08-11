@@ -1,13 +1,8 @@
-"""Mensajes que el hilo de trabajo envia a la interfaz.
+"""Lo que el hilo le dice a la ventana.
 
-Tkinter no es seguro para hilos: solo el hilo que creo los widgets puede
-tocarlos. Por eso el trabajo pesado nunca escribe en la ventana; se comunica
-con ella a traves de una cola de estos mensajes, que la interfaz vacia a su
-propio ritmo.
-
-Usar un tipo explicito en vez de tuplas sueltas hace que el bucle de la
-interfaz sea un `match` legible y que agregar un tipo de aviso manana no rompa
-lo que ya existe.
+Un tipo por cada cosa que puede pasar —avance, linea de log, error, cancelacion,
+fin— en vez de tuplas sueltas. Asi el bucle de la interfaz se lee de corrido y
+agregar un aviso nuevo manana no rompe lo que ya esta.
 """
 
 from __future__ import annotations

@@ -1,16 +1,14 @@
-"""Modelos del dominio: una clase por concepto de negocio.
+"""Una clase por cada cosa del negocio.
 
-Las tres fuentes describen la misma transaccion desde angulos distintos, por
-eso cada una tiene su propio modelo en vez de un diccionario generico:
+Preferi un modelo por fuente antes que diccionarios genericos: asi el editor me
+avisa si me equivoco de campo y cualquiera que abra el codigo sabe que trae cada
+archivo sin ir a mirarlo.
 
-* `Autorizacion`   -> lo que se autorizo        (CSV)
-* `Contabilizacion`-> lo que se contabilizo     (SQLite)
-* `MovimientoBancario` -> lo que llego al banco (JSON)
-
-`FilaAutorizacionCruda` es la representacion literal de una fila del CSV, tal
-como viene en disco (con sus campos malformados). Existe para separar la
-responsabilidad de *leer* (loaders) de la de *limpiar* (paquete limpieza): el
-loader nunca interpreta, y el parser nunca toca el disco.
+`FilaAutorizacionCruda` merece explicacion aparte: es la fila del CSV tal como
+esta en disco, con sus campos rotos y todo. Existe para separar *leer* de
+*limpiar* —el cargador no interpreta nada y el parser no toca el disco—. Gracias
+a eso el parseo del JSON malformado se prueba pasandole un string, sin archivos
+de por medio.
 """
 
 from __future__ import annotations

@@ -1,13 +1,15 @@
-"""Reglas de clasificacion de una transaccion.
+"""Las reglas de clasificacion, una clase cada una.
 
-Cada regla es una clase con una unica responsabilidad y todas comparten la
-misma interfaz (`ReglaClasificacion`). El reconciliador solo las recorre en
-orden, sin saber que hace cada una: agregar o cambiar un criterio de negocio
-manana no exige tocar el motor, solo la lista de reglas.
+Todas tienen la misma forma, asi que el motor solo las recorre en orden sin saber
+que hace ninguna. Cambiar un criterio de negocio manana es tocar una clase, no el
+motor.
 
-El orden importa: las reglas de presencia y de contenido corren primero y
-`ReglaReconciliado` cierra, porque `RECONCILIADO` solo aplica si ninguna otra
-regla encontro nada.
+El orden importa: `ReglaReconciliado` va de ultima porque `RECONCILIADO` es la
+unica etiqueta excluyente y solo puede aplicar si ninguna otra encontro nada.
+
+Un par de hallazgos —el desfase de fechas y el banco distinto entre fuentes— los
+dejo como observacion y no como etiqueta: el enunciado no define ninguna para
+esos casos y no me parecio bien inventarme vocabulario que nadie acordo.
 """
 
 from __future__ import annotations

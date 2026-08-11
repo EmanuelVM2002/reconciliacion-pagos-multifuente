@@ -1,13 +1,16 @@
-"""Generacion del reporte Excel: el entregable principal.
+"""El Excel, que es el entregable principal.
 
-Una sola hoja (`Reconciliacion`) con una tabla que empieza en A1, encabezados
-en la fila 1 y una fila por transaccion del universo. Sin titulos, logos ni
-filas en blanco encima: los indicadores agregados van en la interfaz, no aqui.
+Una sola hoja, tabla desde A1, una fila por transaccion y las tres fuentes lado a
+lado.
 
-Las 29 columnas se declaran como datos (`COLUMNAS`), no como codigo repetido:
-cada una sabe su titulo, como obtener su valor y con que formato mostrarse. Asi
-el metodo que escribe la hoja es el mismo sin importar cuantas columnas haya, y
-agregar o mover una columna es editar una linea de la lista.
+Lo unico que quiero destacar del diseno: las 29 columnas estan declaradas como
+**datos** —una lista donde cada columna sabe su titulo, de donde sale su valor y
+con que formato se muestra— y no como 29 bloques de codigo repetido. Escribir la
+hoja es el mismo bucle sin importar cuantas columnas haya, y mover una es editar
+una linea.
+
+Los montos y las fechas se escriben como numero y fecha de verdad, no como texto,
+para que contabilidad pueda filtrar, sumar y ordenar sin convertir nada a mano.
 """
 
 from __future__ import annotations

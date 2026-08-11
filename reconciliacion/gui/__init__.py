@@ -1,11 +1,9 @@
-"""Interfaz grafica (Tkinter + customtkinter).
+"""La interfaz.
 
-La ventana se importa de forma perezosa a proposito. Importar este paquete
-arrastraria `customtkinter` y con el todo `tkinter`, que exige un entorno
-grafico disponible; el hilo de trabajo, en cambio, solo habla con una cola y
-se puede probar en cualquier parte, incluida una maquina de integracion
-continua sin pantalla. Separarlos evita que una prueba del trabajador dependa
-de que exista un escritorio.
+La ventana se importa de forma perezosa a proposito. Si la importara de entrada,
+cualquiera que quisiera probar el hilo de trabajo necesitaria un entorno grafico
+disponible; asi las pruebas corren en cualquier parte, incluida la maquina de
+integracion continua, que no tiene pantalla.
 """
 
 from typing import Any

@@ -1,14 +1,12 @@
-"""Deteccion de fraude sobre el universo reconciliado.
+"""Deteccion de fraude.
 
-El fraude es una dimension **independiente** de la clasificacion: una
-transaccion puede estar `RECONCILIADO` y aun asi ser fraude, por eso ambas
-viven en columnas distintas de la misma fila.
+El fraude es una dimension aparte de la clasificacion, no una etiqueta mas: una
+transaccion puede estar perfectamente reconciliada y aun asi ser fraude. Pasa en
+90 de las 505, y por eso van en columnas distintas del reporte.
 
-A diferencia de las reglas de clasificacion, que miran una transaccion a la
-vez, tres de los cuatro patrones necesitan ver **todo el conjunto**: el umbral
-de monto anomalo se calcula sobre la distribucion completa y el patron
-sospechoso compara unas transacciones contra otras. Por eso el contrato aqui
-recibe la coleccion entera y no una transaccion suelta.
+La diferencia tecnica con las reglas de clasificacion es que aqui recibo **toda
+la coleccion** y no una transaccion suelta: tres de los cuatro patrones son
+estadisticos o comparan unas contra otras, asi que no se pueden mirar de a una.
 """
 
 from __future__ import annotations

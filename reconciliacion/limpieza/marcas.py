@@ -1,35 +1,24 @@
-"""Extraccion y normalizacion del nombre de la marca.
+"""La marca: sacarla y dejarla comparable.
 
-En el CSV la marca no viene en un campo propio: viaja como ultimo elemento de
-la lista de retenciones (`{"marca": "AMERICAN EAGLE"}`), dentro de la misma
-estructura malformada. Se extrae con una expresion regular tolerante a los
-escapes sobrantes, igual que el monto.
+En el CSV la marca no tiene campo propio: viaja al final de la lista de
+retenciones, dentro de la misma estructura rota.
 
-Regla de normalizacion (decision documentada)
----------------------------------------------
-Las tres fuentes **no escriben la marca igual**: el CSV guarda el nombre
-comercial completo y SQLite y el banco guardan solo su **primera palabra**.
+Y las tres fuentes no la escriben igual, que es la trampa de verdad. El CSV
+guarda el nombre comercial completo y las otras dos guardan solo la primera
+palabra:
 
-===================  ==========  ==========
-CSV                  SQLite      JSON
-===================  ==========  ==========
-``NAF NAF``          ``NAF``     ``NAF``
-``AMERICAN EAGLE``   ``AMERICAN````AMERICAN``
-``AMERICANINO``      ``AMERICANINO``  ``AMERICANINO``
-``CHEVIGNON``        ``CHEVIGNON``    ``CHEVIGNON``
-``RIFLE``            ``RIFLE``        ``RIFLE``
-===================  ==========  ==========
+    CSV               SQLite / JSON
+    NAF NAF           NAF
+    AMERICAN EAGLE    AMERICAN
+    AMERICANINO       AMERICANINO
 
-Por eso la normalizacion es: mayusculas, sin tildes, sin puntuacion, espacios
-colapsados y **se conserva solo el primer token**. Comparar literalmente
-produciria 166 falsos negativos sobre 500 filas (un tercio del archivo), todos
-de las marcas ``NAF NAF`` y ``AMERICAN EAGLE``.
+Por eso normalizo asi: mayusculas, sin tildes ni signos, espacios colapsados y me
+quedo con el primer token. Comparando literal me salian 183 marcas "distintas" de
+500 que en realidad son la misma; normalizando, cero.
 
-Se eligio el primer token, y no un recorte por prefijo comun, porque es una
-regla estable y explicable: el catalogo de marcas no tiene dos nombres que
-compartan la primera palabra (``AMERICANINO`` y ``AMERICAN EAGLE`` normalizan
-a ``AMERICANINO`` y ``AMERICAN``, que siguen siendo distintos), asi que no
-introduce colisiones.
+Elegi el primer token y no un recorte por prefijo comun porque es una regla que se
+explica en una frase y no genera choques: AMERICANINO y AMERICAN EAGLE siguen
+quedando distintas.
 """
 
 from __future__ import annotations
