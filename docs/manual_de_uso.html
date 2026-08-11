@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Manual de uso — Reconciliación de Pagos</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", "Calibri", system-ui, sans-serif;
+    font-size: 11pt; line-height: 1.55; color: #1f2933; margin: 0;
+  }
+  h1, h2, h3 { color: #12324f; line-height: 1.25; }
+  h1 { font-size: 25pt; margin: 0 0 4px; }
+  h2 {
+    font-size: 15pt; margin: 24px 0 10px; padding-bottom: 5px;
+    border-bottom: 2px solid #12324f; page-break-after: avoid;
+  }
+  h3 { font-size: 11.5pt; margin: 16px 0 5px; page-break-after: avoid; }
+  p { margin: 6px 0; }
+  code {
+    font-family: "Consolas", monospace; background: #eef2f6;
+    padding: 1px 5px; border-radius: 3px; font-size: 9.5pt;
+  }
+  pre {
+    background: #f6f8fa; border: 1px solid #dde3ea; border-left: 3px solid #2b5f8c;
+    padding: 9px 12px; font-family: "Consolas", monospace; font-size: 9.5pt;
+    border-radius: 3px; page-break-inside: avoid;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 14px; font-size: 10pt; }
+  th, td { border: 1px solid #d5dde5; padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #12324f; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f7f9fb; }
+  img { width: 100%; border: 1px solid #c8d2dc; border-radius: 4px; margin: 8px 0; }
+  .portada { text-align: center; padding: 50mm 0 0; page-break-after: always; }
+  .portada .sub { font-size: 13pt; color: #4a5a68; margin-top: 8px; }
+  .portada .linea { width: 90px; height: 4px; background: #2b5f8c; margin: 18px auto; }
+  .portada .meta { margin-top: 42mm; font-size: 10pt; color: #6b7885; }
+  .paso {
+    display: flex; gap: 11px; margin: 11px 0; page-break-inside: avoid;
+  }
+  .paso .num {
+    flex: 0 0 26px; height: 26px; border-radius: 50%; background: #2b5f8c;
+    color: #fff; font-weight: 700; text-align: center; line-height: 26px; font-size: 11pt;
+  }
+  .paso .txt { flex: 1; }
+  .paso .txt b { color: #12324f; }
+  .aviso {
+    background: #fff8e6; border-left: 3px solid #d99b28;
+    padding: 8px 12px; margin: 10px 0; page-break-inside: avoid;
+  }
+  .ok {
+    background: #eef6f0; border-left: 3px solid #2f8f5b;
+    padding: 8px 12px; margin: 10px 0; page-break-inside: avoid;
+  }
+  .leyenda { display: flex; gap: 8px; align-items: center; margin: 5px 0; }
+  .caja { width: 16px; height: 16px; border: 1px solid #98a4b0; flex: 0 0 16px; }
+  .salto { page-break-before: always; }
+  ul, ol { margin: 6px 0 6px 20px; padding: 0; }
+  li { margin: 4px 0; }
+  .pie { font-size: 9pt; color: #6b7885; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="portada">
+  <h1>Reconciliación de Pagos</h1>
+  <div class="linea"></div>
+  <div class="sub">Manual de uso</div>
+  <div class="meta">
+    Cruce automático de autorizaciones, contabilizaciones<br>
+    y movimientos bancarios<br><br>
+    Emanuel Villada Muñetón
+  </div>
+</div>
+
+<h2>¿Qué hace esta aplicación?</h2>
+
+<p>Compara tres archivos que hablan de las mismas transacciones —lo que se
+<b>autorizó</b>, lo que se <b>contabilizó</b> y lo que <b>llegó al banco</b>— y encuentra
+dónde dejan de coincidir. Al terminar entrega un <b>Excel</b> con una fila por
+transacción, señalando qué cuadra, qué no y por qué, además de las operaciones
+con indicios de fraude.</p>
+
+<p>Todo el proceso tarda alrededor de <b>un segundo</b> y no requiere saber
+programar ni abrir una terminal.</p>
+
+<h2>Antes de empezar (solo la primera vez)</h2>
+
+<p>La aplicación necesita Python instalado y sus dos librerías. Si alguien ya
+dejó el equipo preparado, salta este paso.</p>
+
+<pre>pip install -r requirements.txt</pre>
+
+<p>Los tres archivos de datos deben estar en la carpeta <code>datos/</code>, con
+estos nombres exactos:</p>
+
+<table>
+  <tr><th>Archivo</th><th>Contiene</th></tr>
+  <tr><td><code>autorizaciones.csv</code></td><td>Las transacciones autorizadas</td></tr>
+  <tr><td><code>reconciliacion_pagos.db</code></td><td>Los registros contabilizados</td></tr>
+  <tr><td><code>movimientos_bancarios.json</code></td><td>Lo que reportó el banco</td></tr>
+</table>
+
+<div class="aviso">
+Para actualizar los datos, <b>reemplaza estos tres archivos</b> por los nuevos,
+respetando los nombres. La aplicación siempre lee de esa carpeta: no hay que
+buscarlos ni seleccionarlos.
+</div>
+
+<h2>Cómo abrirla</h2>
+
+<p>Doble clic en <b><code>ejecutar_gui.bat</code></b>. Eso es todo.</p>
+
+<p>Si faltara algo por instalar, en lugar de no hacer nada aparecerá una
+ventana negra explicando qué falta. Si prefieres la terminal, también funciona
+<code>python ejecutar_gui.py</code>.</p>
+
+<h2 class="salto">La ventana</h2>
+
+<img src="../capturas/gui_inicial.png" alt="Ventana al abrir">
+<div class="pie">Así se ve al abrir: todavía no se ha ejecutado nada.</div>
+
+<div class="paso">
+  <div class="num">1</div>
+  <div class="txt"><b>Fuentes de datos.</b> Los tres archivos con un punto al lado.
+  <b>Verde</b> es que está donde debe; <b>rojo</b> es que falta. Si alguno está en
+  rojo, el botón de ejecutar se deshabilita y abajo aparece qué falta.</div>
+</div>
+
+<div class="paso">
+  <div class="num">2</div>
+  <div class="txt"><b>Ejecutar reconciliación.</b> El botón que arranca todo. A su
+  lado, <b>Cancelar</b> (solo se activa mientras el proceso corre) y la barra de
+  avance con el paso actual escrito.</div>
+</div>
+
+<div class="paso">
+  <div class="num">3</div>
+  <div class="txt"><b>Los cuatro indicadores.</b> Aparecen con un guion hasta que
+  ejecutes. Son el resumen de salud del resultado.</div>
+</div>
+
+<div class="paso">
+  <div class="num">4</div>
+  <div class="txt"><b>Detalle del proceso.</b> El registro de todo lo que hizo,
+  línea por línea, y los botones para abrir el Excel, su carpeta o guardar el
+  registro.</div>
+</div>
+
+<div class="paso">
+  <div class="num">5</div>
+  <div class="txt"><b>Arriba a la derecha:</b> tema <b>Claro</b> u <b>Oscuro</b>, y el
+  botón <b>Salir</b>.</div>
+</div>
+
+<h2>Ejecutar la reconciliación</h2>
+
+<div class="paso">
+  <div class="num">1</div>
+  <div class="txt">Comprueba que los tres puntos estén en <b>verde</b>.</div>
+</div>
+<div class="paso">
+  <div class="num">2</div>
+  <div class="txt">Pulsa <b>Ejecutar reconciliación</b>.</div>
+</div>
+<div class="paso">
+  <div class="num">3</div>
+  <div class="txt">Espera. La barra avanza y el texto va diciendo en qué paso va
+  (<i>«Escribiendo el reporte... (320/505)»</i>). La ventana sigue respondiendo:
+  si necesitas parar, pulsa <b>Cancelar</b>.</div>
+</div>
+
+<img src="../capturas/gui_proceso.png" alt="Proceso en marcha">
+<div class="pie">Durante el proceso: el avance se ve en tiempo real.</div>
+
+<div class="paso">
+  <div class="num">4</div>
+  <div class="txt">Al terminar aparecen los indicadores y, abajo, la ruta donde
+  quedó el archivo.</div>
+</div>
+
+<h2 class="salto">Leer el resultado</h2>
+
+<img src="../capturas/gui_resultado.png" alt="Resultado">
+
+<h3>Los cuatro indicadores</h3>
+<table>
+  <tr><th>Indicador</th><th>Qué significa</th><th>Qué hacer con él</th></tr>
+  <tr><td><b>% reconciliado</b></td><td>Porcentaje de transacciones sin ningún problema</td><td>Es el termómetro. Si baja respecto a otros cortes, algo cambió</td></tr>
+  <tr><td><b>Transacciones analizadas</b></td><td>Total revisado, sumando las tres fuentes</td><td>Confirma que se procesó todo</td></tr>
+  <tr><td><b>Monto en discrepancia</b></td><td>Suma de las diferencias de dinero encontradas</td><td>Es la plata que no cuadra entre sistemas</td></tr>
+  <tr><td><b>Transacciones con fraude</b></td><td>Operaciones con algún patrón sospechoso</td><td>Requieren revisión; las críticas, hoy mismo</td></tr>
+</table>
+
+<h3>Abrir el Excel</h3>
+<ul>
+  <li><b>Abrir reporte</b> — abre el archivo directamente.</li>
+  <li><b>Abrir carpeta</b> — abre la carpeta, útil para adjuntarlo a un correo.</li>
+  <li><b>Guardar bitácora</b> — guarda el detalle del proceso en un <code>.txt</code>,
+  por si hay que dejar constancia de qué se hizo.</li>
+</ul>
+
+<p>El archivo siempre queda en <code>salida\reporte_reconciliacion.xlsx</code> y
+<b>se reemplaza en cada ejecución</b>. Si necesitas conservar uno, cópialo o
+renómbralo antes de volver a ejecutar.</p>
+
+<h2>El Excel: cómo leerlo</h2>
+
+<p>Una sola hoja llamada <b>Reconciliacion</b>, con una fila por transacción y los
+valores de las tres fuentes lado a lado. La fila viene coloreada:</p>
+
+<div class="leyenda"><div class="caja" style="background:#FFCC99"></div>
+<div><b>Naranja — hay indicios de fraude.</b> Es lo primero que hay que mirar,
+incluso si lo demás cuadra.</div></div>
+<div class="leyenda"><div class="caja" style="background:#FFC7CE"></div>
+<div><b>Rojo — hay un problema:</b> el monto no coincide, el estado no es correcto
+o la transacción falta en alguna fuente.</div></div>
+<div class="leyenda"><div class="caja" style="background:#C6EFCE"></div>
+<div><b>Verde — todo cuadra.</b> No requiere acción.</div></div>
+
+<h3>Las columnas que más se usan</h3>
+<table>
+  <tr><th>Columna</th><th>Para qué sirve</th></tr>
+  <tr><td><code>Clasificacion</code></td><td>El diagnóstico en una palabra</td></tr>
+  <tr><td><code>Observaciones</code></td><td>La explicación en lenguaje corriente. <b>Es la columna que responde «¿por qué?»</b></td></tr>
+  <tr><td><code>Diferencia_Monto</code></td><td>Cuánto dinero de diferencia hay</td></tr>
+  <tr><td><code>Nivel_Riesgo</code></td><td>Crítico, alto o medio, para priorizar</td></tr>
+  <tr><td><code>Centro_Costo</code></td><td>A quién corresponde la transacción</td></tr>
+</table>
+
+<p>La fila de encabezados está congelada y tiene <b>autofiltro</b>: se puede
+filtrar, por ejemplo, por <code>Nivel_Riesgo = CRÍTICO</code> para ver solo lo
+urgente. Los montos son números y las fechas son fechas de verdad, así que se
+pueden sumar y ordenar sin convertir nada.</p>
+
+<div class="ok">
+<b>Sugerencia de uso diario:</b> filtra primero por <code>Es_Fraude = SI</code> y
+atiende eso; después por <code>Clasificacion</code> distinto de
+<code>RECONCILIADO</code> para revisar las diferencias. Lo verde no necesita que
+nadie lo mire.
+</div>
+
+<h2 class="salto">Qué significa cada diagnóstico</h2>
+
+<table>
+  <tr><th>Clasificación</th><th>Qué pasó</th><th>Qué suele significar</th></tr>
+  <tr><td><code>RECONCILIADO</code></td><td>Todo coincide en las tres fuentes</td><td>Nada que hacer</td></tr>
+  <tr><td><code>DISCREPANCIA_MONTO</code></td><td>El valor no es el mismo en todas</td><td>Revisar cuál es el correcto; la observación indica los tres montos</td></tr>
+  <tr><td><code>DISCREPANCIA_ESTADO</code></td><td>La contabilidad la marcó pendiente o rechazada</td><td>La operación no se dio por buena</td></tr>
+  <tr><td><code>NO_ENCONTRADO_EN_JSON</code></td><td>Se autorizó pero no llegó al banco</td><td>Pago que no se ejecutó</td></tr>
+  <tr><td><code>NO_CONTABILIZADO</code></td><td>Se autorizó y salió, pero no se registró</td><td>Falta el asiento contable</td></tr>
+  <tr><td><code>NO_AUTORIZADO</code></td><td>El banco la reporta y nadie la autorizó</td><td><b>Lo más grave.</b> Siempre se marca como fraude crítico</td></tr>
+</table>
+
+<table>
+  <tr><th>Tipo de fraude</th><th>Por qué se marca</th></tr>
+  <tr><td><code>FRAUDE_MONTO</code></td><td>El valor se sale de lo normal frente al resto del periodo</td></tr>
+  <tr><td><code>FRAUDE_HORA</code></td><td>Ocurrió entre las 00:00 y las 05:59</td></tr>
+  <tr><td><code>FRAUDE_PATRON</code></td><td>Varias operaciones iguales, mismo banco, en menos de una hora</td></tr>
+  <tr><td><code>FRAUDE_NO_AUTORIZADO</code></td><td>Movimiento bancario sin autorización previa</td></tr>
+</table>
+
+<h2>Si algo sale mal</h2>
+
+<p>La aplicación no se cierra ni muestra errores técnicos: explica el problema
+en la parte de abajo de la ventana, en rojo.</p>
+
+<table>
+  <tr><th>Lo que ves</th><th>Qué pasó</th><th>Qué hacer</th></tr>
+  <tr><td>Un punto rojo y «No se encontraron: …»</td><td>Falta un archivo de datos</td><td>Ponlo en la carpeta <code>datos</code> con el nombre exacto</td></tr>
+  <tr><td>«No se pudo guardar el reporte porque el archivo está abierto»</td><td>El Excel anterior está abierto</td><td>Ciérralo en Excel y vuelve a ejecutar</td></tr>
+  <tr><td>«El archivo … no es un JSON válido»</td><td>El archivo del banco llegó dañado</td><td>Pídelo de nuevo</td></tr>
+  <tr><td>«Ocurrió un error inesperado»</td><td>Algo no previsto</td><td>Pulsa <b>Guardar bitácora</b> y envía ese archivo a soporte</td></tr>
+  <tr><td>Doble clic y no pasa nada</td><td>Falta Python o una librería</td><td>Aparecerá una ventana con la instrucción; ejecútala</td></tr>
+</table>
+
+<div class="aviso">
+<b>Si cancelas el proceso a mitad,</b> no se genera ningún reporte y el archivo
+anterior queda intacto. Cancelar es seguro.
+</div>
+
+<h2>Ejecutar sin interfaz</h2>
+
+<p>Para quien prefiera la terminal, o para dejarlo programado en una tarea
+automática:</p>
+
+<pre>python main.py</pre>
+
+<p>Hace exactamente lo mismo y muestra el avance y el resumen por consola.
+Devuelve código <code>0</code> si todo salió bien y <code>1</code> si falló, que es
+lo que necesita un programador de tareas para saber si debe alertar.</p>
+
+<h2>Preguntas frecuentes</h2>
+
+<h3>¿Puedo dejar la ventana abierta y ejecutar varias veces?</h3>
+<p>Sí. Cada ejecución reemplaza el reporte anterior y limpia el detalle del
+proceso.</p>
+
+<h3>¿Se modifican los archivos de datos?</h3>
+<p>No. Los tres se abren solo para leer; la base de datos incluso se abre en
+modo de solo lectura. La aplicación únicamente escribe en la carpeta
+<code>salida</code>.</p>
+
+<h3>¿Por qué el total analizado es mayor que el número de filas del CSV?</h3>
+<p>Porque se analizan <b>todas</b> las transacciones que aparezcan en al menos una
+de las tres fuentes. Las que solo reporta el banco también cuentan —y son
+justamente las más importantes de revisar.</p>
+
+<h3>¿Qué pasa si una transacción tiene varios problemas a la vez?</h3>
+<p>Aparecen todas las etiquetas separadas por punto y coma, y la columna
+<code>Observaciones</code> explica cada una.</p>
+
+</body>
+</html>

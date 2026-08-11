@@ -492,3 +492,8 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Pruebas unitarias (172, todas pasando)
 - [x] Cancelar la ejecución y exportar la bitácora
 - [x] Cobertura, verificación de tipos e integración continua
+
+## Documentación
+
+- [Documentación técnica](docs/documentacion_tecnica.pdf) — el código explicado carpeta por carpeta y archivo por archivo (21 páginas)
+- [Manual de uso](docs/manual_de_uso.pdf) — cómo usar la aplicación, para quien no programa (8 páginas)

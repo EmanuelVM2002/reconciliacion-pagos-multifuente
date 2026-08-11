@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación técnica — Sistema de Reconciliación de Pagos</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", "Calibri", system-ui, sans-serif;
+    font-size: 10.5pt; line-height: 1.55; color: #1f2933; margin: 0;
+  }
+  h1, h2, h3, h4 { color: #12324f; line-height: 1.25; }
+  h1 { font-size: 26pt; margin: 0 0 4px; }
+  h2 {
+    font-size: 15pt; margin: 26px 0 10px; padding-bottom: 5px;
+    border-bottom: 2px solid #12324f; page-break-after: avoid;
+  }
+  h3 { font-size: 12pt; margin: 18px 0 6px; page-break-after: avoid; }
+  h4 { font-size: 10.5pt; margin: 12px 0 4px; color: #2b5f8c; }
+  p { margin: 6px 0; text-align: justify; }
+  code, pre { font-family: "Consolas", "Courier New", monospace; }
+  code { background: #eef2f6; padding: 1px 4px; border-radius: 3px; font-size: 9pt; }
+  pre {
+    background: #f6f8fa; border: 1px solid #dde3ea; border-left: 3px solid #2b5f8c;
+    padding: 8px 11px; font-size: 8.6pt; line-height: 1.42; overflow-x: auto;
+    border-radius: 3px; page-break-inside: avoid; white-space: pre-wrap;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 12px; font-size: 9.2pt; }
+  th, td { border: 1px solid #d5dde5; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #12324f; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f7f9fb; }
+  .portada {
+    text-align: center; padding: 55mm 0 0; page-break-after: always;
+  }
+  .portada .sub { font-size: 13pt; color: #4a5a68; margin-top: 6px; }
+  .portada .meta { margin-top: 45mm; font-size: 10pt; color: #6b7885; }
+  .portada .linea { width: 90px; height: 4px; background: #2b5f8c; margin: 18px auto; }
+  .archivo {
+    border: 1px solid #d5dde5; border-radius: 4px; margin: 12px 0;
+    page-break-inside: avoid; overflow: hidden;
+  }
+  .archivo > .cab {
+    background: #eaf0f6; padding: 6px 10px; border-bottom: 1px solid #d5dde5;
+    font-family: "Consolas", monospace; font-size: 9.6pt; font-weight: 700; color: #12324f;
+  }
+  .archivo > .cab .lineas { float: right; font-weight: 400; color: #6b7885; font-size: 8.6pt; }
+  .archivo > .cuerpo { padding: 9px 11px; }
+  .archivo p { margin: 4px 0; }
+  .nota {
+    background: #fff8e6; border-left: 3px solid #d99b28; padding: 7px 11px;
+    margin: 9px 0; font-size: 9.6pt; page-break-inside: avoid;
+  }
+  .clave {
+    background: #eef6f0; border-left: 3px solid #2f8f5b; padding: 7px 11px;
+    margin: 9px 0; font-size: 9.6pt; page-break-inside: avoid;
+  }
+  .indice { columns: 2; column-gap: 26px; font-size: 9.6pt; }
+  .indice li { margin-bottom: 3px; break-inside: avoid; }
+  ul, ol { margin: 6px 0 6px 18px; padding: 0; }
+  li { margin: 3px 0; }
+  .salto { page-break-before: always; }
+  .arbol { font-size: 8.8pt; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="portada">
+  <h1>Sistema de Reconciliación<br>de Pagos Multi-Fuente</h1>
+  <div class="linea"></div>
+  <div class="sub">Documentación técnica completa<br>del código, carpeta por carpeta y archivo por archivo</div>
+  <div class="meta">
+    Emanuel Villada Muñetón<br>
+    Prueba técnica de automatización<br>
+    Python 3.12 · 61 archivos · 172 pruebas
+  </div>
+</div>
+
+<h2>Índice</h2>
+<ol class="indice">
+  <li>El problema que resuelve</li>
+  <li>Cómo está organizado el proyecto</li>
+  <li>El recorrido completo de una ejecución</li>
+  <li>Archivos de la raíz</li>
+  <li><code>reconciliacion/</code> — infraestructura transversal</li>
+  <li><code>config/</code> — configuración de rutas</li>
+  <li><code>dominio/</code> — el vocabulario del negocio</li>
+  <li><code>loaders/</code> — leer las tres fuentes</li>
+  <li><code>limpieza/</code> — interpretar lo sucio</li>
+  <li><code>procesamiento/</code> — decidir</li>
+  <li><code>exportadores/</code> — presentar</li>
+  <li><code>gui/</code> — la interfaz</li>
+  <li><code>tests/</code> — las pruebas</li>
+  <li>Carpetas de datos y salidas</li>
+  <li>Patrones de diseño aplicados</li>
+  <li>Reglas de negocio, de referencia</li>
+</ol>
+
+<h2>1. El problema que resuelve</h2>
+
+<p>Tres sistemas distintos describen la misma transacción de pago desde ángulos
+diferentes, y no siempre coinciden. El objetivo es cruzarlos, encontrar dónde
+dejan de coincidir, detectar patrones de fraude y entregar todo en un Excel que
+un área contable pueda usar.</p>
+
+<table>
+  <tr><th>Fuente</th><th>Archivo</th><th>Qué representa</th><th>Cómo llama a la llave</th><th>Registros</th></tr>
+  <tr><td>CSV</td><td><code>autorizaciones.csv</code></td><td>Lo que se <b>autorizó</b></td><td><code>ID_Transaccion</code></td><td>500</td></tr>
+  <tr><td>SQLite</td><td><code>reconciliacion_pagos.db</code></td><td>Lo que se <b>contabilizó</b></td><td><code>Referencia</code></td><td>480</td></tr>
+  <tr><td>JSON</td><td><code>movimientos_bancarios.json</code></td><td>Lo que <b>llegó al banco</b></td><td><code>transaccion_id</code></td><td>465</td></tr>
+</table>
+
+<p>El universo a analizar es la <b>unión</b> de los tres: <b>505 transacciones</b>.
+Toda transacción que aparezca en al menos una fuente debe salir en el reporte y
+quedar clasificada.</p>
+
+<div class="clave">
+<b>La dificultad real no es el cruce, es el CSV.</b> Sus campos <code>Monto</code> y
+<code>Marca</code> no son un número y un texto: son estructuras tipo JSON
+deliberadamente rotas, con seis variantes de corrupción conviviendo en el mismo
+archivo. Un <code>json.loads()</code> falla en las 500 filas.
+</div>
+
+<h2>2. Cómo está organizado el proyecto</h2>
+
+<pre class="arbol">reconciliacion-pagos-multifuente/
+├── datos/                        Las tres fuentes de entrada
+├── docs/                         Esta documentación y el manual de uso
+├── capturas/                     Imágenes de la interfaz para el README
+├── salida/                       Donde queda el Excel generado
+├── reconciliacion/               El paquete con toda la lógica
+│   ├── config/rutas.py           Todas las rutas, en un solo lugar
+│   ├── dominio/                  Modelos, enumeraciones, la transacción cruzada
+│   ├── loaders/                  Un cargador por fuente, con contrato común
+│   ├── limpieza/                 Extracción de los campos malformados
+│   ├── procesamiento/            Reconciliación, reglas y detección de fraude
+│   ├── exportadores/             Generación del Excel
+│   ├── gui/                      Interfaz Tkinter + customtkinter
+│   ├── errores.py                Excepciones propias
+│   ├── log.py                    Configuración de logs
+│   ├── progreso.py               Reporte de avance parcial
+│   └── servicio.py               Orquestador de todo el proceso
+├── tests/                        172 pruebas con pytest
+├── main.py                       Ejecutar por terminal
+├── ejecutar_gui.py / .bat        Ejecutar con interfaz / con doble clic
+└── README.md                     Decisiones de diseño</pre>
+
+<h3>El principio que ordena todo</h3>
+
+<p>Cada capa tiene <b>una sola razón para cambiar</b>:</p>
+
+<table>
+  <tr><th>Capa</th><th>Su única responsabilidad</th><th>Lo que NO hace</th></tr>
+  <tr><td><code>loaders</code></td><td>Leer bytes del disco y convertirlos a objetos</td><td>No interpreta campos sucios</td></tr>
+  <tr><td><code>limpieza</code></td><td>Interpretar texto malformado</td><td>No toca disco</td></tr>
+  <tr><td><code>procesamiento</code></td><td>Decidir qué significa cada cruce</td><td>No sabe de archivos ni de Excel</td></tr>
+  <tr><td><code>exportadores</code></td><td>Presentar el resultado</td><td>No calcula nada</td></tr>
+  <tr><td><code>gui</code></td><td>Mostrar y recibir clics</td><td>No contiene lógica de negocio</td></tr>
+</table>
+
+<p>La consecuencia práctica: el parseo de un campo corrupto se prueba pasándole
+un <i>string</i>, sin archivos de por medio; y agregar una cuarta fuente mañana
+solo obliga a escribir un cargador nuevo.</p>
+
+<h2 class="salto">3. El recorrido completo de una ejecución</h2>
+
+<p>Esto es lo que pasa, en orden, desde que se pulsa el botón hasta que aparece
+el Excel:</p>
+
+<table>
+  <tr><th>#</th><th>Paso</th><th>Quién lo hace</th><th>Resultado</th></tr>
+  <tr><td>1</td><td>Verificar que existan los tres archivos</td><td><code>servicio.py</code> → <code>rutas.py</code></td><td>Si falta uno, se detiene con un mensaje legible</td></tr>
+  <tr><td>2</td><td>Leer el CSV</td><td><code>loaders/csv_loader.py</code></td><td>500 filas <b>crudas</b>, sin interpretar</td></tr>
+  <tr><td>3</td><td>Leer SQLite</td><td><code>loaders/sqlite_loader.py</code></td><td>480 contabilizaciones</td></tr>
+  <tr><td>4</td><td>Leer el JSON</td><td><code>loaders/json_loader.py</code></td><td>465 movimientos</td></tr>
+  <tr><td>5</td><td>Limpiar el CSV</td><td><code>limpieza/autorizaciones.py</code></td><td>500 autorizaciones con monto, marca y retenciones</td></tr>
+  <tr><td>6</td><td>Cruzar por el identificador</td><td><code>procesamiento/reconciliador.py</code></td><td>505 transacciones (la unión)</td></tr>
+  <tr><td>7</td><td>Clasificar cada transacción</td><td><code>procesamiento/reglas.py</code></td><td>Etiquetas y observaciones</td></tr>
+  <tr><td>8</td><td>Buscar patrones de fraude</td><td><code>procesamiento/fraude.py</code></td><td>149 marcadas, con nivel de riesgo</td></tr>
+  <tr><td>9</td><td>Escribir el Excel</td><td><code>exportadores/excel.py</code></td><td>505 filas × 29 columnas, con colores</td></tr>
+</table>
+
+<p>Todo el proceso tarda alrededor de <b>1,2 segundos</b>. Cada paso informa su
+avance, y ese aviso es el que mueve la barra de la interfaz.</p>
+
+<h2>4. Archivos de la raíz</h2>
+
+<div class="archivo">
+  <div class="cab">main.py <span class="lineas">98 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el script ejecutable que corre todo el proceso por terminal
+    y genera el Excel.</p>
+    <p><b>Qué contiene:</b> <code>main()</code> como punto de entrada,
+    <code>_mostrar_progreso()</code> que imprime cada avance, y
+    <code>_mostrar_resumen()</code> que al final imprime los indicadores.</p>
+    <p><b>Decisión:</b> no contiene ni una línea de lógica de negocio. Solo llama a
+    <code>ServicioReconciliacion</code> y da formato a la salida. Devuelve código
+    <code>0</code> si todo salió bien y <code>1</code> si falló por algo previsible,
+    que es lo que espera cualquier automatización que lo invoque.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">ejecutar_gui.py <span class="lineas">15 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el punto de entrada de la interfaz gráfica. Importa
+    <code>lanzar()</code> y la ejecuta. Deliberadamente mínimo.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">ejecutar_gui.bat <span class="lineas">38 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el archivo que permite abrir la aplicación con doble clic,
+    sin terminal. Es el punto extra que pedía el enunciado.</p>
+    <p><b>Qué hace:</b> se sitúa en su propia carpeta, prefiere el entorno virtual
+    del proyecto si existe, comprueba que Python y las dependencias estén, y
+    lanza la aplicación con <code>pythonw</code> (que no abre consola).</p>
+    <div class="nota"><b>Por qué comprueba antes de lanzar:</b> <code>pythonw</code> no
+    muestra errores. Si faltara una dependencia, el doble clic no haría
+    absolutamente nada y la persona no sabría por qué. Con la comprobación
+    previa, aparece un mensaje que explica qué instalar.</div>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">requirements.txt · requirements-dev.txt <span class="lineas">3 + 6 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Ejecución:</b> <code>openpyxl</code> (Excel), <code>customtkinter</code>
+    (interfaz), <code>pytest</code> (pruebas).</p>
+    <p><b>Desarrollo:</b> agrega <code>pytest-cov</code> (cobertura),
+    <code>mypy</code> y <code>types-openpyxl</code> (verificación de tipos).
+    Separarlos evita que quien solo quiera correr la app instale herramientas
+    que no necesita.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">pytest.ini · mypy.ini <span class="lineas">6 + 26 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>pytest.ini:</b> dice dónde están las pruebas y cómo se llaman.</p>
+    <p><b>mypy.ini:</b> activa el <b>modo estricto</b> de verificación de tipos. Las
+    dos únicas excepciones son para <code>openpyxl</code> y
+    <code>customtkinter</code>, que no publican anotaciones; están acotadas al
+    módulo que las usa, no desactivadas globalmente.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">.github/workflows/pruebas.yml <span class="lineas">38 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> integración continua. En cada cambio subido a GitHub instala
+    las dependencias, corre las 172 pruebas con cobertura y verifica los tipos.
+    Si algo se rompe, se ve en el repositorio y no en la máquina de quien lo
+    clone.</p>
+  </div>
+</div>
+
+<h2 class="salto">5. <code>reconciliacion/</code> — infraestructura transversal</h2>
+
+<p>Cuatro archivos que no pertenecen a ninguna capa concreta porque las
+atraviesan todas.</p>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/servicio.py <span class="lineas">216 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el orquestador. El único punto que conoce el proceso de
+    principio a fin.</p>
+    <p><b>Qué contiene:</b></p>
+    <ul>
+      <li><code>ServicioReconciliacion.ejecutar(progreso, exportar)</code> — corre los
+      nueve pasos en orden.</li>
+      <li><code>ResultadoProceso</code> — todo lo que produce una ejecución:
+      transacciones, resúmenes, advertencias, ruta del reporte y duración.</li>
+      <li><code>_parcial()</code> — traduce el avance de una etapa (por ejemplo
+      «fila 320 de 505») al porcentaje global del proceso.</li>
+      <li><code>_verificar_fuentes()</code> — comprueba los tres archivos de una vez.</li>
+    </ul>
+    <div class="clave"><b>La decisión más importante del proyecto:</b> este servicio
+    existe para que la terminal y la interfaz ejecuten <b>exactamente el mismo
+    código</b>. La GUI no reimplementa nada; solo le pasa una función de progreso
+    distinta. Es lo que evita que uno de los dos quede desactualizado.</div>
+    <p><b>Por qué verifica las tres fuentes juntas:</b> para poder decirle al usuario
+    <i>todo</i> lo que le falta en un solo mensaje, en vez de hacerlo fallar tres
+    veces seguidas.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/errores.py <span class="lineas">45 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> la jerarquía de excepciones propias.</p>
+    <table>
+      <tr><th>Excepción</th><th>Cuándo se lanza</th></tr>
+      <tr><td><code>ErrorReconciliacion</code></td><td>Base. Lleva un <code>mensaje</code> apto para el usuario y un <code>detalle</code> técnico para el log</td></tr>
+      <tr><td><code>FuenteNoDisponibleError</code></td><td>No se encontró un archivo de datos</td></tr>
+      <tr><td><code>FuenteCorruptaError</code></td><td>El archivo existe pero no se puede interpretar</td></tr>
+      <tr><td><code>ErrorExportacion</code></td><td>No se pudo escribir el Excel (por ejemplo, está abierto)</td></tr>
+      <tr><td><code>ProcesoCancelado</code></td><td>El usuario detuvo el proceso. No es un fallo</td></tr>
+    </table>
+    <p><b>Por qué una jerarquía propia:</b> para que la interfaz distinga un problema
+    <i>previsible</i> del negocio de un fallo inesperado del programa, y traduzca el
+    primero a un mensaje en el idioma del usuario en vez de mostrar un
+    <i>traceback</i>.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/log.py <span class="lineas">69 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> la configuración del sistema de logs.</p>
+    <p><b>Qué contiene:</b> <code>obtener_logger()</code>, que devuelve el logger del
+    módulo que lo pide, y <code>configurar_consola()</code>, que solo usa la versión
+    de terminal.</p>
+    <div class="clave"><b>Regla que se cumple en todo el proyecto:</b> el código de
+    negocio <b>nunca imprime</b>, solo registra. Por eso el mismo código sirve sin
+    cambios para la terminal y para la interfaz: la GUI engancha su propio
+    manejador y recibe los mismos mensajes mientras el proceso corre. No hay ni
+    un <code>print</code> en todo el paquete.</div>
+    <p>También fuerza la salida a UTF-8 tolerante, porque la consola de Windows
+    suele venir en cp1252 y fallaría al escribir «CRÍTICO» con tilde.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/progreso.py <span class="lineas">48 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el mecanismo para informar avance <i>dentro</i> de las etapas
+    largas.</p>
+    <p><b>Qué contiene:</b> el tipo <code>ProgresoParcial</code> —una función que
+    recibe (procesados, total)— y <code>notificar()</code>, que avisa cada 20
+    elementos y siempre en el último.</p>
+    <p><b>Por qué existe:</b> limpiar 500 filas o escribir 505 filas de Excel toma
+    lo suficiente como para que una interfaz que solo se entera al terminar cada
+    etapa parezca congelada. El paquete de negocio no sabe nada de hilos ni de
+    ventanas: solo avisa, y quien lo llama decide qué hacer con el aviso.</p>
+  </div>
+</div>
+
+<h2 class="salto">6. <code>config/</code> — configuración de rutas</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/config/rutas.py <span class="lineas">57 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> la única fuente de verdad sobre dónde viven los archivos.</p>
+    <p><b>Qué contiene:</b> las rutas de las tres fuentes y del reporte,
+    <code>FUENTES_REQUERIDAS</code> (nombre legible → ruta),
+    <code>asegurar_directorio_salida()</code> y <code>fuentes_faltantes()</code>.</p>
+    <p><b>Decisiones:</b></p>
+    <ul>
+      <li>Las rutas se resuelven <b>relativas a la raíz del repositorio</b>, así que
+      el proyecto funciona sin cambios en cualquier máquina o carpeta.</li>
+      <li><code>fuentes_faltantes()</code> devuelve <b>nombres legibles</b>
+      («Autorizaciones (CSV)») y no rutas crudas, porque ese texto va directo a la
+      pantalla de una persona que no programa.</li>
+    </ul>
+    <p>Es lo que permite cumplir el requisito de <b>no tener selectores de
+    archivo</b>: la ruta es configuración del sistema, no una decisión que el
+    usuario deba tomar cada vez.</p>
+  </div>
+</div>
+
+<h2>7. <code>dominio/</code> — el vocabulario del negocio</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/dominio/modelos.py <span class="lineas">175 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> una clase por concepto de negocio, en vez de diccionarios
+    genéricos.</p>
+    <table>
+      <tr><th>Clase</th><th>Qué representa</th><th>Origen</th></tr>
+      <tr><td><code>FilaAutorizacionCruda</code></td><td>Una fila del CSV tal cual está en disco, sin interpretar</td><td>CSV</td></tr>
+      <tr><td><code>Autorizacion</code></td><td>Lo que se autorizó, ya limpio</td><td>CSV</td></tr>
+      <tr><td><code>Contabilizacion</code></td><td>Lo que se contabilizó</td><td>SQLite</td></tr>
+      <tr><td><code>MovimientoBancario</code></td><td>Lo que llegó al banco</td><td>JSON</td></tr>
+      <tr><td><code>Retencion</code></td><td>Una retención (entidad + monto)</td><td>CSV</td></tr>
+    </table>
+    <p>También define el vocabulario de estados: <code>AUTORIZADO</code>,
+    <code>CONTABILIZADO</code> y <code>COMPLETADO</code> son el mismo estado «OK»;
+    y los catálogos válidos por fuente, que se usan para validar integridad.</p>
+    <div class="clave"><b>Por qué existe <code>FilaAutorizacionCruda</code> además de
+    <code>Autorizacion</code>:</b> para separar <i>leer</i> de <i>limpiar</i>. El
+    cargador nunca interpreta y el parser nunca toca el disco. Gracias a eso, todo
+    el parseo del JSON roto se prueba con cadenas de texto.</div>
+    <p><code>Autorizacion.total_retencion(*entidades)</code> suma las retenciones
+    pedidas: una entidad ausente aporta 0 y una repetida suma todas sus
+    ocurrencias.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/dominio/enums.py <span class="lineas">80 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el vocabulario cerrado que sale en el reporte.</p>
+    <ul>
+      <li><code>Clasificacion</code> — <code>RECONCILIADO</code>,
+      <code>DISCREPANCIA_MONTO</code>, <code>DISCREPANCIA_ESTADO</code>,
+      <code>NO_ENCONTRADO_EN_JSON</code>, <code>NO_CONTABILIZADO</code>,
+      <code>NO_AUTORIZADO</code>.</li>
+      <li><code>TipoFraude</code> — monto, hora, patrón, sin autorización.</li>
+      <li><code>NivelRiesgo</code> — crítico, alto, medio, con su tabla de
+      prioridad.</li>
+    </ul>
+    <p><b>Por qué enumeraciones y no cadenas sueltas:</b> un error de escritura falla
+    al importar y no silenciosamente en el Excel, y el valor exacto que se exporta
+    vive en un solo lugar.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/dominio/transaccion.py <span class="lineas">250 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el corazón del modelo. <code>TransaccionReconciliada</code> reúne
+    las tres versiones de la misma transacción y expone, ya calculadas, las
+    magnitudes que el resto del sistema necesita.</p>
+    <table>
+      <tr><th>Propiedad</th><th>Qué calcula</th></tr>
+      <tr><td><code>presente_csv / sqlite / json</code></td><td>En qué fuentes aparece</td></tr>
+      <tr><td><code>monto_csv / sqlite / json</code></td><td>El monto según cada fuente</td></tr>
+      <tr><td><code>monto_referencia</code></td><td>El valor que coincide en la mayoría; si hay empate, el mayor</td></tr>
+      <tr><td><code>diferencia_monto</code></td><td>Máximo menos mínimo entre las fuentes presentes</td></tr>
+      <tr><td><code>fecha_referencia</code></td><td>La primera disponible: CSV → SQLite → JSON</td></tr>
+      <tr><td><code>banco</code></td><td>El de la primera fuente que lo reporte</td></tr>
+      <tr><td><code>es_fraude</code> / <code>nivel_riesgo</code></td><td>Si hay patrones y cuál es el más grave</td></tr>
+      <tr><td><code>esta_reconciliada</code></td><td>Si quedó sin ningún hallazgo</td></tr>
+    </table>
+    <p><b>Criterio de reparto:</b> las reglas que dependen <i>solo</i> de la
+    transacción viven aquí como propiedades; las que dependen del conjunto —fraude
+    por monto anómalo o por patrón— viven en el detector, porque necesitan mirar
+    todas las transacciones a la vez.</p>
+    <p><b>Por qué el empate de monto se resuelve al mayor:</b> criterio conservador.
+    Es preferible sobreestimar la exposición que subestimarla.</p>
+    <p><b>Por qué la fecha de referencia prioriza el CSV:</b> la autorización es el
+    momento en que la operación realmente ocurre; la contabilización y el
+    movimiento bancario son ecos posteriores de ese hecho.</p>
+  </div>
+</div>
+
+<h2 class="salto">8. <code>loaders/</code> — leer las tres fuentes</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/loaders/base.py <span class="lineas">182 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el contrato común de los tres cargadores, con el patrón
+    <b>Template Method</b>. <code>cargar()</code> fija los pasos y cada fuente solo
+    implementa <code>_leer()</code>:</p>
+    <pre>1. verificar que el archivo existe       (común, aquí)
+2. leer los registros                    (específico, en cada subclase)
+3. validar la integridad de lo leído     (común, aquí)
+4. devolver un ResultadoCarga uniforme   (común, aquí)</pre>
+    <p><b><code>ResultadoCarga</code></b> lleva los registros, las advertencias y
+    —clave— <code>registros_leidos</code> aparte de los válidos, con la propiedad
+    <code>hubo_perdida</code>.</p>
+    <div class="clave"><b>Por qué se cuentan los leídos y los válidos por separado:</b>
+    para poder demostrar que <b>no se perdió ninguna fila en silencio</b>, que es lo
+    que el enunciado exige verificar. Un proceso contable que descarta registros
+    sin decirlo es peor que uno que falla.</div>
+    <p>Las validaciones comunes: identificador presente, identificador único
+    dentro de la fuente, y <code>_validar_vocabulario()</code>, que comprueba que un
+    campo solo traiga valores del catálogo esperado.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/loaders/csv_loader.py <span class="lineas">122 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> lee <code>autorizaciones.csv</code> (separado por
+    <code>;</code>) y devuelve las filas <b>tal cual</b>, sin interpretar los campos
+    malformados.</p>
+    <p>Valida que estén las seis columnas requeridas, descarta filas sin
+    identificador dejando constancia del número de línea, y conserva
+    <code>numero_fila</code> en cada registro para poder trazar cualquier problema
+    hasta su origen exacto en el archivo.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/loaders/sqlite_loader.py <span class="lineas">114 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> lee la tabla <code>Contabilizaciones</code>. Es la única fuente
+    con los campos ya limpios, la única que aporta <code>Centro_Costo</code> y la
+    única cuyo estado puede ser <code>PENDIENTE</code> o <code>RECHAZADO</code>.</p>
+    <div class="nota"><b>Se abre en modo solo lectura</b> (<code>mode=ro</code>). Es una
+    fuente de datos, no un almacén del sistema: no se toca.</div>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/loaders/json_loader.py <span class="lineas">122 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> lee los movimientos bancarios. Verifica que el contenido sea
+    una lista, descarta objetos sin <code>transaccion_id</code> dejando
+    advertencia, y traduce cada movimiento a <code>MovimientoBancario</code>
+    conservando su identificador propio <code>MOVxxxx</code>.</p>
+    <p>Cuando el JSON es inválido, el error incluye <b>línea y columna</b> del
+    problema, que es lo que necesita quien tenga que arreglarlo.</p>
+  </div>
+</div>
+
+<h2 class="salto">9. <code>limpieza/</code> — interpretar lo sucio</h2>
+
+<p>Es la parte más delicada del proyecto y donde se concentra la dificultad real
+de la prueba.</p>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/limpieza/montos.py <span class="lineas">120 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> extrae el monto del campo <code>Monto</code> del CSV, que no es
+    un número sino una estructura rota.</p>
+    <p><b>Estrategia:</b> en vez de <i>reparar</i> el JSON —frágil, porque hay más de
+    una variante de corrupción— se <b>extrae con una expresión regular tolerante</b>
+    que busca la clave <code>monto</code> sin importar cómo venga escapada
+    alrededor.</p>
+    <p><b>Los tres formatos que conviven en el archivo:</b></p>
+    <table>
+      <tr><th>Como viene</th><th>Valor real</th><th>Trampa</th></tr>
+      <tr><td><code>1250000</code></td><td>1.250.000</td><td>—</td></tr>
+      <tr><td><code>"188.000 COP"</code></td><td>188.000</td><td>El punto separa miles</td></tr>
+      <tr><td><code>"$175.000,00"</code></td><td>175.000</td><td>Formato colombiano: punto = miles, coma = decimales</td></tr>
+    </table>
+    <div class="clave"><b>El error más caro de la prueba:</b> si se interpreta
+    <code>$175.000,00</code> como si el punto fuera decimal, da 17.500.000 y
+    aparecen <b>53 discrepancias de monto que no existen</b> (148 en vez de las 95
+    reales).</div>
+    <p><b>Claves duplicadas:</b> <code>monto</code> puede aparecer dos veces en la
+    misma fila con valores distintos. Se aplica la semántica estándar de JSON:
+    <b>gana la última</b>. Ocurre una sola vez en el archivo (TRX0138) y el valor que
+    gana es el que confirman SQLite y el banco.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/limpieza/marcas.py <span class="lineas">140 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> extrae el nombre de la marca —que viaja como último elemento
+    de la lista de retenciones— y lo normaliza para poder compararlo.</p>
+    <p><b>El problema:</b> las tres fuentes no escriben la marca igual. El CSV guarda
+    el nombre comercial completo; SQLite y el banco guardan solo su primera
+    palabra.</p>
+    <table>
+      <tr><th>CSV</th><th>SQLite / JSON</th><th>Normalizado</th></tr>
+      <tr><td>NAF NAF</td><td>NAF</td><td>NAF</td></tr>
+      <tr><td>AMERICAN EAGLE</td><td>AMERICAN</td><td>AMERICAN</td></tr>
+      <tr><td>AMERICANINO</td><td>AMERICANINO</td><td>AMERICANINO</td></tr>
+    </table>
+    <p><b>La regla:</b> mayúsculas, sin tildes ni puntuación, espacios colapsados y
+    <b>se conserva solo el primer token</b>.</p>
+    <div class="clave">Comparando literalmente aparecen <b>183 marcas «distintas»</b>
+    que en realidad son la misma. Tras normalizar: <b>cero</b>. Se eligió el primer
+    token porque el catálogo no tiene dos marcas que compartan la primera palabra
+    —AMERICANINO y AMERICAN EAGLE siguen siendo distintas—, así que no introduce
+    colisiones.</div>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/limpieza/retenciones.py <span class="lineas">96 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> extrae las retenciones practicadas, que viven en el mismo
+    campo malformado que la marca.</p>
+    <p><b>Las reglas del archivo:</b></p>
+    <ul>
+      <li>Entre 1 y 4 retenciones por fila; entidades <code>iva</code>,
+      <code>ica</code>, <code>fuente</code>, <code>cree</code>,
+      <code>aumento</code>.</li>
+      <li>Una entidad ausente vale <b>0</b>.</li>
+      <li>Una misma entidad <b>puede repetirse</b> con montos distintos: pasa en
+      <b>267 de las 500 filas</b>. Hay que sumar todas sus ocurrencias.</li>
+      <li>Los valores vienen <b>negativos</b> y se conservan con su signo.</li>
+      <li><code>cree</code> y <code>aumento</code> se parsean para no confundirlas,
+      pero no entran en ninguna de las tres columnas de salida.</li>
+    </ul>
+    <p>La expresión regular empareja entidad y monto <b>dentro del mismo objeto</b>,
+    para no aparear la entidad de una retención con el monto de la siguiente.</p>
+    <p><b>Las seis variantes de corrupción</b> que conviven en el campo: aperturas
+    <code>[{</code>, <code>{{</code> o <code>({</code>; cierres <code>}}]""</code> o
+    <code>})"</code>; claves con escapes sobrantes; y claves duplicadas y pegadas
+    como <code>financial_entityfinancial_entity"</code>.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/limpieza/fechas.py <span class="lineas">55 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> convierte las fechas de las tres fuentes, que usan formatos
+    distintos (<code>26/07/2026 9:00</code> en CSV y SQLite,
+    <code>2026-07-26 09:00:00</code> en JSON).</p>
+    <p>Prueba varios formatos en orden y, si ninguno encaja, devuelve
+    <code>None</code> en vez de lanzar: así la fila se conserva y queda reportada
+    como incidencia, en lugar de perderse.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/limpieza/autorizaciones.py <span class="lineas">176 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el orquestador de la limpieza. Convierte cada
+    <code>FilaAutorizacionCruda</code> en una <code>Autorizacion</code> usando los
+    tres extractores.</p>
+    <p><b><code>ResultadoLimpieza</code></b> lleva los contadores que permiten
+    demostrar que se extrajo todo: <code>sin_monto</code>, <code>sin_marca</code>,
+    <code>sin_retenciones</code>, <code>con_monto_duplicado</code> y la lista de
+    incidencias.</p>
+    <div class="clave"><b>Criterio de tolerancia a fallos:</b> una fila que no se pueda
+    parsear del todo <b>no se descarta</b>. Se conserva con el campo vacío y se
+    registra una incidencia. En un proceso contable es preferible una transacción
+    visible e incompleta que una transacción ausente.</div>
+    <p><b>Resultado real:</b> <code>500/500 autorizaciones limpias (sin monto: 0, sin
+    marca: 0, sin retenciones: 0)</code>, con una única incidencia: la clave
+    duplicada de TRX0138.</p>
+  </div>
+</div>
+
+<h2 class="salto">10. <code>procesamiento/</code> — decidir</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/procesamiento/reglas.py <span class="lineas">221 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> las reglas de clasificación, cada una como una clase con una
+    sola responsabilidad y todas con la misma interfaz (patrón <b>Strategy</b>).</p>
+    <table>
+      <tr><th>Regla</th><th>Qué decide</th></tr>
+      <tr><td><code>ReglaPresencia</code></td><td>En qué fuentes falta la transacción</td></tr>
+      <tr><td><code>ReglaMonto</code></td><td>Si los montos difieren entre fuentes</td></tr>
+      <tr><td><code>ReglaEstado</code></td><td>Si la contabilidad no la dio por buena</td></tr>
+      <tr><td><code>ReglaFechas</code></td><td>Si las fechas se separan más de 2 horas</td></tr>
+      <tr><td><code>ReglaBanco</code></td><td>Si las fuentes reportan bancos distintos</td></tr>
+      <tr><td><code>ReglaReconciliado</code></td><td>Marca lo que quedó sin ningún hallazgo</td></tr>
+    </table>
+    <p><b>El orden importa:</b> <code>ReglaReconciliado</code> va de última porque
+    <code>RECONCILIADO</code> es la única etiqueta excluyente y solo aplica si
+    ninguna otra encontró nada.</p>
+    <div class="clave"><b>La regla de estados, que es la trampa del enunciado:</b> cada
+    fuente usa su propio vocabulario (<code>AUTORIZADO</code>,
+    <code>CONTABILIZADO</code>, <code>COMPLETADO</code>) y los tres significan lo
+    mismo. <b>No</b> se marca discrepancia porque los textos difieran: solo cuando
+    SQLite dice <code>PENDIENTE</code> o <code>RECHAZADO</code>.</div>
+    <p><b><code>ReglaPresencia</code> cubre las siete combinaciones posibles</b>, no
+    solo las tres que nombra el enunciado, para que ninguna transacción del
+    universo quede sin clasificar aunque aparezca un caso que hoy no está en los
+    datos.</p>
+    <p>Los hallazgos que el enunciado no nombra —desfase de fechas, banco
+    distinto— se dejan como <b>observación</b> y no como etiqueta: comprobarlos sí,
+    pero sin inventar vocabulario que nadie acordó.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/procesamiento/reconciliador.py <span class="lineas">159 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el motor. Cruza las tres fuentes por el identificador y aplica
+    las reglas.</p>
+    <p><b>Cómo funciona:</b> construye un diccionario por fuente, calcula la
+    <b>unión</b> de los identificadores, crea una <code>TransaccionReconciliada</code>
+    por cada uno y le pasa las reglas en orden.</p>
+    <p><b><code>ResumenReconciliacion</code></b> calcula los indicadores agregados
+    —total, reconciliadas, conteo por etiqueta, monto total y monto en
+    discrepancia— que se muestran <b>en la interfaz y no en el Excel</b>, como pide
+    el enunciado.</p>
+    <p>Las reglas se le pueden <b>inyectar por constructor</b>, que es lo que usan
+    las pruebas para aislar una sola.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/procesamiento/fraude.py <span class="lineas">298 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> la detección de fraude, que es una <b>dimensión independiente</b>
+    de la clasificación: una transacción puede estar <code>RECONCILIADO</code> y aun
+    así ser fraude. Ocurre en <b>90 de las 505</b>.</p>
+    <table>
+      <tr><th>Regla</th><th>Definición</th><th>Detectadas</th></tr>
+      <tr><td><code>ReglaMontoAnomalo</code></td><td>Monto de referencia mayor que media + 3σ</td><td>11</td></tr>
+      <tr><td><code>ReglaHoraInusual</code></td><td>Fecha de referencia entre 00:00 y 05:59</td><td>134</td></tr>
+      <tr><td><code>ReglaPatronSospechoso</code></td><td>Mismo banco y mismo monto en ≤ 60 minutos</td><td>12</td></tr>
+      <tr><td><code>ReglaSinAutorizacion</code></td><td>Existe en el banco pero no en el CSV</td><td>5</td></tr>
+    </table>
+    <div class="clave"><b>La diferencia técnica con las reglas de clasificación:</b>
+    aquí el contrato recibe <b>toda la colección</b> y no una transacción suelta,
+    porque tres de los cuatro patrones son estadísticos o relacionales y no se
+    pueden evaluar de forma aislada.</div>
+    <p><b>Desviación estándar poblacional, no muestral:</b> el conjunto analizado no
+    es una muestra de algo mayor, es la población completa del periodo. Sobre
+    estos datos ambas dan el mismo resultado (11 transacciones), pero el criterio
+    queda explícito. El umbral calculado es <b>$733.773,55</b>.</p>
+    <p>En el patrón sospechoso se marcan <b>todas</b> las transacciones involucradas,
+    no solo la segunda de cada par, y la observación dice con cuáles cruza.</p>
+  </div>
+</div>
+
+<h2 class="salto">11. <code>exportadores/</code> — presentar</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/exportadores/excel.py <span class="lineas">309 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> genera el entregable principal: una hoja
+    <code>Reconciliacion</code> con la tabla desde A1, 29 columnas y una fila por
+    transacción.</p>
+    <div class="clave"><b>La decisión de diseño:</b> las 29 columnas se declaran como
+    <b>datos</b> (una lista de <code>ColumnaReporte</code> con su título, cómo obtener
+    el valor y con qué formato mostrarse), no como 29 bloques de código repetido.
+    El método que escribe la hoja es el mismo sin importar cuántas columnas haya,
+    y mover o agregar una es editar una línea.</div>
+    <p><b>Formato aplicado:</b></p>
+    <ul>
+      <li>Encabezados en negrita, con fondo azul, fila congelada y autofiltro.</li>
+      <li>Montos como <b>número</b> y fechas como <b>datetime</b> reales con formato de
+      Excel —no como texto—, para que se pueda filtrar, sumar y ordenar sin
+      convertir nada.</li>
+      <li>Ancho de columna ajustado al contenido.</li>
+      <li><b>Color de fila por precedencia:</b> naranja si hay fraude; si no, rojo ante
+      cualquier hallazgo; si no, verde.</li>
+    </ul>
+    <p><b>Resultado:</b> 149 filas naranjas, 156 rojas y 200 verdes. Un buen ejemplo
+    es TRX0001: está <code>RECONCILIADO</code> pero es <code>FRAUDE_MONTO</code>, así
+    que sale naranja. Esa fila sola demuestra que la precedencia funciona y que
+    clasificación y fraude son dimensiones distintas.</p>
+    <p>Si el archivo está abierto en Excel, lanza <code>ErrorExportacion</code> con
+    un mensaje que le dice al usuario que lo cierre.</p>
+  </div>
+</div>
+
+<h2>12. <code>gui/</code> — la interfaz</h2>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/gui/mensajes.py <span class="lineas">57 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> los mensajes que el hilo de trabajo envía a la ventana:
+    <code>PROGRESO</code>, <code>LOG</code>, <code>ERROR</code>,
+    <code>CANCELADO</code> y <code>FIN</code>.</p>
+    <p>Usar un tipo explícito en vez de tuplas sueltas hace que el bucle de la
+    interfaz sea legible y que agregar un aviso nuevo no rompa lo que ya existe.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/gui/trabajador.py <span class="lineas">186 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> el hilo que ejecuta la reconciliación sin congelar la
+    ventana.</p>
+    <p><b>Qué publica en la cola:</b> el avance que le informa el servicio, y las
+    líneas de log del negocio, capturadas con un <code>logging.Handler</code> propio
+    (<code>ManejadorCola</code>). Así la bitácora de la pantalla es exactamente la
+    misma que la de la terminal, sin que el negocio sepa que existe una
+    interfaz.</p>
+    <p><b>Cancelación:</b> <code>cancelar()</code> no mata el hilo —matarlo dejaría el
+    trabajo a medias— sino que levanta una bandera que el propio hilo revisa en su
+    siguiente aviso de avance.</p>
+    <div class="clave"><b>Lo que costó de verdad:</b> el patrón hilo + cola + <code>after()</code>
+    es el correcto, y <b>aun así la ventana se congelaba 1,57 segundos</b>. La causa
+    era el GIL: este hilo usa 100 % de CPU y el intérprete solo lo interrumpe cada
+    5 ms, dejando al hilo de la ventana sin turnos. Se corrigió con una pausa real
+    de 1 ms en cada aviso —<code>sleep(0)</code> no sirve en Windows— y bajando el
+    intervalo de conmutación del intérprete a 0,5 ms mientras dura el proceso.
+    <b>Resultado medido: el bloqueo máximo bajó de 1,57 s a 0,15 s.</b></div>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/gui/app.py <span class="lineas">647 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> la ventana principal, organizada en cuatro bloques que siguen
+    el orden mental de quien la usa: fuentes de datos → acción y avance →
+    indicadores → detalle del proceso.</p>
+    <p><b>Métodos principales:</b></p>
+    <table>
+      <tr><th>Método</th><th>Qué hace</th></tr>
+      <tr><td><code>_ajustar_al_monitor()</code></td><td>Dimensiona la ventana contra la pantalla disponible</td></tr>
+      <tr><td><code>_revisar_fuentes()</code></td><td>Punto verde o rojo por archivo, antes de ejecutar</td></tr>
+      <tr><td><code>_ejecutar()</code></td><td>Lanza el hilo de trabajo</td></tr>
+      <tr><td><code>_procesar_cola()</code></td><td>Vacía la cola y actualiza la ventana; se reprograma solo cada 60 ms</td></tr>
+      <tr><td><code>_atender()</code></td><td>Aplica cada tipo de mensaje</td></tr>
+      <tr><td><code>_mostrar_resultado()</code></td><td>Vuelca los cuatro indicadores</td></tr>
+      <tr><td><code>_guardar_bitacora()</code></td><td>Exporta el detalle a un .txt</td></tr>
+      <tr><td><code>_al_cerrar()</code></td><td>Detiene el hilo y cancela el sondeo pendiente</td></tr>
+    </table>
+    <p><b><code>_procesar_cola()</code> es el único punto</b> donde se tocan los widgets
+    con datos producidos por otro hilo, y corre siempre en el hilo de la interfaz.
+    Atiende como máximo 250 mensajes por vuelta y acumula las líneas de bitácora
+    para escribirlas de una sola vez, porque insertarlas una por una es lo que más
+    cuesta del ciclo.</p>
+    <p><b>Detalles que solo aparecieron probando:</b> los colores se declaran como
+    pares (tema claro, tema oscuro) porque con un solo tono los botones
+    deshabilitados eran invisibles sobre blanco; y la ventana se dimensiona contra
+    el monitor porque en una pantalla de 1366×768 el mensaje con la ruta del
+    reporte quedaba fuera de la pantalla.</p>
+  </div>
+</div>
+
+<div class="archivo">
+  <div class="cab">reconciliacion/gui/__init__.py <span class="lineas">44 líneas</span></div>
+  <div class="cuerpo">
+    <p><b>Qué es:</b> expone el paquete, pero <b>importa la ventana de forma
+    perezosa</b>. Importarla de entrada arrastraría <code>tkinter</code> y exigiría un
+    entorno gráfico; el hilo de trabajo, en cambio, solo habla con una cola y se
+    puede probar en cualquier parte. Es lo que permite que la integración continua
+    corra en un servidor Linux sin pantalla.</p>
+  </div>
+</div>
+
+<h2 class="salto">13. <code>tests/</code> — las pruebas</h2>
+
+<p><b>172 pruebas</b>, repartidas donde de verdad se puede romper algo.</p>
+
+<table>
+  <tr><th>Archivo</th><th>Líneas</th><th>Qué cubre</th></tr>
+  <tr><td><code>conftest.py</code></td><td>162</td><td>Fábricas de modelos, para no construirlos a mano en cada prueba</td></tr>
+  <tr><td><code>test_montos.py</code></td><td>74</td><td>Los tres formatos y la clave <code>monto</code> duplicada</td></tr>
+  <tr><td><code>test_marcas.py</code></td><td>83</td><td>Extracción y la regla del primer token</td></tr>
+  <tr><td><code>test_retenciones.py</code></td><td>108</td><td>Emparejamiento, entidades repetidas, signos y las tres sumas</td></tr>
+  <tr><td><code>test_reglas.py</code></td><td>201</td><td>Reglas de clasificación y las siete combinaciones de presencia</td></tr>
+  <tr><td><code>test_fraude.py</code></td><td>177</td><td>Los cuatro patrones y sus bordes exactos</td></tr>
+  <tr><td><code>test_transaccion.py</code></td><td>82</td><td>Monto y fecha de referencia, diferencias, presencia</td></tr>
+  <tr><td><code>test_loaders.py</code></td><td>227</td><td>Carga y errores: archivo ausente, JSON inválido, tabla inexistente</td></tr>
+  <tr><td><code>test_excel.py</code></td><td>158</td><td>Estructura, formatos y precedencia de color</td></tr>
+  <tr><td><code>test_trabajador.py</code></td><td>156</td><td>Cancelación, errores y avance, sin abrir ninguna ventana</td></tr>
+  <tr><td><code>test_servicio.py</code></td><td>142</td><td>La cadena completa sobre los datos reales</td></tr>
+</table>
+
+<p><b>Tres decisiones sobre cómo están escritas:</b></p>
+<ul>
+  <li><b>Los casos de los parsers salen del archivo real.</b> No son cadenas
+  inventadas: son las variantes de corrupción que efectivamente aparecen en
+  <code>autorizaciones.csv</code>, incluido el caso concreto de TRX0138.</li>
+  <li><b>Se prueban los bordes exactos:</b> 05:59 sí es hora inusual y 06:00 no;
+  60 minutos sí es patrón y 61 no.</li>
+  <li><b><code>test_servicio.py</code> fija los números.</b> Corre el proceso completo y
+  afirma 505 transacciones, 290 reconciliadas, 149 fraudes y el conteo exacto por
+  etiqueta. Si alguien toca un parser o una regla y los totales se mueven, esa
+  prueba lo dice en el acto.</li>
+</ul>
+
+<p><b>Cobertura:</b> 77 % total; <b>95 %</b> sin contar la ventana, que se excluye a
+propósito porque probar píxeles es caro y frágil. <b><code>mypy --strict</code></b>
+pasa sin errores en 32 archivos.</p>
+
+<h2>14. Carpetas de datos y salidas</h2>
+
+<table>
+  <tr><th>Carpeta</th><th>Qué contiene</th><th>Se versiona</th></tr>
+  <tr><td><code>datos/</code></td><td>Las tres fuentes de entrada</td><td>Sí, para que el repositorio se pueda clonar y correr</td></tr>
+  <tr><td><code>salida/</code></td><td><code>reporte_reconciliacion.xlsx</code></td><td>Sí, es un entregable. Las bitácoras exportadas no</td></tr>
+  <tr><td><code>capturas/</code></td><td>Las tres imágenes de la interfaz</td><td>Sí, se muestran en el README</td></tr>
+  <tr><td><code>docs/</code></td><td>Esta documentación y el manual de uso</td><td>Sí</td></tr>
+</table>
+
+<h2>15. Patrones de diseño aplicados</h2>
+
+<table>
+  <tr><th>Patrón</th><th>Dónde</th><th>Qué problema resuelve</th></tr>
+  <tr><td><b>Template Method</b></td><td><code>CargadorFuente</code></td><td>Los cuatro pasos de la carga son iguales; solo cambia cómo se lee</td></tr>
+  <tr><td><b>Strategy</b></td><td>Reglas de clasificación y de fraude</td><td>Agregar o cambiar un criterio no obliga a tocar el motor</td></tr>
+  <tr><td><b>Inyección de dependencias</b></td><td>Reconciliador, detector, servicio</td><td>Permite sustituir piezas en las pruebas</td></tr>
+  <tr><td><b>Configuración como datos</b></td><td>Las 29 columnas del Excel</td><td>Evita 29 bloques de código repetido</td></tr>
+  <tr><td><b>Productor / consumidor</b></td><td>Hilo de trabajo ↔ interfaz</td><td>La ventana nunca se bloquea</td></tr>
+  <tr><td><b>Objeto de valor</b></td><td>Modelos del dominio (inmutables)</td><td>Un dato cargado no cambia por accidente</td></tr>
+</table>
+
+<h2>16. Reglas de negocio, de referencia</h2>
+
+<h3>Clasificación (columna <code>Clasificacion</code>)</h3>
+<table>
+  <tr><th>Etiqueta</th><th>Cuándo aplica</th><th>Casos</th></tr>
+  <tr><td><code>RECONCILIADO</code></td><td>En las 3 fuentes, montos idénticos y estado contable OK. Es excluyente</td><td>290</td></tr>
+  <tr><td><code>DISCREPANCIA_MONTO</code></td><td>El monto difiere entre las fuentes presentes</td><td>95</td></tr>
+  <tr><td><code>DISCREPANCIA_ESTADO</code></td><td>SQLite dice <code>PENDIENTE</code> o <code>RECHAZADO</code></td><td>55</td></tr>
+  <tr><td><code>NO_ENCONTRADO_EN_JSON</code></td><td>Autorizada pero no llegó al banco</td><td>40</td></tr>
+  <tr><td><code>NO_CONTABILIZADO</code></td><td>Autorizada pero sin registro contable</td><td>20</td></tr>
+  <tr><td><code>NO_AUTORIZADO</code></td><td>El banco la reporta pero nadie la autorizó</td><td>5</td></tr>
+</table>
+
+<h3>Fraude y nivel de riesgo</h3>
+<table>
+  <tr><th>Nivel</th><th>Cuándo</th><th>Casos</th></tr>
+  <tr><td><code>CRÍTICO</code></td><td><code>FRAUDE_NO_AUTORIZADO</code></td><td>5</td></tr>
+  <tr><td><code>ALTO</code></td><td><code>FRAUDE_MONTO</code></td><td>6</td></tr>
+  <tr><td><code>MEDIO</code></td><td><code>FRAUDE_HORA</code> o <code>FRAUDE_PATRON</code></td><td>138</td></tr>
+</table>
+
+<h3>Resultado final sobre los datos entregados</h3>
+<table>
+  <tr><th>Indicador</th><th>Valor</th></tr>
+  <tr><td>Universo analizado</td><td>505 transacciones</td></tr>
+  <tr><td>Reconciliadas</td><td>290 (57,4 %)</td></tr>
+  <tr><td>Sin clasificar</td><td>0</td></tr>
+  <tr><td>Monto total</td><td>$124.690.000</td></tr>
+  <tr><td>Monto en discrepancia</td><td>$475.000</td></tr>
+  <tr><td>Con al menos un patrón de fraude</td><td>149</td></tr>
+  <tr><td>Filas del CSV con extracción completa</td><td>500 de 500</td></tr>
+  <tr><td>Duración del proceso</td><td>≈ 1,2 segundos</td></tr>
+</table>
+
+</body>
+</html>
