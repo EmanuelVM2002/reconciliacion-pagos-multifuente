@@ -20,3 +20,8 @@ desktop.ini
 
 # Bitacoras generadas desde la interfaz
 salida/bitacora_*.txt
+
+# Datos de cobertura
+.coverage
+coverage.xml
+htmlcov/
