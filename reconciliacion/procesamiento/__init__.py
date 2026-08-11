@@ -12,6 +12,7 @@ from reconciliacion.procesamiento.fraude import (
 from reconciliacion.procesamiento.reconciliador import Reconciliador, ResumenReconciliacion
 from reconciliacion.procesamiento.reglas import (
     REGLAS_POR_DEFECTO,
+    ReglaBanco,
     ReglaClasificacion,
     ReglaEstado,
     ReglaFechas,
@@ -25,6 +26,7 @@ __all__ = [
     "REGLAS_POR_DEFECTO",
     "DetectorFraude",
     "Reconciliador",
+    "ReglaBanco",
     "ReglaClasificacion",
     "ReglaEstado",
     "ReglaFechas",

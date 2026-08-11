@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import List
 
 from reconciliacion.config import rutas
-from reconciliacion.dominio.modelos import Contabilizacion
+from reconciliacion.dominio.modelos import ESTADOS_VALIDOS_SQLITE, Contabilizacion
 from reconciliacion.errores import FuenteCorruptaError
 from reconciliacion.limpieza.fechas import parsear_fecha
 from reconciliacion.loaders.base import CargadorFuente, ResultadoCarga
@@ -91,6 +91,12 @@ class CargadorContabilizaciones(CargadorFuente[Contabilizacion]):
                 "No se pudo leer la base de datos de contabilizaciones.",
                 detalle=str(exc),
             ) from exc
+
+        advertencias.extend(
+            self._validar_vocabulario(
+                (r.estado for r in registros), ESTADOS_VALIDOS_SQLITE, "estado"
+            )
+        )
 
         return ResultadoCarga(
             fuente=self.nombre,

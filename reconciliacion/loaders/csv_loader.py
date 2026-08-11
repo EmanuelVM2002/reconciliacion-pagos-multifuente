@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import List, Sequence
 
 from reconciliacion.config import rutas
-from reconciliacion.dominio.modelos import FilaAutorizacionCruda
+from reconciliacion.dominio.modelos import ESTADOS_VALIDOS_CSV, FilaAutorizacionCruda
 from reconciliacion.errores import FuenteCorruptaError
 from reconciliacion.loaders.base import CargadorFuente, ResultadoCarga
 
@@ -90,6 +90,10 @@ class CargadorAutorizaciones(CargadorFuente[FilaAutorizacionCruda]):
                 "El archivo de autorizaciones no se pudo leer como CSV.",
                 detalle=str(exc),
             ) from exc
+
+        advertencias.extend(
+            self._validar_vocabulario((f.estado for f in filas), ESTADOS_VALIDOS_CSV, "estado")
+        )
 
         return ResultadoCarga(
             fuente=self.nombre,

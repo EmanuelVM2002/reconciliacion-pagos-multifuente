@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from reconciliacion.config import rutas
-from reconciliacion.dominio.modelos import MovimientoBancario
+from reconciliacion.dominio.modelos import ESTADOS_VALIDOS_JSON, MovimientoBancario
 from reconciliacion.errores import FuenteCorruptaError
 from reconciliacion.limpieza.fechas import parsear_fecha
 from reconciliacion.loaders.base import CargadorFuente, ResultadoCarga
@@ -93,6 +93,12 @@ class CargadorMovimientos(CargadorFuente[MovimientoBancario]):
                     marca=self._texto(crudo, "marca"),
                 )
             )
+
+        advertencias.extend(
+            self._validar_vocabulario(
+                (r.estado for r in registros), ESTADOS_VALIDOS_JSON, "estado"
+            )
+        )
 
         return ResultadoCarga(
             fuente=self.nombre,

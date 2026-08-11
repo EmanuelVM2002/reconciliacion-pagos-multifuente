@@ -7,6 +7,7 @@ from datetime import datetime
 from reconciliacion.dominio.enums import Clasificacion
 from reconciliacion.procesamiento.reglas import (
     REGLAS_POR_DEFECTO,
+    ReglaBanco,
     ReglaEstado,
     ReglaFechas,
     ReglaMonto,
@@ -122,6 +123,32 @@ class TestReglaFechas:
         ReglaFechas().aplicar(transaccion)
         assert transaccion.clasificaciones == []
         assert "desfase" in transaccion.observaciones[0]
+
+
+class TestReglaBanco:
+    """El reporte trae una sola columna Banco: las fuentes deben coincidir."""
+
+    def test_bancos_iguales_no_dicen_nada(self, fabricar_transaccion) -> None:
+        transaccion = fabricar_transaccion()
+        ReglaBanco().aplicar(transaccion)
+        assert transaccion.observaciones == []
+
+    def test_detecta_bancos_distintos_entre_fuentes(self, fabricar_transaccion) -> None:
+        transaccion = fabricar_transaccion(csv_banco="BANCO_A", sql_banco="BANCO_C")
+        ReglaBanco().aplicar(transaccion)
+        assert len(transaccion.observaciones) == 1
+        assert "BANCO_A" in transaccion.observaciones[0]
+        assert "BANCO_C" in transaccion.observaciones[0]
+
+    def test_no_es_una_etiqueta_sino_una_observacion(self, fabricar_transaccion) -> None:
+        transaccion = fabricar_transaccion(csv_banco="BANCO_A", json_banco="BANCO_B")
+        ReglaBanco().aplicar(transaccion)
+        assert transaccion.clasificaciones == []
+
+    def test_una_sola_fuente_no_puede_discrepar(self, fabricar_transaccion) -> None:
+        transaccion = fabricar_transaccion(en_sqlite=False, en_json=False)
+        ReglaBanco().aplicar(transaccion)
+        assert transaccion.observaciones == []
 
 
 class TestReglaReconciliado:

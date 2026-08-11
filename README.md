@@ -103,6 +103,39 @@ de campo. Esa traducción la resuelven los cargadores: de ahí para adentro todo
 el sistema habla de `id_transaccion` y nadie más se entera de cómo se llamaba
 en el archivo original.
 
+### Validación de integridad
+
+Distingo dos clases de problema y los trato distinto. Si la fuente **no se
+puede leer** (falta el archivo, el JSON no es válido, el CSV no trae las
+columnas esperadas, la tabla no existe), el proceso se detiene con un error
+explicativo: seguir sería inventar datos. Si la fuente se lee pero **algún
+registro es dudoso**, se registra una advertencia y el proceso continúa.
+
+Lo que se valida en cada carga:
+
+| Validación | Si falla |
+|---|---|
+| Existen los tres archivos | Error, con la lista completa de lo que falta |
+| El CSV trae las columnas esperadas | Error, diciendo cuáles faltan |
+| El JSON es válido y es una lista | Error, con línea y columna |
+| La tabla de SQLite es legible | Error |
+| Cada registro tiene identificador | Advertencia, y se descarta indicando la fila |
+| El identificador es único en su fuente | Advertencia con los repetidos |
+| Las fechas son legibles | Advertencia; la fila se conserva |
+| El estado está en el catálogo de la fuente | Advertencia con el valor y su frecuencia |
+| Registros leídos vs. registros válidos | Queda expuesto en `hubo_perdida` |
+
+La validación del **catálogo de estados** vale la pena explicarla: un
+`RECHAZADO` en SQLite es una discrepancia de negocio, pero un `ANULADO` —que no
+existe en el vocabulario— es otra cosa: un valor que el sistema no sabe
+interpretar y que, si se ignora, se convierte en una clasificación
+silenciosamente equivocada. Por eso se reporta aparte.
+
+En el cruce verifico además que las tres fuentes coincidan en la **entidad
+bancaria**. El reporte trae una sola columna `Banco` porque se asume que las
+tres reportan lo mismo; si no coincidieran, esa columna estaría escondiendo un
+problema. En estos datos coinciden siempre, pero la comprobación queda hecha.
+
 ### Limpieza del CSV: extraer, no reparar
 
 El campo `Monto` del CSV no es un número y el campo `Marca` no es solo la
@@ -362,7 +395,7 @@ exigirían un entorno gráfico.
 
 | Medida | Resultado |
 |---|---|
-| Pruebas | 165, todas pasando |
+| Pruebas | 172, todas pasando |
 | Cobertura total | 77 % |
 | Cobertura sin `gui/app.py` | **95 %** (1.063 de 1.119 sentencias) |
 | `mypy --strict` | sin errores en 32 archivos |
@@ -380,7 +413,7 @@ desactivadas globalmente: el resto del código sigue bajo modo estricto.
 ### Integración continua
 
 Cada push a `main` dispara un flujo de GitHub Actions que instala las
-dependencias, corre las 165 pruebas con cobertura y verifica los tipos. Si algo
+dependencias, corre las 172 pruebas con cobertura y verifica los tipos. Si algo
 se rompe, se ve en el repositorio y no en la máquina de quien lo clone.
 
 ## Resultado sobre los datos entregados
@@ -421,6 +454,6 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Script ejecutable de punta a punta (`main.py`)
 - [x] Reporte Excel
 - [x] Interfaz gráfica (+ `.bat` para abrirla con doble clic)
-- [x] Pruebas unitarias (165, todas pasando)
+- [x] Pruebas unitarias (172, todas pasando)
 - [x] Cancelar la ejecución y exportar la bitácora
 - [x] Cobertura, verificación de tipos e integración continua

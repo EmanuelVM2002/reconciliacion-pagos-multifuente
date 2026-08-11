@@ -19,7 +19,7 @@ from abc import ABC, abstractmethod
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Generic, List, Sequence, TypeVar
+from typing import Collection, Generic, Iterable, List, Sequence, TypeVar
 
 from reconciliacion.errores import FuenteNoDisponibleError
 from reconciliacion.log import obtener_logger
@@ -155,3 +155,28 @@ class CargadorFuente(ABC, Generic[T]):
                 f"{'...' if len(repetidos) > 5 else ''}"
             )
         return advertencias
+
+    @staticmethod
+    def _validar_vocabulario(
+        valores: Iterable[str], admitidos: Collection[str], campo: str
+    ) -> List[str]:
+        """Comprueba que un campo solo traiga valores del catalogo esperado.
+
+        Un valor fuera del catalogo no es una discrepancia de negocio: es un
+        dato que el sistema no sabe interpretar y que, si se ignora, termina en
+        una clasificacion silenciosamente equivocada.
+
+        Args:
+            valores: Valores hallados en la fuente.
+            admitidos: Valores permitidos para ese campo.
+            campo: Nombre del campo, para redactar el mensaje.
+
+        Returns:
+            Una advertencia por cada valor inesperado, con su frecuencia.
+        """
+        inesperados = Counter(valor for valor in valores if valor and valor not in admitidos)
+        return [
+            f"{veces} registro(s) con {campo} inesperado: {valor!r} "
+            f"(se esperaba {' / '.join(sorted(admitidos))})."
+            for valor, veces in inesperados.items()
+        ]

@@ -170,6 +170,48 @@ class TestValidacionDeIntegridad:
         assert any("duplicado" in a for a in resultado.advertencias)
 
 
+class TestValidacionDeVocabulario:
+    """Un estado fuera del catalogo no puede pasar en silencio."""
+
+    def test_detecta_un_estado_inesperado_en_el_json(self, tmp_path: Path) -> None:
+        ruta = tmp_path / "estados.json"
+        ruta.write_text(
+            json.dumps(
+                [
+                    {"id": "MOV1", "transaccion_id": "TRX0001", "estado": "COMPLETADO"},
+                    {"id": "MOV2", "transaccion_id": "TRX0002", "estado": "DEVUELTO"},
+                    {"id": "MOV3", "transaccion_id": "TRX0003", "estado": "DEVUELTO"},
+                ]
+            ),
+            encoding="utf-8",
+        )
+        resultado = CargadorMovimientos(ruta).cargar()
+        advertencia = next(a for a in resultado.advertencias if "estado" in a)
+        assert "DEVUELTO" in advertencia
+        assert "2 registro(s)" in advertencia
+
+    def test_detecta_un_estado_inesperado_en_sqlite(self, tmp_path: Path) -> None:
+        ruta = tmp_path / "estados.db"
+        conexion = sqlite3.connect(ruta)
+        conexion.execute(
+            "CREATE TABLE Contabilizaciones (ID INTEGER PRIMARY KEY, Referencia TEXT, "
+            "Monto REAL, Fecha TEXT, Centro_Costo TEXT, Estado TEXT, Banco TEXT, Marca TEXT)"
+        )
+        conexion.execute(
+            "INSERT INTO Contabilizaciones VALUES "
+            "(1, 'TRX0001', 1.0, '15/07/2026 14:30', 'POS001', 'ANULADO', 'BANCO_A', 'RIFLE')"
+        )
+        conexion.commit()
+        conexion.close()
+
+        resultado = CargadorContabilizaciones(ruta).cargar()
+        assert any("ANULADO" in a for a in resultado.advertencias)
+
+    def test_los_estados_del_catalogo_no_generan_ruido(self, db_temporal: Path) -> None:
+        resultado = CargadorContabilizaciones(db_temporal).cargar()
+        assert not any("estado" in a for a in resultado.advertencias)
+
+
 class TestParsearFecha:
     """Cada fuente escribe la fecha a su manera."""
 

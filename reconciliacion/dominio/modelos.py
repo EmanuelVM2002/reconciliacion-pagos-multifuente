@@ -28,6 +28,14 @@ ESTADO_OK_JSON = "COMPLETADO"
 
 ESTADOS_EQUIVALENTES_OK = frozenset({ESTADO_OK_CSV, ESTADO_OK_SQLITE, ESTADO_OK_JSON})
 
+# Vocabulario admitido por fuente. Un estado fuera de estas listas no es una
+# discrepancia de negocio sino un problema de integridad del dato: significa
+# que la fuente trae un valor que el sistema no sabe interpretar. Se reporta
+# como advertencia al cargar, sin descartar el registro.
+ESTADOS_VALIDOS_CSV = frozenset({ESTADO_OK_CSV})
+ESTADOS_VALIDOS_SQLITE = frozenset({ESTADO_OK_SQLITE, "PENDIENTE", "RECHAZADO"})
+ESTADOS_VALIDOS_JSON = frozenset({ESTADO_OK_JSON})
+
 # Entidades de retencion que pueden aparecer en el CSV. `cree` y `aumento` se
 # parsean para no confundirlas con las demas, pero no suman en ninguna columna.
 ENTIDADES_RETENCION = frozenset({"iva", "ica", "fuente", "cree", "aumento"})

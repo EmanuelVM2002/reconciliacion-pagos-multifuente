@@ -156,6 +156,38 @@ class ReglaFechas(ReglaClasificacion):
             )
 
 
+class ReglaBanco(ReglaClasificacion):
+    """Comprueba que las fuentes coincidan en la entidad bancaria.
+
+    El reporte trae una sola columna `Banco` porque las tres fuentes deberian
+    reportar el mismo, y la transaccion toma el de la primera fuente
+    disponible. Si no coincidieran, esa columna estaria escondiendo un
+    problema, asi que se verifica y se deja constancia.
+
+    Igual que con las fechas, el hallazgo va como observacion y no como
+    etiqueta: el enunciado no define una para este caso y prefiero no inventar
+    vocabulario.
+    """
+
+    def aplicar(self, transaccion: TransaccionReconciliada) -> None:
+        """Agrega una observacion si las fuentes reportan bancos distintos."""
+        bancos = {
+            origen: banco
+            for origen, banco in (
+                ("CSV", transaccion.autorizacion.banco if transaccion.autorizacion else None),
+                (
+                    "SQLite",
+                    transaccion.contabilizacion.banco if transaccion.contabilizacion else None,
+                ),
+                ("JSON", transaccion.movimiento.banco if transaccion.movimiento else None),
+            )
+            if banco
+        }
+        if len(set(bancos.values())) > 1:
+            detalle = ", ".join(f"{origen} {banco}" for origen, banco in bancos.items())
+            transaccion.observaciones.append(f"Banco distinto entre fuentes ({detalle}).")
+
+
 class ReglaReconciliado(ReglaClasificacion):
     """Marca como `RECONCILIADO` lo que quedo sin ningun hallazgo.
 
@@ -184,5 +216,6 @@ REGLAS_POR_DEFECTO: tuple[ReglaClasificacion, ...] = (
     ReglaMonto(),
     ReglaEstado(),
     ReglaFechas(),
+    ReglaBanco(),
     ReglaReconciliado(),
 )
