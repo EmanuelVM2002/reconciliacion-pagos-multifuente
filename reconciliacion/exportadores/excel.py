@@ -26,6 +26,7 @@ from reconciliacion.dominio.transaccion import TransaccionReconciliada
 from reconciliacion.errores import ErrorExportacion
 from reconciliacion.limpieza.marcas import marcas_coinciden
 from reconciliacion.log import obtener_logger
+from reconciliacion.progreso import ProgresoParcial, notificar
 
 _log = obtener_logger(__name__)
 
@@ -171,6 +172,7 @@ class ExportadorExcel:
         self,
         transacciones: Sequence[TransaccionReconciliada],
         ruta: Path | None = None,
+        progreso: Optional[ProgresoParcial] = None,
     ) -> Path:
         """Genera el archivo Excel con el detalle transaccion por transaccion.
 
@@ -178,6 +180,7 @@ class ExportadorExcel:
             transacciones: Universo reconciliado y evaluado.
             ruta: Destino del archivo. Si se omite se usa el configurado en
                 `rutas`.
+            progreso: Aviso opcional de avance parcial.
 
         Returns:
             La ruta del archivo escrito.
@@ -196,8 +199,14 @@ class ExportadorExcel:
         self._escribir_encabezados(hoja)
         for indice, transaccion in enumerate(transacciones, start=2):
             self._escribir_fila(hoja, indice, transaccion)
+            notificar(progreso, indice - 1, len(transacciones))
 
         self._dar_formato(hoja, filas=len(transacciones) + 1)
+
+        # Guardar es una sola operacion larga que no se puede trocear, asi que
+        # se avisa antes de entrar en ella para que la interfaz no parezca
+        # detenida en el ultimo tramo.
+        _log.info("Guardando el archivo en disco...")
 
         try:
             libro.save(destino)

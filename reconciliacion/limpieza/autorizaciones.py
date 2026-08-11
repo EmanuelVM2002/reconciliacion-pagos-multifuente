@@ -14,7 +14,7 @@ transaccion ausente.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List, Sequence
+from typing import List, Optional, Sequence
 
 from reconciliacion.dominio.modelos import Autorizacion, FilaAutorizacionCruda
 from reconciliacion.limpieza.fechas import parsear_fecha
@@ -22,6 +22,7 @@ from reconciliacion.limpieza.marcas import extraer_marca
 from reconciliacion.limpieza.montos import extraer_monto, extraer_montos
 from reconciliacion.limpieza.retenciones import entidades_desconocidas, extraer_retenciones
 from reconciliacion.log import obtener_logger
+from reconciliacion.progreso import ProgresoParcial, notificar
 
 _log = obtener_logger(__name__)
 
@@ -125,18 +126,24 @@ def construir_autorizacion(fila: FilaAutorizacionCruda) -> tuple[Autorizacion, L
     return autorizacion, incidencias
 
 
-def limpiar_autorizaciones(filas: Sequence[FilaAutorizacionCruda]) -> ResultadoLimpieza:
+def limpiar_autorizaciones(
+    filas: Sequence[FilaAutorizacionCruda],
+    progreso: Optional[ProgresoParcial] = None,
+) -> ResultadoLimpieza:
     """Limpia el lote completo de filas crudas del CSV.
 
     Args:
         filas: Filas leidas por el cargador del CSV.
+        progreso: Aviso opcional de avance parcial, para que quien llame pueda
+            mostrar el progreso mientras se procesan las filas.
 
     Returns:
         El resultado con las autorizaciones limpias y el detalle de incidencias.
     """
     resultado = ResultadoLimpieza(filas_procesadas=len(filas))
+    total = len(filas)
 
-    for fila in filas:
+    for procesadas, fila in enumerate(filas, start=1):
         autorizacion, incidencias = construir_autorizacion(fila)
         resultado.autorizaciones.append(autorizacion)
         resultado.incidencias.extend(incidencias)
@@ -151,6 +158,8 @@ def limpiar_autorizaciones(filas: Sequence[FilaAutorizacionCruda]) -> ResultadoL
             resultado.sin_fecha += 1
         if len(set(extraer_montos(fila.monto_crudo))) > 1:
             resultado.con_monto_duplicado += 1
+
+        notificar(progreso, procesadas, total)
 
     _log.info("Limpieza del CSV: %s", resultado.resumen())
     for incidencia in resultado.incidencias:

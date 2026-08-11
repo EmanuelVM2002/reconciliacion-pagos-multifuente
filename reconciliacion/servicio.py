@@ -29,6 +29,7 @@ from reconciliacion.loaders import (
 from reconciliacion.log import obtener_logger
 from reconciliacion.procesamiento.fraude import DetectorFraude, ResumenFraude
 from reconciliacion.procesamiento.reconciliador import Reconciliador, ResumenReconciliacion
+from reconciliacion.progreso import ProgresoParcial
 
 _log = obtener_logger(__name__)
 
@@ -130,24 +131,31 @@ class ServicioReconciliacion:
             resultado.registros_por_fuente[carga.fuente] = carga.total
             resultado.advertencias.extend(f"{carga.fuente}: {a}" for a in carga.advertencias)
 
-        avisar("Limpiando los campos malformados del CSV...", 48)
-        resultado.limpieza = limpiar_autorizaciones(carga_csv.registros)
+        avisar("Limpiando los campos malformados del CSV...", 40)
+        resultado.limpieza = limpiar_autorizaciones(
+            carga_csv.registros,
+            progreso=self._parcial(avisar, "Limpiando el CSV", 40, 58),
+        )
         resultado.advertencias.extend(resultado.limpieza.incidencias)
 
-        avisar("Cruzando las tres fuentes...", 66)
+        avisar("Cruzando las tres fuentes...", 58)
         resultado.transacciones = self.reconciliador.reconciliar(
             resultado.limpieza.autorizaciones,
             carga_sqlite.registros,
             carga_json.registros,
+            progreso=self._parcial(avisar, "Clasificando transacciones", 58, 76),
         )
 
-        avisar("Buscando patrones de fraude...", 82)
+        avisar("Buscando patrones de fraude...", 76)
         resultado.resumen_fraude = self.detector.detectar(resultado.transacciones)
         resultado.resumen = self.reconciliador.resumir(resultado.transacciones)
 
         if exportar:
-            avisar("Generando el reporte de Excel...", 92)
-            resultado.ruta_reporte = self.exportador.exportar(resultado.transacciones)
+            avisar("Generando el reporte de Excel...", 84)
+            resultado.ruta_reporte = self.exportador.exportar(
+                resultado.transacciones,
+                progreso=self._parcial(avisar, "Escribiendo el reporte", 84, 99),
+            )
 
         resultado.duracion_segundos = time.perf_counter() - inicio
         avisar("Proceso terminado.", 100)
@@ -158,6 +166,36 @@ class ServicioReconciliacion:
             resultado.resumen_fraude.total_fraudes,
         )
         return resultado
+
+    @staticmethod
+    def _parcial(
+        avisar: FuncionProgreso, mensaje: str, desde: float, hasta: float
+    ) -> ProgresoParcial:
+        """Traduce el avance de una etapa al porcentaje global del proceso.
+
+        Cada etapa larga cuenta sus propios elementos (filas, transacciones) sin
+        saber que porcion del total representa. Esta funcion hace esa
+        conversion, de modo que la barra avanza de forma continua y no a
+        saltos entre etapa y etapa.
+
+        Args:
+            avisar: Funcion de progreso global.
+            mensaje: Texto a mostrar durante la etapa.
+            desde: Porcentaje global en que empieza la etapa.
+            hasta: Porcentaje global en que termina.
+
+        Returns:
+            La funcion de avance parcial que espera la etapa.
+        """
+
+        def reportar(procesados: int, total: int) -> None:
+            fraccion = procesados / total if total else 1.0
+            avisar(
+                f"{mensaje}... ({procesados}/{total})",
+                desde + (hasta - desde) * fraccion,
+            )
+
+        return reportar
 
     @staticmethod
     def _verificar_fuentes() -> None:

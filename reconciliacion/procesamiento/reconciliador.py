@@ -11,13 +11,14 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Sequence
+from typing import Dict, Iterable, List, Optional, Sequence
 
 from reconciliacion.dominio.enums import Clasificacion
 from reconciliacion.dominio.modelos import Autorizacion, Contabilizacion, MovimientoBancario
 from reconciliacion.dominio.transaccion import TransaccionReconciliada
 from reconciliacion.log import obtener_logger
 from reconciliacion.procesamiento.reglas import REGLAS_POR_DEFECTO, ReglaClasificacion
+from reconciliacion.progreso import ProgresoParcial, notificar
 
 _log = obtener_logger(__name__)
 
@@ -74,6 +75,7 @@ class Reconciliador:
         autorizaciones: Iterable[Autorizacion],
         contabilizaciones: Iterable[Contabilizacion],
         movimientos: Iterable[MovimientoBancario],
+        progreso: Optional[ProgresoParcial] = None,
     ) -> List[TransaccionReconciliada]:
         """Cruza las tres fuentes y devuelve el universo ya clasificado.
 
@@ -81,6 +83,7 @@ class Reconciliador:
             autorizaciones: Autorizaciones limpias del CSV.
             contabilizaciones: Registros contables de SQLite.
             movimientos: Movimientos reportados por el banco.
+            progreso: Aviso opcional de avance parcial.
 
         Returns:
             Las transacciones del universo, ordenadas por identificador.
@@ -109,8 +112,9 @@ class Reconciliador:
             for identificador in universo
         ]
 
-        for transaccion in transacciones:
+        for procesadas, transaccion in enumerate(transacciones, start=1):
             self._clasificar(transaccion)
+            notificar(progreso, procesadas, len(transacciones))
 
         return transacciones
 

@@ -23,13 +23,21 @@ pip install -r requirements.txt
 
 ## Uso
 
+**Interfaz gráfica** (doble clic en `ejecutar_gui.bat`, o):
+
+```bash
+python ejecutar_gui.py
+```
+
+**Terminal**:
+
 ```bash
 python main.py
 ```
 
-Corre la cadena completa —carga, validación, limpieza, reconciliación,
-detección de fraude y exportación— mostrando el avance y un resumen al final.
-El Excel queda en `salida/reporte_reconciliacion.xlsx`.
+Ambas corren la cadena completa —carga, validación, limpieza, reconciliación,
+detección de fraude y exportación— y dejan el Excel en
+`salida/reporte_reconciliacion.xlsx`.
 
 No hay selectores de archivo por ningún lado: todas las rutas viven en
 `reconciliacion/config/rutas.py`.
@@ -195,6 +203,81 @@ Un caso que vale la pena mirar en el archivo es **TRX0001**: está
 fila sale naranja. Es la precedencia funcionando y la prueba visual de que
 clasificación y fraude son dimensiones distintas.
 
+### Por qué diseñé así la interfaz
+
+Pensé la ventana para una persona de contabilidad que no programa y que no va a
+abrir una terminal. Necesita responder tres cosas de un vistazo —*¿funcionó?*,
+*¿qué tan sano está el resultado?*, *¿dónde está mi archivo?*— y, mientras
+espera, saber que el proceso sigue vivo.
+
+La organicé en cuatro bloques que siguen ese orden mental:
+
+1. **Fuentes de datos.** Antes de ejecutar nada ya dice si los tres archivos
+   están donde deben, con un punto verde o rojo. Es el error más probable en la
+   vida real y no tiene sentido descubrirlo a mitad del proceso: si falta algo,
+   el botón queda deshabilitado y el mensaje dice qué falta y dónde debería
+   estar, con el nombre del archivo y no con una ruta técnica.
+2. **Acción y avance.** Un solo botón. La barra va acompañada del paso escrito
+   en palabras ("Escribiendo el reporte... (320/505)"), porque una barra sola no
+   dice si el proceso avanza o si se atascó.
+3. **Cuatro indicadores.** Porcentaje reconciliado, transacciones analizadas,
+   monto en discrepancia y transacciones con fraude. Son cuatro y no veinte: si
+   todo es importante, nada lo es. Van aquí y no en el Excel, como pide el
+   enunciado.
+4. **Detalle del proceso.** La bitácora completa para quien quiera auditar qué
+   se hizo, y los botones para abrir el Excel o su carpeta.
+
+**Lo que dejé fuera a propósito:** selectores de archivo (las rutas son
+configuración, no una decisión del usuario), una tabla con las 505
+transacciones (para eso está el Excel, que filtra y ordena mucho mejor) y
+gráficos (decoran, no ayudan a decidir). Sí agregué selector de tema claro y
+oscuro, que cuesta tres líneas y se agradece.
+
+Antes de ejecutar nada, la ventana no está vacía ni muestra ceros: muestra el
+estado de las fuentes y dice explícitamente que todavía no se ha generado
+ningún reporte.
+
+### Que la interfaz no se congele: lo que costó de verdad
+
+El requisito técnico central era que la ventana nunca se congelara. Puse el
+proceso en un hilo aparte que se comunica con la interfaz por una `queue.Queue`
+—Tkinter no es seguro para hilos, así que el trabajo pesado no toca ni un
+widget— y la ventana la vacía cada 60 ms con `after()`.
+
+**Eso no fue suficiente, y medirlo fue la parte interesante.** Instrumenté la
+aplicación para contar cuántas veces alcanzaba a ejecutarse el hilo de la
+interfaz durante el proceso, y el resultado fue malo: 4 ejecuciones en 1,7
+segundos, con un hueco de **1,57 s sin repintar**. La barra saltaba de 0 % a
+100 % de golpe. El culpable no era el diseño sino el GIL: el hilo de trabajo
+usa 100 % de CPU y el intérprete solo lo interrumpe cada 5 ms por defecto, lo
+que en la práctica dejaba al hilo de la ventana sin turnos.
+
+Lo resolví con tres cambios, y volví a medir cada uno:
+
+- **Avance de grano fino.** Las etapas largas (limpieza, clasificación,
+  escritura del Excel) avisan cada 20 elementos, no solo al terminar. El
+  servicio traduce ese conteo al porcentaje global, así que la barra avanza de
+  forma continua.
+- **Ceder el turno al avisar.** Una pausa real de 1 ms en cada aviso.
+  `sleep(0)` no sirve en Windows: solo cede a hilos que ya estén listos, y el
+  de la interfaz suele estar esperando un evento.
+- **Bajar el intervalo de conmutación del intérprete** a 0,5 ms mientras dura
+  el proceso, y restaurarlo al terminar.
+
+Resultado medido: el hueco máximo sin repintar bajó de **1,57 s a 0,15 s** y la
+barra pasó de mostrar 2 estados a mostrar 9. Ahí sí se cumple el requisito.
+
+También encontré, probándolo, que cerrar la ventana con el proceso corriendo
+dejaba callbacks de `after` programados sobre una ventana muerta y Tcl escribía
+errores en consola. Se cancelan al cerrar.
+
+**Los errores se manejan dentro de la ventana**, nunca en consola. Probé los
+tres casos: falta un archivo (botón deshabilitado y mensaje explicando qué
+falta), error previsible como el Excel abierto en otra ventana (mensaje en
+lenguaje del usuario y detalle técnico en la bitácora) y error inesperado
+(mensaje genérico, detalle en la bitácora). En los tres la ventana sigue viva y
+el botón vuelve a habilitarse.
+
 ## Resultado sobre los datos entregados
 
 | Indicador | Valor |
@@ -232,5 +315,5 @@ madrugada, así que las tres señales apuntan al mismo sitio.
 - [x] Detección de fraude
 - [x] Script ejecutable de punta a punta (`main.py`)
 - [x] Reporte Excel
-- [ ] Interfaz gráfica
+- [x] Interfaz gráfica (+ `.bat` para abrirla con doble clic)
 - [ ] Pruebas unitarias
