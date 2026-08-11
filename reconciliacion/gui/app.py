@@ -168,6 +168,18 @@ class AplicacionReconciliacion(ctk.CTk):
         selector.set("Oscuro" if ctk.get_appearance_mode() == "Dark" else "Claro")
         selector.grid(row=0, column=1, rowspan=2, sticky="e")
 
+        # Va arriba y en tono discreto: es una salida, no la accion principal,
+        # y no debe competir visualmente con el boton de ejecutar.
+        ctk.CTkButton(
+            marco,
+            text="Salir",
+            command=self._salir,
+            width=80,
+            fg_color="transparent",
+            border_width=1,
+            text_color=COLOR_NEUTRO,
+        ).grid(row=0, column=2, rowspan=2, sticky="e", padx=(10, 0))
+
     def _construir_fuentes(self) -> None:
         """Panel con el estado de los tres archivos de entrada."""
         marco = ctk.CTkFrame(self, corner_radius=8)
@@ -405,16 +417,37 @@ class AplicacionReconciliacion(ctk.CTk):
             if self.winfo_exists():
                 self._sondeo = self.after(INTERVALO_SONDEO_MS, self._procesar_cola)
 
-    def _al_cerrar(self) -> None:
-        """Cierra la ventana cancelando antes el sondeo pendiente.
+    def _salir(self) -> None:
+        """Cierra la aplicacion desde el boton Salir.
 
-        Sin esto, el `after` que quedo programado se dispara sobre una ventana
-        que ya no existe y Tcl escribe un error en la consola. El hilo de
-        trabajo es `daemon`, asi que no impide que el programa termine.
+        Hace exactamente lo mismo que cerrar la ventana con la X, para que las
+        dos formas de salir se comporten igual y no haya una "buena" y una
+        "mala".
         """
+        self._al_cerrar()
+
+    def _al_cerrar(self) -> None:
+        """Cierra la ventana dejando todo en orden.
+
+        Dos cuidados antes de destruir la ventana:
+
+        * se le pide al hilo de trabajo que se detenga, para que no siga
+          gastando la maquina ni escribiendo archivos despues de que el usuario
+          ya se fue;
+        * se cancela el sondeo pendiente, porque si no el `after` programado se
+          dispara sobre una ventana que ya no existe y Tcl escribe un error en
+          la consola.
+
+        El hilo es `daemon`, asi que en ningun caso impide que el programa
+        termine.
+        """
+        if self.trabajador is not None and self.trabajador.is_alive():
+            self.trabajador.cancelar()
+
         if self._sondeo is not None:
             self.after_cancel(self._sondeo)
             self._sondeo = None
+
         self.destroy()
 
     def _atender(self, mensaje: Mensaje) -> None:
