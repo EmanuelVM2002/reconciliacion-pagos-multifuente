@@ -1,16 +1,12 @@
-"""Reporte de avance parcial dentro de las etapas largas.
+"""Avisos de avance dentro de las etapas largas.
 
-Las etapas del proceso no son instantaneas: limpiar 500 filas, cruzar 505
-transacciones o escribir 505 filas de Excel toma el tiempo suficiente como
-para que una interfaz que solo se entere al terminar cada etapa parezca
-congelada.
+Limpiar 500 filas o escribir 505 de Excel toma lo suficiente como para que una
+interfaz que solo se entera al terminar cada etapa parezca colgada. Por eso las
+funciones largas aceptan una funcion a la que le avisan cada tantos elementos.
 
-Por eso las funciones largas aceptan un `ProgresoParcial` opcional al que
-avisan cada cierto numero de elementos. Quien las llama decide que hacer con
-ese aviso: la terminal lo ignora y la interfaz lo usa para mover la barra y,
-de paso, para cederle el turno al hilo que dibuja.
-
-El paquete de negocio no sabe nada de hilos ni de ventanas: solo avisa.
+Lo importante: el negocio no sabe nada de hilos ni de ventanas, solo avisa. Quien
+lo llame decide que hacer con el aviso —la terminal lo ignora, la ventana mueve
+la barra—.
 """
 
 from __future__ import annotations

@@ -1,16 +1,15 @@
-"""Contrato comun de los cargadores de fuentes.
+"""El molde de los tres cargadores.
 
-Las tres fuentes tienen formatos muy distintos (CSV con campos malformados,
-SQLite, JSON), pero el resto del sistema no deberia enterarse de eso: todas se
-consumen igual. `CargadorFuente` fija ese contrato aplicando el patron
-*Template Method*:
+Las fuentes no se parecen en nada —un CSV roto, una base SQLite, un JSON— pero el
+resto del sistema no tiene por que enterarse. Aqui fijo los cuatro pasos que son
+iguales para todas y dejo que cada una implemente solo el que cambia:
 
-1. verificar que el archivo existe            (comun, aqui)
-2. leer los registros                         (especifico, en cada subclase)
-3. validar la integridad de lo leido          (comun, aqui)
-4. devolver un `ResultadoCarga` uniforme      (comun, aqui)
+1. comprobar que el archivo esta
+2. leerlo                          <- lo unico especifico de cada fuente
+3. validar lo leido
+4. devolver siempre la misma estructura
 
-Asi, agregar una cuarta fuente manana solo exige implementar `_leer`.
+Agregar una cuarta fuente manana es escribir un `_leer` y nada mas.
 """
 
 from __future__ import annotations

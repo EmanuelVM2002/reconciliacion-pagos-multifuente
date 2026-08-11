@@ -1,8 +1,11 @@
-"""Carga de `reconciliacion_pagos.db` (lo que se contabilizo).
+"""Lee la tabla `Contabilizaciones`.
 
-Es la unica fuente con los campos ya limpios, la unica que aporta
-`Centro_Costo` y la unica cuyo estado puede ser `PENDIENTE` o `RECHAZADO`
-(lo que define la etiqueta `DISCREPANCIA_ESTADO`).
+Es la fuente comoda: los campos ya vienen limpios. Aporta dos cosas que ninguna
+otra tiene, el centro de costo y un estado que puede ser `PENDIENTE` o
+`RECHAZADO`, que es justo lo que define la discrepancia de estado.
+
+La abro en modo solo lectura a proposito. Es una fuente de datos, no el almacen
+de la aplicacion: no hay ninguna razon para poder escribir en ella.
 """
 
 from __future__ import annotations

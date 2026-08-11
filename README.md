@@ -1,499 +1,284 @@
-# Sistema de Reconciliación de Pagos Multi-Fuente
+# Reconciliación de Pagos Multi-Fuente
 
 [![Pruebas](https://github.com/EmanuelVM2002/reconciliacion-pagos-multifuente/actions/workflows/pruebas.yml/badge.svg)](https://github.com/EmanuelVM2002/reconciliacion-pagos-multifuente/actions/workflows/pruebas.yml)
 
-Cruce de transacciones de pago entre tres orígenes que describen la misma
-operación desde ángulos distintos, para encontrar dónde dejan de coincidir.
+Tres sistemas hablan de las mismas transacciones y no siempre coinciden. Esto
+las cruza, encuentra dónde se despegan, marca lo que huele a fraude y lo deja
+todo en un Excel.
 
-| Fuente | Archivo | Qué representa | Cómo llama a la llave |
+| Fuente | Archivo | Qué es | Cómo llama a la llave |
 |---|---|---|---|
-| CSV | `datos/autorizaciones.csv` | Lo que se **autorizó** | `ID_Transaccion` |
-| SQLite | `datos/reconciliacion_pagos.db` | Lo que se **contabilizó** | `Referencia` |
-| JSON | `datos/movimientos_bancarios.json` | Lo que **llegó al banco** | `transaccion_id` |
+| CSV | `autorizaciones.csv` | Lo que se **autorizó** | `ID_Transaccion` |
+| SQLite | `reconciliacion_pagos.db` | Lo que se **contabilizó** | `Referencia` |
+| JSON | `movimientos_bancarios.json` | Lo que **llegó al banco** | `transaccion_id` |
 
-El resultado es un Excel de una sola hoja (`Reconciliacion`) con una fila por
-transacción del universo —la unión de las tres fuentes— con los valores de cada
-origen lado a lado, la clasificación del hallazgo y la marcación de fraude.
-
-## La interfaz
-
-| Antes de ejecutar | Durante el proceso |
-|---|---|
-| ![Estado inicial](capturas/gui_inicial.png) | ![En proceso](capturas/gui_proceso.png) |
-
-![Resultado](capturas/gui_resultado.png)
-
-## Instalación
+## Cómo se ejecuta
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Para desarrollar (agrega cobertura y verificación de tipos):
-
-```bash
-pip install -r requirements-dev.txt
-```
-
-Desarrollado y probado con Python 3.12. El código usa
-`from __future__ import annotations` en todos los módulos, así que las
-anotaciones no atan la versión mínima.
-
-## Uso
-
-**Interfaz gráfica** (doble clic en `ejecutar_gui.bat`, o):
+**Con interfaz** — doble clic en `ejecutar_gui.bat`, o:
 
 ```bash
 python ejecutar_gui.py
 ```
 
-El `.bat` usa `pythonw` para no dejar una consola abierta detrás de la ventana,
-pero `pythonw` tampoco muestra errores: si faltara Python o una dependencia, el
-doble clic no haría absolutamente nada y la persona no sabría por qué. Por eso
-comprueba los requisitos antes de lanzar y, si algo falta, lo explica en
-pantalla y espera a que lo lean. Prefiere el entorno virtual del proyecto si
-existe.
-
-**Terminal**:
+**Por terminal:**
 
 ```bash
 python main.py
 ```
 
-Ambas corren la cadena completa —carga, validación, limpieza, reconciliación,
-detección de fraude y exportación— y dejan el Excel en
-`salida/reporte_reconciliacion.xlsx`.
-
-No hay selectores de archivo por ningún lado: todas las rutas viven en
+Las dos hacen lo mismo y dejan el Excel en `salida/reporte_reconciliacion.xlsx`.
+No hay que buscar ni seleccionar archivos: las rutas están en
 `reconciliacion/config/rutas.py`.
 
-**Pruebas y calidad**:
+**Pruebas:**
 
 ```bash
-python -m pytest
-python -m pytest --cov=reconciliacion --cov-report=term-missing
-python -m mypy reconciliacion
+python -m pytest                      # 172 pruebas
+python -m mypy reconciliacion         # tipos, en modo estricto
 ```
 
-## Estructura
+## Qué encontró
 
-```
-reconciliacion-pagos-multifuente/
-├── datos/                       # Las tres fuentes de entrada
-├── reconciliacion/
-│   ├── config/rutas.py          # Todas las rutas, en un solo lugar
-│   ├── dominio/                 # Modelos, enumeraciones y la transacción reconciliada
-│   ├── loaders/                 # Un cargador por fuente, con contrato común
-│   ├── limpieza/                # Extracción de los campos malformados del CSV
-│   ├── procesamiento/           # Reconciliación, reglas y detección de fraude
-│   ├── exportadores/            # Generación del Excel
-│   └── gui/                     # Interfaz Tkinter + customtkinter
-├── tests/                       # Pruebas unitarias (pytest)
-└── salida/                      # Donde queda el Excel generado
-```
-
-Separé el proyecto en capas para que cada pieza tenga una sola razón para
-cambiar. Los *loaders* solo leen, la *limpieza* solo interpreta, el
-*procesamiento* solo decide y los *exportadores* solo presentan. En la práctica
-eso significa que puedo probar el parseo de un campo corrupto pasándole un
-string, sin tocar disco, y que agregar una cuarta fuente mañana solo obliga a
-escribir un cargador nuevo.
-
-## Decisiones que tomé
-
-### La llave de cruce
-
-Las tres fuentes usan el mismo identificador `TRXxxxx` pero con distinto nombre
-de campo. Esa traducción la resuelven los cargadores: de ahí para adentro todo
-el sistema habla de `id_transaccion` y nadie más se entera de cómo se llamaba
-en el archivo original.
-
-### Validación de integridad
-
-Distingo dos clases de problema y los trato distinto. Si la fuente **no se
-puede leer** (falta el archivo, el JSON no es válido, el CSV no trae las
-columnas esperadas, la tabla no existe), el proceso se detiene con un error
-explicativo: seguir sería inventar datos. Si la fuente se lee pero **algún
-registro es dudoso**, se registra una advertencia y el proceso continúa.
-
-Lo que se valida en cada carga:
-
-| Validación | Si falla |
+| | |
 |---|---|
-| Existen los tres archivos | Error, con la lista completa de lo que falta |
-| El CSV trae las columnas esperadas | Error, diciendo cuáles faltan |
-| El JSON es válido y es una lista | Error, con línea y columna |
-| La tabla de SQLite es legible | Error |
-| Cada registro tiene identificador | Advertencia, y se descarta indicando la fila |
-| El identificador es único en su fuente | Advertencia con los repetidos |
-| Las fechas son legibles | Advertencia; la fila se conserva |
-| El estado está en el catálogo de la fuente | Advertencia con el valor y su frecuencia |
-| Registros leídos vs. registros válidos | Queda expuesto en `hubo_perdida` |
+| Universo analizado (unión de las 3 fuentes) | **505** transacciones |
+| Reconciliadas | 290 (57,4 %) |
+| Sin clasificar | **0** |
+| Discrepancia de monto / de estado | 95 / 55 |
+| Faltantes: sin banco / sin contabilizar / sin autorizar | 40 / 20 / 5 |
+| Con algún patrón de fraude | 149 |
+| Monto en discrepancia | $475.000 |
+| Filas del CSV con extracción completa | **500 de 500** |
 
-La validación del **catálogo de estados** vale la pena explicarla: un
-`RECHAZADO` en SQLite es una discrepancia de negocio, pero un `ANULADO` —que no
-existe en el vocabulario— es otra cosa: un valor que el sistema no sabe
-interpretar y que, si se ignora, se convierte en una clasificación
-silenciosamente equivocada. Por eso se reporta aparte.
+Todo esto sale en 1,2 segundos.
 
-En el cruce verifico además que las tres fuentes coincidan en la **entidad
-bancaria**. El reporte trae una sola columna `Banco` porque se asume que las
-tres reportan lo mismo; si no coincidieran, esa columna estaría escondiendo un
-problema. En estos datos coinciden siempre, pero la comprobación queda hecha.
+## La interfaz
 
-### Limpieza del CSV: extraer, no reparar
+![Estado inicial](capturas/gui_inicial.png)
 
-El campo `Monto` del CSV no es un número y el campo `Marca` no es solo la
-marca: ambos traen estructuras tipo JSON deliberadamente malformadas. Probé
-primero a repararlas para poder usar `json.loads()` y lo descarté: hay al menos
-seis variantes de corrupción conviviendo en el archivo (aperturas `[{`, `{{` o
-`({`, cierres `}}]""` o `})"`, claves con escapes sobrantes como `"monto\":` y
-claves duplicadas pegadas como `financial_entityfinancial_entity"`), así que
-cualquier reparación genérica se rompe con alguna de ellas.
+![Resultado](capturas/gui_resultado.png)
 
-Opté por **extraer con expresiones regulares tolerantes** el dato que me
-interesa, sin importar cómo venga escapado alrededor. Es más robusto y, sobre
-todo, no pierde filas: de las 500 del archivo extraje monto, marca y
-retenciones en las 500.
+## Dónde está cada cosa
 
-Tres detalles del archivo que obligan a decidir:
+```
+reconciliacion/
+├── config/rutas.py     Todas las rutas, en un solo lugar
+├── dominio/            Los modelos del negocio
+├── loaders/            Un cargador por fuente
+├── limpieza/           Sacar los datos de los campos rotos
+├── procesamiento/      Cruzar, clasificar y buscar fraude
+├── exportadores/       Armar el Excel
+├── gui/                La ventana
+└── servicio.py         El proceso completo, de punta a punta
+```
 
-- **El monto viene en tres formatos**: `1250000`, `"188.000 COP"` y
-  `"$175.000,00"`. El tercero es formato colombiano (punto = miles, coma =
-  decimales); si se interpreta el punto como decimal, `$175.000,00` se
-  convierte en 17.500.000 y aparecen 53 discrepancias de monto que no existen.
-- **La clave `monto` puede estar repetida** en la misma fila con valores
-  distintos. Apliqué la semántica estándar de JSON: gana la última. En el único
-  caso del archivo (TRX0138: `"410.000 COP"` y `1720000`) el valor que gana es
-  el que confirman SQLite y el banco.
-- **Una misma entidad de retención puede repetirse** en la fila con montos
-  distintos: pasa en 267 de las 500 filas. Hay que sumar todas sus ocurrencias
-  antes de aplicar las fórmulas; quien parsee a un diccionario simple pierde
-  valores sin darse cuenta.
+Separé por capas para que cada pieza tenga una sola razón para cambiar: los
+*loaders* solo leen, la *limpieza* solo interpreta, el *procesamiento* solo
+decide y los *exportadores* solo presentan. En la práctica eso significa que
+puedo probar el parseo de un campo roto pasándole un string, y que agregar una
+cuarta fuente mañana es escribir un cargador nuevo y nada más.
 
-Ninguna fila se descarta. Si algo no se puede extraer, la transacción se
-conserva con ese campo vacío y queda registrada una incidencia en el log: en un
-proceso contable prefiero una fila visible e incompleta que una fila ausente.
+`servicio.py` merece mención aparte: es el único sitio que conoce el proceso
+entero. La terminal y la ventana llaman ahí, así que **corren exactamente el
+mismo código** y no hay riesgo de que una quede desactualizada.
 
-### Normalización de la marca
+---
 
-Las tres fuentes no escriben la marca igual. El CSV guarda el nombre comercial
-completo y SQLite y el banco guardan solo su primera palabra:
+## Lo que me costó, y cómo lo resolví
+
+### 1. El CSV está roto a propósito
+
+Los campos `Monto` y `Marca` no son un número y un texto: son estructuras tipo
+JSON reventadas. Intenté repararlas para poder usar `json.loads()` y lo
+abandoné —conviven al menos seis formas de corrupción y cualquier arreglo
+genérico se rompe con alguna—. Al final voy directo a buscar el dato con
+expresiones regulares tolerantes.
+
+Tres trampas concretas:
+
+- **El monto viene de tres formas:** `1250000`, `"188.000 COP"` y
+  `"$175.000,00"`. La última es formato colombiano (punto de miles, coma de
+  decimales). Si uno lee el punto como decimal, `$175.000,00` se convierte en
+  17.500.000 y **aparecen 53 discrepancias que no existen**.
+- **La clave `monto` puede estar repetida** con valores distintos. Gana la
+  última, que es lo que hace cualquier parser de JSON. Pasa una sola vez en el
+  archivo (TRX0138) y el valor que gana coincide con lo que dicen SQLite y el
+  banco, así que la regla es la correcta.
+- **Una retención puede repetirse** en la misma fila con montos distintos: pasa
+  en **267 de las 500 filas**. Hay que sumarlas todas; quien parsee a un
+  diccionario simple pierde valores y ni se entera.
+
+**Ninguna fila se descarta.** Si algo no se puede extraer, la transacción se
+queda con ese campo vacío y deja una incidencia en el log. En un proceso
+contable prefiero una fila visible e incompleta que una fila que desapareció.
+
+### 2. Las tres fuentes escriben la marca distinto
+
+El CSV guarda el nombre completo; SQLite y el banco, solo la primera palabra:
 
 | CSV | SQLite / JSON |
 |---|---|
 | `NAF NAF` | `NAF` |
 | `AMERICAN EAGLE` | `AMERICAN` |
 | `AMERICANINO` | `AMERICANINO` |
-| `CHEVIGNON` | `CHEVIGNON` |
-| `RIFLE` | `RIFLE` |
 
-Mi regla de normalización es: **mayúsculas, sin tildes ni puntuación, espacios
-colapsados y me quedo solo con el primer token**. Comparando literalmente me
-daban 183 marcas "distintas" sobre 500 que en realidad son la misma; tras
-normalizar, cero.
+Normalizo a mayúsculas, sin tildes ni signos, y **me quedo con el primer
+token**. Comparando literal me salían 183 marcas "distintas" de 500 que en
+realidad son la misma; normalizando, cero. Elegí el primer token porque se
+explica en una frase y no genera choques: AMERICANINO y AMERICAN EAGLE siguen
+quedando distintas.
 
-Elegí el primer token y no un recorte por prefijo común porque es una regla
-estable y explicable, y porque el catálogo no tiene dos marcas que compartan la
-primera palabra: `AMERICANINO` y `AMERICAN EAGLE` normalizan a `AMERICANINO` y
-`AMERICAN`, que siguen siendo distintas. No introduce colisiones.
+### 3. Los estados no se comparan como texto
 
-### Clasificación
+Cada fuente tiene su propio vocabulario —`AUTORIZADO`, `CONTABILIZADO`,
+`COMPLETADO`— y los tres significan lo mismo. Solo marco discrepancia cuando
+SQLite dice `PENDIENTE` o `RECHAZADO`.
 
-Cada criterio de negocio es una clase con una sola responsabilidad
-(`ReglaPresencia`, `ReglaMonto`, `ReglaEstado`, `ReglaFechas`,
-`ReglaReconciliado`) y todas comparten la misma interfaz. El motor solo las
-recorre en orden sin saber qué hace cada una, así que cambiar un criterio no
-obliga a tocar el motor.
+### 4. El fraude no es una etiqueta más
 
-Dos decisiones ahí:
+Es una dimensión aparte: una transacción puede estar perfectamente reconciliada
+y aun así ser fraude. **Pasa en 90 de las 505**, así que van en columnas
+distintas del reporte. Buen ejemplo, TRX0001: está `RECONCILIADO` pero es
+`FRAUDE_MONTO`, y por eso su fila sale naranja.
 
-- **Los estados no se comparan como texto.** Cada fuente tiene su propio
-  vocabulario (`AUTORIZADO`, `CONTABILIZADO`, `COMPLETADO`) y los tres son el
-  mismo estado "OK". Solo marco `DISCREPANCIA_ESTADO` cuando SQLite dice
-  `PENDIENTE` o `RECHAZADO`.
-- **La regla de presencia cubre las siete combinaciones posibles**, no solo las
-  tres que nombra el enunciado. Así ninguna transacción del universo se queda
-  sin clasificar, aunque aparezca una combinación que hoy no existe en los
-  datos.
+Dos criterios que el enunciado no cierra y tuve que decidir yo: uso desviación
+estándar **poblacional** (el conjunto no es una muestra, es la población del
+periodo) y la **fecha de referencia sigue el orden CSV → SQLite → JSON**, porque
+la autorización es cuando la operación realmente ocurre y lo demás son ecos
+posteriores.
 
-El desfase de fechas (tolerancia ±2 h) lo dejo como observación y no como
-etiqueta: el enunciado pide comprobarlo pero no define una etiqueta para él, y
-preferí no inventar vocabulario nuevo. En estos datos ninguna transacción se
-sale de la tolerancia.
+### 5. La ventana se congelaba, aunque el patrón fuera el correcto
 
-### Detección de fraude
+Monté lo de siempre —hilo aparte, `queue.Queue`, `after()`— y **aun así se
+bloqueaba 1,57 segundos**. La barra saltaba de 0 % a 100 % de golpe.
 
-El fraude lo traté como una **dimensión aparte** de la clasificación, no como
-una etiqueta más: una transacción puede estar perfectamente reconciliada y aun
-así ser fraude. De hecho pasa en 90 de las 505.
+No lo adiviné: lo medí. Instrumenté la app para contar cuántas veces alcanzaba
+a correr el hilo de la interfaz, y eran 4 veces en 1,7 segundos. El culpable era
+el **GIL**: el hilo de trabajo usa el 100 % de la CPU y el intérprete solo lo
+interrumpe cada 5 ms.
 
-La diferencia técnica con las reglas de clasificación es que aquí el contrato
-recibe **toda la colección** y no una transacción suelta, porque tres de los
-cuatro patrones lo necesitan: el umbral de monto anómalo se calcula sobre la
-distribución completa y el patrón sospechoso compara unas transacciones contra
-otras.
+Tres cambios, midiendo cada uno:
 
-Dos criterios que tuve que fijar porque el enunciado no los cierra:
+- avisar del avance **cada 20 elementos**, no solo al terminar cada etapa;
+- una pausa **real de 1 ms** al avisar (`sleep(0)` no sirve en Windows: solo
+  cede a hilos que ya estén listos);
+- bajar el intervalo de conmutación del intérprete a 0,5 ms mientras dura el
+  proceso.
 
-- **Desviación estándar poblacional, no muestral.** El conjunto analizado no es
-  una muestra de algo mayor: es la población completa de transacciones del
-  periodo. Sobre estos datos ambas dan el mismo resultado (11 transacciones),
-  así que no cambia la salida, pero prefiero que el criterio sea explícito.
-- **Fecha de referencia = la primera disponible en el orden CSV → SQLite →
-  JSON.** La autorización es el momento en que la operación realmente ocurre;
-  la contabilización y el movimiento bancario son ecos posteriores de ese
-  hecho. Es la fecha que uso para la hora inusual y para el patrón.
+**Resultado: de 1,57 s de bloqueo a 0,15 s**, y de 2 a 9 estados visibles en
+pantalla.
 
-En el patrón sospechoso marco **todas** las transacciones involucradas, no solo
-la segunda de cada par, y en la observación dejo escrito con cuáles cruza.
+---
 
-### El reporte de Excel
+## Por qué diseñé así la interfaz
 
-Las 29 columnas están declaradas como **datos** (una lista de `ColumnaReporte`
-con su título, cómo obtener el valor y con qué formato mostrarse), no como 29
-bloques de código repetido. El método que escribe la hoja es el mismo sin
-importar cuántas columnas haya, y mover o agregar una es editar una línea.
+La pensé para alguien de contabilidad que no programa y no va a abrir una
+terminal. Necesita responder tres cosas de un vistazo —*¿funcionó?*, *¿qué tan
+sano está el resultado?*, *¿dónde está mi archivo?*— y, mientras espera, saber
+que el proceso sigue vivo. Todo lo que no ayudaba a responder eso lo dejé fuera.
 
-Los montos y las fechas se escriben como número y como `datetime` reales, con
-formato de Excel aplicado — no como texto —, para que el área contable pueda
-filtrar, sumar y ordenar sin tener que convertir nada.
-
-El color de fila sigue la precedencia pedida: naranja si hay fraude, si no rojo
-para cualquier hallazgo, si no verde. Usé los tonos convencionales de Excel
-para "malo" y "bueno" porque son los que un área contable ya reconoce sin
-necesidad de leyenda.
-
-Un caso que vale la pena mirar en el archivo es **TRX0001**: está
-`RECONCILIADO` (verde por clasificación) pero es `FRAUDE_MONTO`, así que la
-fila sale naranja. Es la precedencia funcionando y la prueba visual de que
-clasificación y fraude son dimensiones distintas.
-
-### Por qué diseñé así la interfaz
-
-Pensé la ventana para una persona de contabilidad que no programa y que no va a
-abrir una terminal. Necesita responder tres cosas de un vistazo —*¿funcionó?*,
-*¿qué tan sano está el resultado?*, *¿dónde está mi archivo?*— y, mientras
-espera, saber que el proceso sigue vivo. Todo lo que no ayuda a responder esas
-preguntas lo dejé fuera: sin selectores de archivo, sin tabla de 505 filas y sin
-gráficos. La regla que me impuse fue que cada elemento en pantalla tuviera que
-justificar por qué está ahí.
-
-Las decisiones, una por una:
-
-| Decisión | Qué elegí y por qué |
+| Pregunta | Qué decidí |
 |---|---|
-| **Organización** | Cuatro bloques en el orden mental de quien la usa: fuentes → acción y avance → indicadores → detalle |
-| **Indicadores** | Cuatro cifras (ver abajo) |
-| **Progreso** | Barra + el paso escrito en palabras, con conteo (`Escribiendo el reporte... (320/505)`) |
-| **Detalle del proceso** | Todo lo que el proceso registra, abajo y sin robar protagonismo |
-| **Estado de las fuentes** | Un punto verde o rojo por archivo, visible antes de ejecutar |
-| **Estado inicial** | La ventana dice explícitamente que aún no se ha generado nada |
-| **Acceso al Excel** | Dos botones (abrir archivo / abrir carpeta) + la ruta completa en texto |
-| **Hilo ↔ interfaz** | `queue.Queue` que la ventana vacía con `after()` |
+| **Cómo organizo la ventana** | Cuatro bloques en el orden en que uno los mira: fuentes → acción y avance → indicadores → detalle |
+| **Qué indicadores muestro** | Cuatro, y cada uno responde algo distinto (ver abajo) |
+| **Cómo represento el progreso** | Barra + el paso escrito en palabras: `Escribiendo el reporte... (320/505)` |
+| **Cuánto detalle expongo** | Todo lo que el proceso registra, pero abajo y sin robar protagonismo |
+| **Estado de cada fuente** | Un punto verde o rojo por archivo, **antes** de ejecutar |
+| **Qué hace si no se ha ejecutado nada** | Lo dice explícitamente; no muestra ceros que parezcan resultados |
+| **Cómo se llega al Excel** | Dos botones (abrir archivo / abrir carpeta) y la ruta escrita al pie |
+| **Mecanismo hilo ↔ interfaz** | `queue.Queue` que la ventana vacía con `after()` cada 60 ms |
 
-**Por qué esos cuatro indicadores.** Cada uno responde una pregunta distinta y
-ninguno es reemplazable por otro:
+**Por qué esos cuatro indicadores** y no otros:
 
-- **% reconciliado** es el titular: la respuesta a *¿qué tan sano está esto?* en
-  un solo número.
-- **Transacciones analizadas** le da escala a ese porcentaje —57 % de 505 no es
-  lo mismo que 57 % de 5— y de paso confirma que se procesó todo.
-- **Monto en discrepancia** traduce el problema a plata, que es el idioma del
-  área contable. Un conteo de errores no dice cuánto hay en juego.
-- **Transacciones con fraude** es la única cifra que obliga a levantar el
+- **% reconciliado** — el titular, la respuesta a *¿qué tan sano está esto?*
+- **Transacciones analizadas** — le da escala al porcentaje: 57 % de 505 no es
+  lo mismo que 57 % de 5.
+- **Monto en discrepancia** — traduce el problema a plata, que es el idioma de
+  contabilidad. Un conteo de errores no dice cuánto hay en juego.
+- **Transacciones con fraude** — la única cifra que obliga a levantar el
   teléfono hoy.
 
-Descarté promedios, totales por banco y conteos por etiqueta: son interesantes
-para analizar, no para decidir en treinta segundos. Ese detalle está en el Excel,
-que además filtra y ordena mucho mejor que cualquier tabla que yo dibuje.
+Descarté promedios, totales por banco y conteos por etiqueta: sirven para
+analizar, no para decidir en treinta segundos. Ese detalle está en el Excel, que
+filtra y ordena mejor que cualquier tabla que yo dibuje.
 
-**Cuánto detalle del proceso expongo.** La bitácora muestra *todo* lo que el
-sistema registra —cada discrepancia y cada fraude, como pide el enunciado—
-porque en un proceso contable alguien tiene que poder auditar qué se hizo. Pero
-va abajo y en tipografía monoespaciada: quien solo quiere el resultado mira los
-indicadores y no baja. Es nivel informativo, sin ruido de depuración, y se puede
-exportar a un `.txt` para adjuntarlo a un correo.
+**Lo que dejé fuera a propósito:** selectores de archivo (la ruta es
+configuración, no una decisión del usuario), una tabla con las 505 transacciones
+y gráficos, que decoran pero no ayudan a decidir.
 
-**Cómo se llega al Excel.** Dos botones: uno abre el archivo y otro la carpeta
-—porque a veces se quiere adjuntar, no leer—. La ruta completa además queda
-escrita al pie, por si la quieren copiar. No hay diálogo de "guardar como": la
-ruta es configuración del sistema, no una decisión que deba tomar el usuario
-cada vez.
+**Lo que agregué de más:** tema claro/oscuro, cancelar la ejecución en marcha,
+exportar la bitácora a `.txt` y un botón de salir que hace lo mismo que cerrar
+con la X. Cancelar no mata el hilo —eso dejaría el trabajo a medias—: levanta una
+bandera que el propio hilo revisa en su siguiente aviso y se detiene ordenado.
 
-**Estado de cada fuente, antes de arrancar.** Los tres archivos se verifican al
-abrir la ventana, con un punto verde o rojo. Es el error más probable en la vida
-real y no tiene sentido descubrirlo a mitad del proceso: si falta algo, el botón
-queda deshabilitado y el mensaje dice qué falta, con el nombre del archivo y no
-con una ruta técnica.
+**Dos cosas que solo aparecieron probándola:** los colores están declarados como
+pares *(claro, oscuro)*, porque con un solo tono los botones deshabilitados eran
+invisibles sobre fondo blanco; y la ventana se dimensiona contra el monitor,
+porque en una pantalla de 1366×768 el mensaje con la ruta del reporte quedaba
+fuera de la pantalla.
 
-**Lo que agregué como valor extra:** tema claro/oscuro, cancelar la ejecución en
-marcha, exportar la bitácora y un botón de salir que hace lo mismo que cerrar con
-la X —no quería una forma "buena" y una "mala" de salir—.
+**Los errores se manejan dentro de la ventana**, nunca en consola. Probé los tres
+casos: falta un archivo, error previsible (el Excel abierto en otra ventana) y
+error inesperado. En los tres la ventana sigue viva y el botón se vuelve a
+habilitar.
 
-Cancelar no mata el hilo —matarlo dejaría el trabajo a medias— sino que levanta
-una bandera que el propio hilo revisa en su siguiente aviso de avance y se
-detiene ordenadamente; como esos avisos ocurren decenas de veces por ejecución,
-la respuesta es inmediata. Lo interesante es que el dominio no sabe nada de
-cancelaciones: la interrupción nace en la interfaz y viaja como excepción desde
-el callback de progreso.
+---
 
-**Dos cosas que solo aparecieron al probarla.** Los colores están declarados como
-pares *(tema claro, tema oscuro)*: con un solo tono, los botones deshabilitados
-que se leían perfecto sobre fondo oscuro quedaban invisibles sobre blanco. Y la
-ventana se dimensiona contra el monitor: con un alto fijo de 760 px, en una
-pantalla de 1366×768 —la de cualquier equipo de oficina— el mensaje que dice
-dónde quedó el reporte terminaba fuera de la pantalla, invisible justo para quien
-más lo necesita.
+## El Excel
 
-### Que la interfaz no se congele: lo que costó de verdad
+Una sola hoja `Reconciliacion`, tabla desde A1, 29 columnas, una fila por
+transacción y las tres fuentes lado a lado. Encabezado congelado y con
+autofiltro; los montos son números y las fechas son fechas de verdad, no texto.
 
-El requisito técnico central era que la ventana nunca se congelara. Puse el
-proceso en un hilo aparte que se comunica con la interfaz por una `queue.Queue`
-—Tkinter no es seguro para hilos, así que el trabajo pesado no toca ni un
-widget— y la ventana la vacía cada 60 ms con `after()`.
+Color de fila por precedencia: **naranja** si hay fraude, si no **rojo** ante
+cualquier hallazgo, si no **verde**. Quedaron 149 naranjas, 156 rojas y 200
+verdes.
 
-**Eso no fue suficiente, y medirlo fue la parte interesante.** Instrumenté la
-aplicación para contar cuántas veces alcanzaba a ejecutarse el hilo de la
-interfaz durante el proceso, y el resultado fue malo: 4 ejecuciones en 1,7
-segundos, con un hueco de **1,57 s sin repintar**. La barra saltaba de 0 % a
-100 % de golpe. El culpable no era el diseño sino el GIL: el hilo de trabajo
-usa 100 % de CPU y el intérprete solo lo interrumpe cada 5 ms por defecto, lo
-que en la práctica dejaba al hilo de la ventana sin turnos.
+Las 29 columnas están declaradas como **datos** —una lista donde cada columna
+sabe su título, de dónde sale su valor y con qué formato se muestra— y no como
+29 bloques de código repetido.
 
-Lo resolví con tres cambios, y volví a medir cada uno:
+## Las pruebas
 
-- **Avance de grano fino.** Las etapas largas (limpieza, clasificación,
-  escritura del Excel) avisan cada 20 elementos, no solo al terminar. El
-  servicio traduce ese conteo al porcentaje global, así que la barra avanza de
-  forma continua.
-- **Ceder el turno al avisar.** Una pausa real de 1 ms en cada aviso.
-  `sleep(0)` no sirve en Windows: solo cede a hilos que ya estén listos, y el
-  de la interfaz suele estar esperando un evento.
-- **Bajar el intervalo de conmutación del intérprete** a 0,5 ms mientras dura
-  el proceso, y restaurarlo al terminar.
+**172 pruebas**, todas pasando. Los casos de los parsers no son inventados: son
+las variantes de corrupción que efectivamente aparecen en el archivo, incluido
+el caso concreto de TRX0138. Y se prueban los bordes exactos: 05:59 sí es hora
+inusual y 06:00 no; 60 minutos sí es patrón y 61 no.
 
-Resultado medido: el hueco máximo sin repintar bajó de **1,57 s a 0,15 s** y la
-barra pasó de mostrar 2 estados a mostrar 9. Ahí sí se cumple el requisito.
+`test_servicio.py` corre el proceso completo y **fija los números** (505, 290,
+149 y el conteo por etiqueta). Si alguien toca un parser o una regla y los
+totales se mueven, esa prueba lo dice en el acto.
 
-También encontré, probándolo, que cerrar la ventana con el proceso corriendo
-dejaba callbacks de `after` programados sobre una ventana muerta y Tcl escribía
-errores en consola. Se cancelan al cerrar.
-
-**Los errores se manejan dentro de la ventana**, nunca en consola. Probé los
-tres casos: falta un archivo (botón deshabilitado y mensaje explicando qué
-falta), error previsible como el Excel abierto en otra ventana (mensaje en
-lenguaje del usuario y detalle técnico en la bitácora) y error inesperado
-(mensaje genérico, detalle en la bitácora). En los tres la ventana sigue viva y
-el botón vuelve a habilitarse.
-
-### Las pruebas
-
-158 pruebas con pytest, repartidas donde de verdad se puede romper algo:
-
-| Archivo | Qué cubre |
+| | |
 |---|---|
-| `test_montos.py` | Los tres formatos de monto y la clave `monto` duplicada |
-| `test_marcas.py` | Extracción y la regla del primer token |
-| `test_retenciones.py` | Emparejamiento, entidades repetidas, signos y las tres sumas |
-| `test_reglas.py` | Las reglas de clasificación y las siete combinaciones de presencia |
-| `test_fraude.py` | Los cuatro patrones, los bordes (05:59 sí, 06:00 no; 60 min sí, 61 no) y la prioridad de riesgo |
-| `test_transaccion.py` | Monto y fecha de referencia, diferencias, presencia |
-| `test_loaders.py` | Carga de las tres fuentes y los errores: archivo ausente, JSON inválido, tabla inexistente, ids duplicados |
-| `test_excel.py` | Estructura, formatos y color por precedencia |
-| `test_servicio.py` | La cadena completa sobre los datos reales |
-
-Dos decisiones sobre cómo las escribí:
-
-- **Los casos de los parsers salen del archivo real.** No inventé cadenas
-  malformadas: usé las variantes de corrupción que efectivamente aparecen en
-  `autorizaciones.csv`, incluido el caso concreto de TRX0138.
-- **`test_servicio.py` fija los números.** Corre el proceso completo y afirma
-  505 transacciones, 290 reconciliadas, 149 fraudes y el conteo exacto por
-  etiqueta. Si alguien toca un parser, una regla o el umbral de fraude y los
-  totales se mueven, esa prueba lo dice en el acto. Es la red de seguridad que
-  me permite refactorizar sin miedo.
-
-Para los errores que en producción no se pueden provocar (un archivo que
-desaparece, un JSON roto) escribo archivos temporales en la prueba, en vez de
-tocar los datos reales.
-
-El hilo de trabajo también está probado —cancelación, manejo de errores y
-avance— y **sin abrir ninguna ventana**: solo habla con una cola, así que basta
-con leerla. Para que eso fuera posible, el paquete `gui` importa la ventana de
-forma perezosa; si la importara de entrada, arrastraría `tkinter` y las pruebas
-exigirían un entorno gráfico.
-
-### Cobertura y tipos
-
-| Medida | Resultado |
-|---|---|
-| Pruebas | 172, todas pasando |
 | Cobertura total | 77 % |
-| Cobertura sin `gui/app.py` | **95 %** (1.063 de 1.119 sentencias) |
+| Cobertura sin la ventana | **95 %** |
 | `mypy --strict` | sin errores en 32 archivos |
+| Integración continua | GitHub Actions en cada push |
 
-`gui/app.py` queda en 0 % y es una consecuencia buscada: como la ventana se
-importa de forma perezosa, las pruebas ni siquiera la cargan y no necesitan un
-entorno gráfico. Probar píxeles es caro y frágil; lo que sí está probado es todo
-lo que la ventana usa —el hilo, la cola, el servicio, las reglas— y su
-comportamiento lo verifiqué midiendo, no adivinando.
-
-Las únicas excepciones de `mypy` están acotadas a los dos módulos que usan
-librerías de terceros sin anotaciones (`openpyxl` y `customtkinter`), no
-desactivadas globalmente: el resto del código sigue bajo modo estricto.
-
-### Integración continua
-
-Cada push a `main` dispara un flujo de GitHub Actions que instala las
-dependencias, corre las 172 pruebas con cobertura y verifica los tipos. Si algo
-se rompe, se ve en el repositorio y no en la máquina de quien lo clone.
-
-## Resultado sobre los datos entregados
-
-| Indicador | Valor |
-|---|---|
-| Universo (unión de las 3 fuentes) | 505 |
-| Reconciliadas | 290 (57,4 %) |
-| Discrepancia de monto | 95 |
-| Discrepancia de estado | 55 |
-| No encontradas en el banco | 40 |
-| No contabilizadas | 20 |
-| No autorizadas (solo en el banco) | 5 |
-| Monto total | $124.690.000 |
-| Monto en discrepancia | $475.000 |
-
-Fraude (dimensión transversal, umbral de monto anómalo en $733.774):
-
-| Patrón | Transacciones |
-|---|---|
-| Hora inusual (00:00–05:59) | 134 |
-| Patrón sospechoso | 12 |
-| Monto anómalo (> media + 3σ) | 11 |
-| Sin autorización | 5 |
-| **Total con al menos un patrón** | **149** |
-
-Por nivel de riesgo: 5 críticas, 6 altas y 138 medias. Las cinco transacciones
-que el banco reporta sin autorización previa son además de monto anómalo y de
-madrugada, así que las tres señales apuntan al mismo sitio.
-
-## Estado
-
-- [x] Configuración de rutas centralizada
-- [x] Carga y validación de integridad de las tres fuentes
-- [x] Limpieza y extracción de los campos malformados del CSV
-- [x] Reconciliación y clasificación
-- [x] Detección de fraude
-- [x] Script ejecutable de punta a punta (`main.py`)
-- [x] Reporte Excel
-- [x] Interfaz gráfica (+ `.bat` para abrirla con doble clic)
-- [x] Pruebas unitarias (172, todas pasando)
-- [x] Cancelar la ejecución y exportar la bitácora
-- [x] Cobertura, verificación de tipos e integración continua
+La ventana queda fuera de la cobertura a propósito: se importa de forma perezosa
+para que probar el hilo de trabajo no exija un entorno gráfico. Probar píxeles
+es caro y frágil; lo que sí está probado es todo lo que la ventana usa.
 
 ## Documentación
 
-- [Documentación técnica](docs/documentacion_tecnica.pdf) — el código explicado carpeta por carpeta y archivo por archivo (21 páginas)
-- [Manual de uso](docs/manual_de_uso.pdf) — cómo usar la aplicación, para quien no programa (8 páginas)
+- [Documentación técnica](docs/documentacion_tecnica.pdf) — el código explicado
+  carpeta por carpeta y archivo por archivo (21 páginas)
+- [Manual de uso](docs/manual_de_uso.pdf) — cómo usar la aplicación, para quien
+  no programa (8 páginas)
+
+## Entregables
+
+- [x] Código Python con arquitectura clara (loaders, limpieza, procesamiento, exportadores)
+- [x] POO, type hints (148 de 148 funciones) y docstrings (194 de 194)
+- [x] Tests unitarios con pytest — 172
+- [x] `reconciliacion/config/rutas.py` con la configuración de rutas
+- [x] Script ejecutable que lanza la reconciliación y genera el Excel — `main.py`
+- [x] GUI Tkinter + customtkinter funcional
+- [x] Excel generado — `salida/reporte_reconciliacion.xlsx`
+- [x] README con instrucciones
+- [x] **Extra:** `.bat` para abrir la interfaz con doble clic

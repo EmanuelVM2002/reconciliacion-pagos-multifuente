@@ -1,29 +1,21 @@
-"""Extraccion del monto desde el campo `Monto` del CSV.
+"""Sacar el monto del campo `Monto`, que no es un numero.
 
-El campo no es un numero: es una estructura tipo JSON **deliberadamente
-malformada** (comillas desbalanceadas, llaves de mas, claves con escapes
-sobrantes) dentro de la cual viene la clave `monto`. Un `json.loads()` directo
-falla en las 500 filas del archivo.
+Lo que hay ahi es una estructura tipo JSON reventada a proposito. Intente primero
+repararla para poder usar `json.loads()` y lo abandone: conviven varias formas de
+corrupcion y cualquier arreglo generico se rompe con alguna. Al final voy directo
+a buscar la clave con una expresion regular tolerante y me da igual como este
+escapado lo de alrededor.
 
-Estrategia
-----------
-En vez de intentar *reparar* el JSON (fragil: hay mas de una variante de
-corrupcion conviviendo), se extrae el dato con una expresion regular tolerante
-que busca la clave `monto` sin importar como venga escapada. Es robusto ante
-cualquier corrupcion que no toque la clave ni su valor.
+Dos cosas que me costaron:
 
-Dos particularidades del archivo, ambas contempladas aqui:
-
-1. **El valor viene en tres formatos distintos**:
-   ``1250000`` (numero puro), ``"188.000 COP"`` (miles con punto) y
-   ``"$175.000,00"`` (formato colombiano: punto = miles, coma = decimales).
-   Interpretar el tercero como si el punto fuera decimal convierte
-   ``$175.000,00`` en 17.500.000 y fabrica discrepancias que no existen.
-
-2. **La clave `monto` puede aparecer repetida en la misma fila** y con valores
-   distintos. Se aplica la semantica estandar de JSON: **gana la ultima
-   ocurrencia**. Es el criterio que coincide con lo que reportan SQLite y el
-   banco para esa transaccion.
+1. El monto viene escrito de tres maneras: `1250000`, `"188.000 COP"` y
+   `"$175.000,00"`. La tercera es formato colombiano —el punto separa miles y la
+   coma los decimales— y si uno lee el punto como decimal, `$175.000,00` se
+   convierte en 17.500.000 y aparecen 53 discrepancias que no existen.
+2. La clave `monto` puede estar dos veces en la misma fila con valores distintos.
+   Aplique lo que hace cualquier parser de JSON: gana la ultima. Pasa una sola vez
+   en el archivo y el valor que gana es el que confirman SQLite y el banco, asi
+   que la regla es la correcta.
 """
 
 from __future__ import annotations

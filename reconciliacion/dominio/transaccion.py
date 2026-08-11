@@ -1,13 +1,12 @@
-"""La transaccion reconciliada: una fila del reporte final.
+"""La transaccion vista desde las tres fuentes a la vez.
 
-Reune las tres versiones de la misma transaccion (autorizada, contabilizada y
-bancaria) y expone, ya calculadas, las magnitudes que el resto del sistema
-necesita: presencia por fuente, monto de referencia, diferencia entre montos,
-banco y fecha de referencia.
+Es una fila del reporte final: junta la version autorizada, la contabilizada y la
+bancaria, y calcula lo que el resto del sistema necesita —en que fuentes esta,
+monto de referencia, diferencia, fecha, banco—.
 
-Las reglas que dependen *solo* de la transaccion viven aqui como propiedades;
-las que dependen del conjunto (fraude por monto anomalo o por patron) viven en
-el detector, porque necesitan mirar todas las transacciones a la vez.
+El criterio para decidir que va aqui: lo que se puede responder mirando *una*
+transaccion vive en esta clase; lo que necesita mirar *todas* (el umbral de
+fraude, el patron de repeticion) vive en el detector.
 """
 
 from __future__ import annotations

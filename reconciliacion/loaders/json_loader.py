@@ -1,7 +1,10 @@
-"""Carga de `movimientos_bancarios.json` (lo que llego al banco).
+"""Lee los movimientos que reporta el banco.
 
-Cada movimiento trae su propio identificador (`MOVxxxx`) ademas de la
-referencia a la transaccion (`transaccion_id`), que es la llave de cruce.
+Cada movimiento trae su propio identificador (`MOVxxxx`) ademas de la referencia
+a la transaccion, que es la llave con la que cruzo.
+
+Si el JSON viene roto, el error dice linea y columna: es lo primero que va a
+preguntar quien tenga que arreglarlo.
 """
 
 from __future__ import annotations

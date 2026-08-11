@@ -1,12 +1,12 @@
-"""Orquestacion del proceso completo de reconciliacion.
+"""El proceso completo, de principio a fin.
 
-Este es el unico punto que conoce el proceso de principio a fin: verificar las
-fuentes, cargarlas, limpiarlas, reconciliarlas, detectar fraude y exportar el
-reporte.
+Este es el unico sitio que conoce el orden entero: verificar, cargar, limpiar,
+cruzar, buscar fraude y exportar.
 
-Existe para que la terminal y la interfaz grafica ejecuten **exactamente el
-mismo codigo**. La GUI no reimplementa nada: llama a este servicio pasandole
-una funcion de progreso, y ese es el unico acoplamiento entre ambos mundos.
+Lo hice asi por una razon concreta: la terminal y la ventana ejecutan
+exactamente el mismo codigo. La interfaz no reimplementa nada, solo le pasa una
+funcion de progreso distinta. Es lo que evita que una de las dos se quede atras
+el dia que haya que cambiar algo.
 """
 
 from __future__ import annotations
@@ -189,6 +189,7 @@ class ServicioReconciliacion:
         """
 
         def reportar(procesados: int, total: int) -> None:
+            """Convierte el conteo de la etapa en porcentaje del total."""
             fraccion = procesados / total if total else 1.0
             avisar(
                 f"{mensaje}... ({procesados}/{total})",

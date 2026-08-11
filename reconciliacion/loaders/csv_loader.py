@@ -1,11 +1,12 @@
-"""Carga de `autorizaciones.csv` (lo que se autorizo).
+"""Lee `autorizaciones.csv`, y nada mas.
 
-Este loader se limita a **leer**: devuelve las filas tal cual vienen del
-archivo, sin interpretar los campos malformados. La extraccion del monto, la
-marca y las retenciones es responsabilidad del paquete `limpieza`.
+Este archivo trae los campos rotos, pero aqui no toco ni uno: devuelvo las filas
+tal como estan y que el paquete `limpieza` se encargue. Mezclar las dos cosas fue
+lo primero que descarte; separadas puedo probar el parseo con cadenas de texto y
+sin archivos.
 
-Esa separacion es deliberada: permite probar el parseo de los campos sucios
-con cadenas de texto en los tests, sin necesidad de un archivo en disco.
+Me guardo el numero de fila de cada registro para poder rastrear cualquier
+problema hasta su linea exacta en el archivo.
 """
 
 from __future__ import annotations

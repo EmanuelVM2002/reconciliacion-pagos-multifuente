@@ -1,13 +1,11 @@
-"""Parseo de fechas de las tres fuentes.
+"""Fechas, que cada fuente escribe a su manera.
 
-Cada fuente escribe la fecha en su propio formato:
+    CSV y SQLite    26/07/2026 9:00
+    JSON            2026-07-26 09:00:00
 
-* CSV    -> ``26/07/2026 9:00``     (dia/mes/ano, hora sin cero a la izquierda)
-* SQLite -> ``26/07/2026 9:00``     (mismo formato del CSV)
-* JSON   -> ``2026-07-26 09:00:00`` (ISO)
-
-Se intentan varios formatos en orden en vez de asumir uno solo, para que una
-variante puntual no tumbe la carga completa de la fuente.
+Pruebo varios formatos en orden en vez de asumir uno solo. Y si ninguno encaja
+devuelvo `None` en lugar de reventar: prefiero la fila con un hueco y una
+advertencia antes que perderla.
 """
 
 from __future__ import annotations

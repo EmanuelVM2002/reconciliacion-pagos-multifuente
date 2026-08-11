@@ -1,17 +1,14 @@
-"""Hilo de trabajo que ejecuta la reconciliacion sin congelar la interfaz.
+"""El hilo que hace el trabajo pesado.
 
-La reconciliacion completa tarda cerca de un segundo con estos datos, pero el
-diseno no puede depender de eso: con un archivo diez veces mas grande la
-ventana quedaria muerta. Por eso el proceso corre siempre en un hilo aparte y
-la interfaz solo lee de una cola.
+Tkinter no es seguro para hilos, asi que este hilo no toca ni un widget: todo lo
+que tiene que decir lo mete en una cola y la ventana la vacia cuando puede.
 
-El hilo publica dos cosas en esa cola:
-
-* el **avance** que le informa el servicio (paso actual y porcentaje);
-* las **lineas de log** que emite el codigo de negocio, capturadas con un
-  `logging.Handler` propio. Asi la bitacora de la pantalla es exactamente la
-  misma que la de la terminal, sin que el codigo de negocio sepa que existe
-  una interfaz.
+Aqui esta lo que mas me costo de toda la prueba. El patron hilo + cola +
+`after()` es el correcto y aun asi la ventana se me congelaba 1,5 segundos. El
+culpable era el GIL: este hilo usa el 100 % de la CPU y el interprete solo lo
+interrumpe cada 5 ms, con lo cual el hilo que dibuja casi no alcanzaba turno. Lo
+medi, y se arregla con una pausa real de 1 ms en cada aviso y bajando el
+intervalo de conmutacion mientras dura el proceso. Bajo de 1,57 s a 0,15 s.
 """
 
 from __future__ import annotations

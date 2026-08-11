@@ -1,11 +1,11 @@
-"""Configuracion centralizada de rutas del proyecto.
+"""Donde esta cada archivo.
 
-Este modulo es la unica fuente de verdad sobre donde viven los archivos de
-entrada y de salida. La prueba pide explicitamente que no haya selectores de
-archivo en la interfaz: la GUI y el script de consola leen las rutas de aqui.
+Todas las rutas viven aqui y en ningun otro lado. El enunciado pide que no haya
+selectores de archivo y estoy de acuerdo: la ruta es configuracion del sistema,
+no una decision que el usuario tenga que tomar cada vez que abre la aplicacion.
 
-Las rutas se resuelven de forma relativa a la raiz del repositorio, de modo que
-el proyecto funciona sin cambios en cualquier maquina o carpeta.
+Se resuelven contra la raiz del repositorio, asi que el proyecto funciona igual
+en cualquier maquina sin tocar una linea.
 """
 
 from __future__ import annotations
